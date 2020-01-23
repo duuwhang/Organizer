@@ -1,0 +1,55 @@
+DayOrganizer
+
+~calender
+Fixed dayly taskes:
+school, work, clubs, ...
+imported from webuntis
+
+Dayly Routine:
+wakeup, bedtime(no screentime), ...
+own alarm funktion (anti oversleep) -> tasks(math/exercise?)
+shower calcs
+
+save places->
+transport/time calculation (public, car, ...):
+delays/calcs from salzburg verkehr, quartus, google
+extra transport task
+during transport time-> quick recalc option, delay info, loc already on...
+time until departure/next task brief info
+calculate transport for now
+
+infos on tasks:
+1Click brief time info
+2click/hold dresscode, needed items, resources for tests,...
+
+task reminder:
+notetaking, deadline, reminder in freetime, quick notemode during transport
+
+auto phone settings:
+wifi/mobile data switch on location/transport...
+brightness?, flashlight toggle on daytime/task(->keymapping?)
+, auto blue light filter????, auto volume on tasks
+
+-task levels (drivers liscence>volleyball)
+-quick available time mode for events/friends/tests
+-auto most used task sorter for quicker use
+-bad food tracker
+
+DEV:
+
+1. gui-first approach for calender
+2. calender-fixed taskes
+3. calender-all taskes without calcs/use
+4. gui-useful calender layout
+5. calender-task structure/info/use
+6. calender-quick edit
+7. transport-upcoming task
+8. transport-time calcs?
+9. transport-time till departure
+10. transport-route calc
+11. transport-delays
+12. transport-quick info
+13. transport-delay info
+14. transport-recalc
+15. transport-loc already on
+16. ...
