@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = displayMetrics.widthPixels;
         actionBarSize = dpToPx(this, 56);
         //CalendarView
-/*
+/* test :)
         new Task(this, buildId(todayD+1,todayM,todayY), "task", 6, 15);
         new Task(this, buildId(todayD+1,todayM,todayY), "task", 15, 23);
         new Task(this, buildId(todayD+1,todayM,todayY), "task", 23, 24);
