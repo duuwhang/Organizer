@@ -7,6 +7,7 @@ import static java.lang.Math.*;
 public class Day {
     int d, m, y, id;
     String weekday;
+    int monthdays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     public Day(int id){
         this.d = buildD(id);
         this.m = buildM(id);
@@ -40,7 +41,6 @@ public class Day {
         dayDebug();
     }
     public boolean dayExists(){
-        int monthdays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         if((this.y % 4) == 0 && (this.y % 100 != 0 || this.y % 400 == 0)){
             monthdays[1] = 29;
         }
@@ -48,7 +48,6 @@ public class Day {
     }
     public void dayDebug(){
         while(!dayExists()){
-            int monthdays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
             if((this.y % 4) == 0 && (this.y % 100 != 0 || this.y % 400 == 0)){
                 monthdays[1] = 29;
             }
