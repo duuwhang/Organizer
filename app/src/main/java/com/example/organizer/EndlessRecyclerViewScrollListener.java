@@ -15,7 +15,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
     // The current offset index of data you have loaded
     private int currentPage = 0;
     // The current offset index of data you have loaded
-    private int negcurrentPage = 0; // TODO
+    //private int negcurrentPage = 0; // TODO
     // The total number of items in the dataset after the last load
     private int previousTotalItemCount = 0;
     // Sets the starting page index
@@ -27,7 +27,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
-        layoutManager.scrollToPosition((Integer.MAX_VALUE / 2) - (Integer.MAX_VALUE / 2) % days.size());
+        //layoutManager.scrollToPosition((Integer.MAX_VALUE / 2) - (Integer.MAX_VALUE / 2) % days.size());
     }
 
     public int getLastVisibleItem(int[] lastVisibleItemPositions) {
@@ -82,7 +82,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
                 this.loading = true;
             }
             this.currentPage = this.startingPageIndex;
-            this.negcurrentPage = this.startingPageIndex;
+            //this.negcurrentPage = this.startingPageIndex;
             this.previousTotalItemCount = totalItemCount;
         }
         // If it’s still loading, we check to see if the dataset count has
@@ -103,23 +103,23 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
             onLoadMore(currentPage, view);
             //mLayoutManager.scrollToPosition((Integer.MAX_VALUE / 2) - (Integer.MAX_VALUE / 2) % days.size());
         }
-
+/*
         if (!loading && (firstVisibleItemPosition % days.size() - visibleThreshold) < 0) { // TODO reverseScroll !!!
             loading = true;
             currentPage++;
             negcurrentPage--;
             onLoadMore(negcurrentPage, view);
             //mLayoutManager.scrollToPosition((Integer.MAX_VALUE / 2) - (Integer.MAX_VALUE / 2) % days.size());
-        }
+        }*/
     }
 
     // Call this method whenever performing new searches
     public void resetState() {
         this.loading = true;
         this.currentPage = this.startingPageIndex;
-        this.negcurrentPage = this.startingPageIndex;
+        //this.negcurrentPage = this.startingPageIndex;
         this.previousTotalItemCount = 0;
-        mLayoutManager.scrollToPosition((Integer.MAX_VALUE / 2) - (Integer.MAX_VALUE / 2) % days.size());
+        //mLayoutManager.scrollToPosition((Integer.MAX_VALUE / 2) - (Integer.MAX_VALUE / 2) % days.size());
     }
     public abstract void onLoadMore(int page, RecyclerView view);
 }
