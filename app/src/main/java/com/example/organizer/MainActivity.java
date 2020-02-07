@@ -1,8 +1,16 @@
 package com.example.organizer;
 
+import android.animation.AnimatorSet;
+import android.animation.*;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().hide();
         setContentView(R.layout.layout_main);
-        RecyclerView contentLayout = findViewById(R.id.contentLayout);
+        final RecyclerView contentLayout = findViewById(R.id.contentLayout);
         contentLayout.setHorizontalScrollBarEnabled(false); // TODO need?
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -29,6 +37,78 @@ public class MainActivity extends AppCompatActivity {
         new Task(this, buildId(todayD+1,todayM,todayY), "task", 15, 23);
         new Task(this, buildId(todayD+1,todayM,todayY), "task", 23, 24);
 */
+        //Toast.makeText(getApplicationContext(),"Scrolled", Toast.LENGTH_SHORT).show();
+        new Task(this, buildId(todayD+1,todayM,todayY), "task", 15, 23);
+        new Task(this, buildId(todayD+1,todayM,todayY), "task", 23, 24);
+        new Task(this, buildId(todayD+2,todayM,todayY), "task", 6, 17);
+        new Task(this, buildId(todayD+2,todayM,todayY), "task", 17, 18);
+        new Task(this, buildId(todayD,todayM,todayY), "task", 8, 12);
+
+        new Task(this, buildId(todayD+1,todayM,todayY), "task", 6, 15);
+
+        final GestureDetector mDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener()
+        {
+            private static final int SWIPE_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                boolean result = false;
+                try {
+                    float diffY = e2.getY() - e1.getY();
+                    float diffX = e2.getX() - e1.getX();
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                            if (diffX > 0) {
+                                onSwipeRight();
+                            } else {
+                                onSwipeLeft();
+                            }
+                            result = true;
+                        }
+                    }
+                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeDown();
+                        } else {
+                            onSwipeUp();
+                        }
+                        result = true;
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return result;
+            }
+
+            void onSwipeUp() {
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
+                contentLayout.startAnimation(animation);
+            }
+            void onSwipeRight() {
+
+            }
+            void onSwipeLeft() {
+
+            }
+            void onSwipeDown() {
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
+                contentLayout.startAnimation(animation);
+            }
+        });
+
+        View.OnTouchListener touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return mDetector.onTouchEvent(event);
+            }
+        };
+        contentLayout.setOnTouchListener(touchListener);
+
         // Initialize days
         addDays(dayAmount, 0);
         // Create adapter passing in the sample user data
@@ -40,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         contentLayout.setLayoutManager(linearLayoutManager);
 
         // Retain an instance so that you can call `resetState()` for fresh searches
+
+
 
         EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
