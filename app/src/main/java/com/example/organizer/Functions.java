@@ -76,7 +76,7 @@ public class Functions {
         double contentHeight = screenHeight - actionBarSize - textViewSize;
         return (int) (textViewSize + contentHeight * ((start - dayStart) / (dayEnd - dayStart)));
     }
-    public enum weekdays{
+    public enum Weekdays{
         SU, MO, TU, WE, TH, FR, SA
     }
     public static int max(int... x){

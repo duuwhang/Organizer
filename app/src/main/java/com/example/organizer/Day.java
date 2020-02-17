@@ -26,7 +26,7 @@ public class Day {
         dayDebug();
         int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
         int yy = 2000 + y - boolToInt(m < 3);
-        weekday = weekdays.values()[(yy + yy/4 - yy/100 + yy/400 + t[m-1] + d) % 7].toString();
+        weekday = Weekdays.values()[(yy + yy/4 - yy/100 + yy/400 + t[m-1] + d) % 7].toString();
     }
     public void addDays(int days){ //+-
         this.d += days;
