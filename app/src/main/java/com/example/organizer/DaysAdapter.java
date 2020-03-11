@@ -23,7 +23,6 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
     // Usually involves inflating a layout from XML and returning the holder
     @Override
     public DaysAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout

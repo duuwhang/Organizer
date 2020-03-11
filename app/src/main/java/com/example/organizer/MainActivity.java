@@ -36,17 +36,17 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = displayMetrics.widthPixels;
         actionBarSize = dpToPx(this, 56);
 
-
+        CalendarLayout calendarLayout = new CalendarLayout(context);
 
         new Task(context, buildId(todayD,todayM,todayY), "task", 8, 12);
         new Task(context, buildId(todayD+1,todayM,todayY), "task", 6, 15);
         new Task(context, buildId(todayD+1,todayM,todayY), "task", 23, 24);
         new Task(context, buildId(todayD+2,todayM,todayY), "task", 6, 17);
         new Task(context, buildId(todayD+2,todayM,todayY), "task", 17, 18);
+
+
 /*
-
-
-        final RecyclerView tasksLayout = findViewById(R.id.tasksLayout);
+        //final RecyclerView tasksLayout = findViewById(R.id.tasksLayout);
         final RecyclerView calendarLayout = findViewById(R.id.calendarLayout);
         calendarLayout.setHorizontalScrollBarEnabled(false); // TODO need?
         // Initialize days
@@ -86,14 +86,15 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         calendarLayout.addOnScrollListener(scrollListener);
+
 */
 
+        MainLayout mainLayout = findViewById(R.id.mainLayout);
+        TasksLayout tasksLayout = new TasksLayout(context);
+        mainLayout.addView(tasksLayout);
+        mainLayout.addView(calendarLayout);
 
-        MainLayout mainLayout = new MainLayout(context);
-        mainLayout = findViewById(R.id.mainLayout);
-        //mainLayout.addView(calendarLayout);
 
-        //mainLayout.addView(calendarLayout);
 /*
         final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             private static final int SWIPE_THRESHOLD = 100;

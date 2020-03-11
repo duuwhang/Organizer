@@ -13,9 +13,11 @@ import android.widget.Toast;
 public class MainLayout extends ViewGroup {
     Context context;
     GestureDetector gestureDetector = null;
+
     private enum Direction {
         None, Up, Left, Down, Right
     }
+
     private Direction direction = Direction.None;
     private MotionEvent down;
     private int startingChild = 0;
@@ -45,6 +47,7 @@ public class MainLayout extends ViewGroup {
         this.context = context;
         setGestureListener();
     }
+
     /* TODO try this out
     @Override
     public boolean shouldDelayChildPressedState() {
@@ -55,18 +58,18 @@ public class MainLayout extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (init) {
             for (int i = 0; i < getChildCount(); i++) {
-                getChildAt(i).layout(l,t,r,b);
+                getChildAt(i).layout(l, t, r, b);
                 getChildAt(i).setOnTouchListener(touchListener);
-                getChildAt(1).setVisibility(View.GONE);
+                getChildAt(i).setVisibility(View.GONE); // TODO: gone
             }
-            if(startingChild<0 || startingChild>=getChildCount()) {
+            if (startingChild < 0 || startingChild >= getChildCount()) {
                 startingChild = 0;
             }
             getChildAt(startingChild).setVisibility(View.VISIBLE);
             getChildAt(0).setVisibility(View.VISIBLE);
             init = false;
         }
-        Toast.makeText(context,"onLayout",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "onLayout", Toast.LENGTH_SHORT).show();
     }
 
     private void setGestureListener() {
@@ -112,7 +115,7 @@ public class MainLayout extends ViewGroup {
                     animationSet = new AnimationSet(false);
                     animationSet.addAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeinup));
                     getChildAt(currentChild).startAnimation(animationSet);
-                    getChildAt(currentChild-1).setVisibility(View.GONE);
+                    getChildAt(currentChild - 1).setVisibility(View.GONE);
                 } else {
                     Toast.makeText(context, "too little elements", Toast.LENGTH_SHORT).show();
                 }

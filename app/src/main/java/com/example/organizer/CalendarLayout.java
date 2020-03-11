@@ -1,6 +1,7 @@
 package com.example.organizer;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,7 +11,6 @@ import static com.example.organizer.Functions.addDays;
 import static com.example.organizer.Functions.dayAmount;
 
 public class CalendarLayout extends RecyclerView {
-
     public CalendarLayout(@NonNull Context context) {
         super(context);
         this.setHorizontalScrollBarEnabled(false); // TODO need?
@@ -40,6 +40,8 @@ public class CalendarLayout extends RecyclerView {
                 //  --> Deserialize and construct new model objects from the API response
                 //  --> Append the new data objects to the existing set of items inside the array of items
                 //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()
+
+                Toast.makeText(getContext(), "onLoadMore", Toast.LENGTH_SHORT).show();
 
                 int offset = page * dayAmount;
 

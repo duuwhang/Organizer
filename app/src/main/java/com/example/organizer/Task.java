@@ -60,6 +60,6 @@ public class Task  {
         dictionary.get(id).add(this);
 
         button = new Button(context);
-        //button.setText(location);
+        button.setText(location);
     }
 }
