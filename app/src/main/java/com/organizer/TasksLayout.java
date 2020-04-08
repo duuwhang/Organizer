@@ -8,12 +8,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 public class TasksLayout extends LinearLayout {
-    public TasksLayout(@NonNull Context context) {
+    Context context;
+    public TasksLayout(Context context) {
         super(context);
+        this.context = context;
 
         //Toast.makeText(context, "tasklayout", Toast.LENGTH_SHORT).show();
-
-
 
 
 
