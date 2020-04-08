@@ -1,4 +1,4 @@
-package com.example.organizer;
+package com.organizer;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
+
 
 public class MainLayout extends ViewGroup {
     Context context;

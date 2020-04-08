@@ -1,10 +1,9 @@
-package com.example.organizer;
+package com.organizer;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import static com.example.organizer.Functions.*;
+
+import static com.organizer.Functions.*;
 
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     // True if we are still waiting for the last set of data to load.

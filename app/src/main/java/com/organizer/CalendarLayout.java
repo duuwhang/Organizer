@@ -1,4 +1,4 @@
-package com.example.organizer;
+package com.organizer;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.example.organizer.Functions.addDays;
-import static com.example.organizer.Functions.dayAmount;
+import static com.organizer.Functions.addDays;
+import static com.organizer.Functions.dayAmount;
 
 public class CalendarLayout extends RecyclerView {
     public CalendarLayout(@NonNull Context context) {

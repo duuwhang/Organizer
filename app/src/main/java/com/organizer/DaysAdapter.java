@@ -1,4 +1,4 @@
-package com.example.organizer;
+package com.organizer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,8 @@ import java.util.List;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import static com.example.organizer.Functions.*;
+
+import static com.organizer.Functions.*;
 
 public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
     // Store a member variable for the contacts

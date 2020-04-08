@@ -1,7 +1,6 @@
-package com.example.organizer;
+package com.organizer;
 
-import java.util.ArrayList;
-import static com.example.organizer.Functions.*;
+import static com.organizer.Functions.*;
 import static java.lang.Math.*;
 
 public class Day {

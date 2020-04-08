@@ -1,9 +1,9 @@
-package com.example.organizer;
+package com.organizer;
 
 import android.content.Context;
 import android.widget.Button;
 import java.util.ArrayList;
-import static com.example.organizer.Functions.*;
+import static com.organizer.Functions.*;
 
 public class Task  {
     Context context;

@@ -1,27 +1,13 @@
-package com.example.organizer;
+package com.organizer;
 
-import android.animation.AnimatorSet;
-import android.animation.*;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.widget.CalendarView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import static com.example.organizer.Functions.*;
-import static java.lang.Math.*;
+
+
+import static com.organizer.Functions.*;
 
 public class MainActivity extends AppCompatActivity {
     @Override

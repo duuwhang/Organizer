@@ -1,4 +1,4 @@
-package com.example.organizer;
+package com.organizer;
 
 import android.content.Context;
 import android.widget.Toast;
