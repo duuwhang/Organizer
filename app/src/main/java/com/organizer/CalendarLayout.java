@@ -41,7 +41,7 @@ public class CalendarLayout extends RecyclerView {
                 //  --> Append the new data objects to the existing set of items inside the array of items
                 //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()
 
-                Toast.makeText(getContext(), "onLoadMore", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "onLoadMore", Toast.LENGTH_SHORT).show();
 
                 int offset = page * dayAmount;
 

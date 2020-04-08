@@ -29,12 +29,10 @@ public class Functions {
         Toast.makeText(context,msg,Toast.LENGTH_LONG).show();
     }
     public static int dpToPx(Context context, int dp){
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
+        return (int) ((float) dp * context.getResources().getDisplayMetrics().density);
     }
-    public static int pxToDp(Context context, int dp){ // TODO
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
+    public static int pxToDp(Context context, int px){
+        return (int) ((float) px / context.getResources().getDisplayMetrics().density);
     }
     public static int boolToInt(boolean b) {
         if(b) return 1;
@@ -67,43 +65,16 @@ public class Functions {
     static int calculateHeight(double start, double end){
         double dayStart = 6;
         double dayEnd = 24;
-        double contentHeight = screenHeight - actionBarSize - textViewSize;
+        double contentHeight = screenHeight - textViewSize;// - actionBarSize;
         return (int) (contentHeight * ((end - start) / (dayEnd - dayStart)));
     }
     static int calculateY(double start){
         double dayStart = 6;
         double dayEnd = 24;
-        double contentHeight = screenHeight - actionBarSize - textViewSize;
+        double contentHeight = screenHeight - textViewSize;// - actionBarSize;
         return (int) (textViewSize + contentHeight * ((start - dayStart) / (dayEnd - dayStart)));
     }
     public enum Weekdays{
         SU, MO, TU, WE, TH, FR, SA
-    }
-    public static int max(int... x){
-        int max = x[0];
-        for(int i = 0; i < x.length - 1; i++){
-            if(x[i] > max){
-                max = x[i];
-            }
-        }
-        return max;
-    }
-    public static int min(int... x){
-        int min = x[0];
-        for(int i = 0; i < x.length - 1; i++){
-            if(x[i] < min){
-                min = x[i];
-            }
-        }
-        return min;
-    }
-    public static int minmax(int... x){
-        int minmax = x[0];
-        for(int i = 0; i < x.length - 1; i++){
-            if(x[i] < x[0] || x[i] > x[x.length - 1]){
-                minmax = x[i];
-            }
-        }
-        return minmax;
     }
 }

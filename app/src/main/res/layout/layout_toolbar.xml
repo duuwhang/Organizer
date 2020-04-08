@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary">
-
     <ImageButton
         android:id="@+id/imageButton1"
         android:layout_width="?attr/actionBarSize"
@@ -16,7 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
-
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="?attr/actionBarSize"
@@ -25,7 +23,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -36,7 +33,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -48,5 +44,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1"
         tools:text="@tools:sample/date/hhmm" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

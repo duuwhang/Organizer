@@ -11,7 +11,7 @@ public class TasksLayout extends LinearLayout {
     public TasksLayout(@NonNull Context context) {
         super(context);
 
-        Toast.makeText(context, "tasklayout", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "tasklayout", Toast.LENGTH_SHORT).show();
 
 
 

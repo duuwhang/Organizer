@@ -10,17 +10,11 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
-
 public class MainLayout extends ViewGroup {
     Context context;
     GestureDetector gestureDetector = null;
+    boolean init = true;
 
-    private enum Direction {
-        None, Up, Left, Down, Right
-    }
-
-    private Direction direction = Direction.None;
-    private MotionEvent down;
     private int startingChild = 0;
     private int currentChild = startingChild;
     View.OnTouchListener touchListener = new View.OnTouchListener() {
@@ -29,7 +23,6 @@ public class MainLayout extends ViewGroup {
             return gestureDetector.onTouchEvent(motionEvent);
         }
     };
-    boolean init = true;
 
     public MainLayout(Context context) {
         super(context);
@@ -55,13 +48,14 @@ public class MainLayout extends ViewGroup {
         return false;
     }
     */
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (init) {
             for (int i = 0; i < getChildCount(); i++) {
                 getChildAt(i).layout(l, t, r, b);
                 getChildAt(i).setOnTouchListener(touchListener);
-                getChildAt(i).setVisibility(View.GONE); // TODO: gone
+                getChildAt(i).setVisibility(View.GONE);
             }
             if (startingChild < 0 || startingChild >= getChildCount()) {
                 startingChild = 0;
