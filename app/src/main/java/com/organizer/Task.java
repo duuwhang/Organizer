@@ -61,5 +61,7 @@ public class Task  {
 
         button = new Button(context);
         button.setText(location);
+        button.setY(calculateY(start));
+        button.setHeight(calculateHeight(start, end));
     }
 }

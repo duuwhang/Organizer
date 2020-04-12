@@ -14,7 +14,6 @@ public class MainLayout extends ViewGroup {
     Context context;
     GestureDetector gestureDetector = null;
     boolean init = true;
-
     private int startingChild = 0;
     private int currentChild = startingChild;
     View.OnTouchListener touchListener = new View.OnTouchListener() {

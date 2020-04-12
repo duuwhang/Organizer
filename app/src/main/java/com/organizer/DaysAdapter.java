@@ -57,9 +57,6 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
         List<Task> taskList = dictionary.get(day.id);
         if(taskList != null) {
             for (Task task : taskList) {
-                task.button.setText(("" + textViewSize)); // TODO remove
-                task.button.setY(calculateY(task.start));
-                task.button.setHeight(calculateHeight(task.start, task.end));
                 dayLayout.addView(task.button);
             }
         }
