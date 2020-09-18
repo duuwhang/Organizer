@@ -82,7 +82,7 @@ public class MainLayout extends ViewGroup {
                 try {
                     float diffY = e2.getY() - e1.getY();
                     float diffX = e2.getX() - e1.getX();
-                    if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD && Math.abs(diffX) < Math.abs(diffY)) {
+                    if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD && Math.abs(diffY) > Math.abs(diffX)) {
                         if (diffY > 0) {
                             onSwipeDown();
                         } else {
