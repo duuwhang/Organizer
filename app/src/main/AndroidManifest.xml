@@ -4,8 +4,8 @@
           package = "com.organizer">
     <application android:label = "@string/app_name"
                  android:theme = "@style/app_theme"
-                 android:icon = "@mipmap/ic_launcher"
-                 android:roundIcon = "@mipmap/ic_launcher_round"
+                 android:icon = "@mipmap/ic_organizer"
+                 android:roundIcon = "@mipmap/ic_organizer_round"
                  android:allowBackup = "true"
                  android:fullBackupContent = "true"
                  android:supportsRtl = "true"
