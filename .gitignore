@@ -1,16 +1,13 @@
-/.idea/misc.xml
-*/misc.xml
-*.iml
-.gradle
+# JetBrains IDE: Android Studio
+
+# Android Studio
+.idea
+**/build
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+
+# Gradle files
+.gradle
+
+# File-based project format
+*.iws
+*.iml
