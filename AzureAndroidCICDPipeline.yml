@@ -1,0 +1,104 @@
+jobs:
+  - job: AndroidTestCIPipeline
+    timeoutInMinutes: 25
+    steps:
+      - checkout: self
+        displayName: Checkout GitHub Repository
+        clean: true
+        persistCredentials: true
+
+      - script: |
+          echo "##vso[task.setvariable variable=ReleaseVersion;isOutput=true]`grep 'versionName' $(Root)/app/build.gradle | tr '"' ' ' | tr 'versionName' ' '| sed 's/ //g'`"
+        displayName: Read Release Version
+        name: ReadReleaseVersion
+
+      - task: Gradle@2
+        displayName: Gradle Unit Tests
+        inputs:
+          workingDirectory: ''
+          gradleWrapperFile: 'gradlew'
+          gradleOptions: '-Xmx3072m'
+          javaHomeOption: 'JDKVersion'
+          publishJUnitResults: false
+          tasks: 'build test'
+
+  - job: AndroidReleaseCDPipeline
+    condition: always()
+    timeoutInMinutes: 10
+    dependsOn: AndroidTestCIPipeline
+    variables:
+      Version: $[ dependencies.AndroidTestCIPipeline.outputs['ReadReleaseVersion.ReleaseVersion'] ]
+      Condition: $[ counter(variables['Version'], 0) ]
+
+    steps:
+      - script: |
+          echo "##vso[build.updatebuildnumber]$(Version)_$(Condition)"
+        displayName: Update Run Name
+
+      - checkout: self
+        displayName: Checkout GitHub Repository
+        condition: and(succeeded(), eq(variables['Condition'], 0))
+        clean: true
+        persistCredentials: true
+
+      - task: Gradle@2
+        displayName: Gradle Build Release APK
+        condition: and(succeeded(), eq(variables['Condition'], 0))
+        inputs:
+          workingDirectory: ''
+          gradleWrapperFile: 'gradlew'
+          gradleOptions: '-Xmx3072m'
+          publishJUnitResults: false
+          javaHomeOption: 'JDKVersion'
+          tasks: 'assembleRelease'
+
+      - task: AndroidSigning@2
+        displayName: Sign APK
+        condition: and(succeeded(), eq(variables['Condition'], 0))
+        inputs:
+          apkFiles: '$(Root)$(ReleaseDirectory)/*.apk'
+          jarsign: true
+          jarsignerKeystoreFile: 'duuwhang.keystore'
+          jarsignerKeystorePassword: '$(Release.Keystore.Password)'
+          jarsignerKeystoreAlias: 'duu_whang_release_key'
+          jarsignerKeyPassword: '$(Release.Key.Password)'
+          jarsignerArguments: '-verbose -sigalg SHA256withECDSA'
+          zipalign: true
+
+      - task: CopyFiles@2
+        displayName: Copy APK to Root
+        condition: and(succeeded(), eq(variables['Condition'], 0))
+        inputs:
+          sourceFolder: '$(Root)$(ReleaseDirectory)/'
+          Contents: '*.apk'
+          TargetFolder: '$(Root)/'
+          OverWrite: true
+
+      - script: |
+          git config user.email "maxipulstorm@aon.at"
+          git config user.name "duuwhang"
+          git checkout master
+          git add .
+          git commit -m "release version $(Version)"
+          git push origin
+          git tag $(Version)
+          git push origin --tags
+        displayName: Commit APK to GitHub Repository
+        condition: and(succeeded(), eq(variables['Condition'], 0))
+
+      - task: GitHubRelease@0
+        displayName: Create GitHub Release
+        condition: and(succeeded(), eq(variables['Condition'], 0))
+        inputs:
+          gitHubConnection: github.com_duuwhang
+          repositoryName: duuwhang/$(ProjectName)
+          action: create
+          target: '$(Build.SourceVersion)'
+          tagSource: manual
+          tagPattern: 'Git tag'
+          tag: '$(Version)'
+          title: '$(ProjectName) Version $(Version)'
+          assets: '$(Root)$(ReleaseDirectory)/*.apk'
+          addChangeLog: false
+          releaseNotesSource: 'file'
+          releaseNotesFile: '$(Root)/ReleaseNotes.md'
