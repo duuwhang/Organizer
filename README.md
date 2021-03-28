@@ -1,7 +1,7 @@
 # Organizer
 Organizer is an Android app that organizes your day.
 
-The app is able to organize:
+### The app is able to organize:
 - morning alarm clocks
 - public transport departure times
 - and a To-Do list
