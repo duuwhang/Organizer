@@ -1,4 +1,4 @@
-package com.organizer;
+package com.organizer.endless_scroll;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,9 @@ import java.util.List;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.organizer.Day;
+import com.organizer.R;
+import com.organizer.Task;
 import static com.organizer.Functions.*;
 
 public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {

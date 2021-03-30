@@ -11,7 +11,7 @@ public class Task  {
     String location = "home";
     double start = 6;
     double end = start + 1;
-    Button button;
+    public Button button;
     Task(Context context, int id, String location, double start, double end){
         this.context = context;
         this.id = id;

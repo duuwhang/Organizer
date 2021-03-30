@@ -1,4 +1,4 @@
-package com.organizer;
+package com.organizer.endless_scroll;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

@@ -6,16 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Functions {
-    static HashMap<Integer, List<Task>> dictionary = new HashMap<>();
-    static HashMap<Integer, Day> days = new HashMap<>();
-    static int dayAmount = 3;
+    public static HashMap<Integer, List<Task>> dictionary = new HashMap<>();
+    public static HashMap<Integer, Day> days = new HashMap<>();
+    public static int dayAmount = 3;
     static int todayD = 15;
     static int todayM = 1;
     static int todayY = 2019;
-    static int today = buildId(todayD, todayM, todayY);
+    public static int today = buildId(todayD, todayM, todayY);
     static int screenHeight;
-    static int screenWidth;
-    static int textViewSize;
+    public static int screenWidth;
+    public static int textViewSize;
     static int actionBarSize;
     public static void addDays(int numDays, int offset) {
         for (int i = offset; i < numDays + offset; i++) {

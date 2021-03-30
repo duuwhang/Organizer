@@ -1,12 +1,11 @@
-package com.organizer;
+package com.organizer.layouts.calendar;
 
 import android.content.Context;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.organizer.endless_scroll.DaysAdapter;
+import com.organizer.endless_scroll.EndlessRecyclerViewScrollListener;
 import static com.organizer.Functions.addDays;
 import static com.organizer.Functions.dayAmount;
 

@@ -4,8 +4,11 @@ import static com.organizer.Functions.*;
 import static java.lang.Math.*;
 
 public class Day {
-    int d, m, y, id;
-    String weekday;
+    public int d;
+    public int m;
+    int y;
+    public int id;
+    public String weekday;
     int monthdays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     public Day(int id){
         this.d = buildD(id);

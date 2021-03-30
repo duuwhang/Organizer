@@ -1,4 +1,4 @@
-package com.organizer;
+package com.organizer.layouts.todo;
 
 import android.content.Context;
 import android.widget.Button;

@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import androidx.appcompat.app.AppCompatActivity;
+import com.organizer.layouts.MainLayout;
+import com.organizer.layouts.calendar.CalendarLayout;
+import com.organizer.layouts.todo.TasksLayout;
 import static com.organizer.Functions.*;
 
 public class MainActivity extends AppCompatActivity {
