@@ -71,7 +71,7 @@ public class Task
         DateController dateController = MainActivity.getDateController();
         if (!dateController.dictionary.containsKey(id))
         {
-            dateController.dictionary.put(id, new ArrayList<Task>());
+            dateController.dictionary.put(id, new ArrayList<>());
         }
         dateController.dictionary.get(id).add(this);
         

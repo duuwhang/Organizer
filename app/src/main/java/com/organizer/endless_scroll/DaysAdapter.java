@@ -36,8 +36,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
         View dayView = inflater.inflate(R.layout.layout_day, parent, false);
         
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(dayView);
-        return viewHolder;
+        return new ViewHolder(dayView);
     }
     
     // Involves populating data into the item through holder
