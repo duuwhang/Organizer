@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,8 +28,9 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
     }
     
     // Usually involves inflating a layout from XML and returning the holder
+    @NonNull
     @Override
-    public DaysAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public DaysAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater inflater = LayoutInflater.from(context);
         

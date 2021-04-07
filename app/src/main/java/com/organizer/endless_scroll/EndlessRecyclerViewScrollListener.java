@@ -3,7 +3,6 @@ package com.organizer.endless_scroll;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import org.jetbrains.annotations.NotNull;
 import com.organizer.MainActivity;
 
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener
