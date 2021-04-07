@@ -1,18 +1,15 @@
 package com.organizer;
 
 import android.os.Bundle;
-import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 import com.organizer.layouts.MainLayout;
-import com.organizer.layouts.calendar.CalendarLayout;
-import com.organizer.layouts.todo.TasksLayout;
 
 public class MainActivity extends AppCompatActivity
 {
-    public static DisplayMetricsController displayMetricsController;
-    public static DateController dateController;
     private static MainActivity activity;
+    private static DisplayMetricsController displayMetricsController;
+    private static DateController dateController;
     private MainLayout mainLayout;
     
     public MainActivity()
@@ -23,6 +20,16 @@ public class MainActivity extends AppCompatActivity
     public static MainActivity getInstance()
     {
         return activity;
+    }
+    
+    public static DisplayMetricsController getDisplayMetricsController()
+    {
+        return displayMetricsController;
+    }
+    
+    public static DateController getDateController()
+    {
+        return dateController;
     }
     
     @Override

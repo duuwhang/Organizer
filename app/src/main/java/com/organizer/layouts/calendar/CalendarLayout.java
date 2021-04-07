@@ -1,12 +1,11 @@
 package com.organizer.layouts.calendar;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.organizer.MainActivity;
 import com.organizer.endless_scroll.DaysAdapter;
 import com.organizer.endless_scroll.EndlessRecyclerViewScrollListener;
-import static com.organizer.MainActivity.dateController;
 
 public class CalendarLayout extends RecyclerView
 {
@@ -17,7 +16,7 @@ public class CalendarLayout extends RecyclerView
         super(context);
         this.setHorizontalScrollBarEnabled(false); // TODO need?
         // Initialize days
-        dateController.addDays(dayAmount, 0);
+        MainActivity.getDateController().addDays(dayAmount, 0);
         // Create adapter passing in the sample user data
         final DaysAdapter daysAdapter = new DaysAdapter(context);
         // Attach the adapter to the recyclerview to populate items
@@ -53,7 +52,7 @@ public class CalendarLayout extends RecyclerView
                 for(int i = offset; i < dayAmount; i++){
                     days.remove(i);
                 }*/
-                dateController.addDays(dayAmount, offset);
+                MainActivity.getDateController().addDays(dayAmount, offset);
                 //days.addAll(min(0, offset), Day.createDaysList(dayAmount, offset));
                 //RecyclerView contentLayout = findViewById(R.id.contentLayout);
                 //contentLayout.swapAdapter(new DaysAdapter(getApplicationContext(), days), false); // TODO slow???

@@ -5,16 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import java.util.List;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
+import com.organizer.DateController;
 import com.organizer.Day;
 import com.organizer.MainActivity;
 import com.organizer.R;
 import com.organizer.Task;
-import static com.organizer.MainActivity.dateController;
-import static com.organizer.MainActivity.displayMetricsController;
 
 public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
 {
@@ -45,12 +44,13 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(DaysAdapter.ViewHolder viewHolder, int position)
     {
+        DateController dateController = MainActivity.getDateController();
         // Get the data model based on position
         //int realPos = position % days.size();
         Day day = dateController.days.get(position);// + Integer.MAX_VALUE / 2);
         
         ConstraintLayout dayLayout = viewHolder.dayLayout;
-        dayLayout.getLayoutParams().width = displayMetricsController.getScreenWidth() / MainActivity.getInstance().getLayout().getCalendarLayout().getDayAmount();
+        dayLayout.getLayoutParams().width = MainActivity.getDisplayMetricsController().getScreenWidth() / MainActivity.getInstance().getLayout().getCalendarLayout().getDayAmount();
         // Set item views based on your views and data model
         TextView textView = viewHolder.textView;
         textView.setText((day.weekday + " " + day.d + "." + day.m + "."));
@@ -79,7 +79,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
     @Override
     public int getItemCount()
     {
-        return (dateController.days == null) ? 0 : Integer.MAX_VALUE;
+        return (MainActivity.getDateController().days == null) ? 0 : Integer.MAX_VALUE;
         //return days.size();
     }
     

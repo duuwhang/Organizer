@@ -2,7 +2,7 @@ package com.organizer.layouts;
 
 import android.content.Context;
 import android.view.ViewGroup;
-import static com.organizer.MainActivity.displayMetricsController;
+import com.organizer.MainActivity;
 
 public class BaseLayout extends ViewGroup
 {
@@ -23,7 +23,7 @@ public class BaseLayout extends ViewGroup
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        int maxWidth = Math.max(displayMetricsController.getScreenWidth(), getSuggestedMinimumWidth());
+        int maxWidth = Math.max(MainActivity.getDisplayMetricsController().getScreenWidth(), getSuggestedMinimumWidth());
         int maxHeight = Math.max(maxWidth, getSuggestedMinimumHeight());
         
         measureChildren(widthMeasureSpec, heightMeasureSpec);

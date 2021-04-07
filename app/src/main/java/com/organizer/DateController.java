@@ -2,7 +2,6 @@ package com.organizer;
 
 import java.util.HashMap;
 import java.util.List;
-import static com.organizer.MainActivity.displayMetricsController;
 
 public class DateController
 {
@@ -74,7 +73,7 @@ public class DateController
     {
         double dayStart = 6;
         double dayEnd = 24;
-        double contentHeight = displayMetricsController.getScreenHeight() - textViewSize;
+        double contentHeight = MainActivity.getDisplayMetricsController().getScreenHeight() - textViewSize;
         return (int) (contentHeight * ((end - start) / (dayEnd - dayStart)));
     }
     
@@ -82,7 +81,7 @@ public class DateController
     {
         double dayStart = 6;
         double dayEnd = 24;
-        double contentHeight = displayMetricsController.getScreenHeight() - textViewSize;
+        double contentHeight = MainActivity.getDisplayMetricsController().getScreenHeight() - textViewSize;
         return (int) (textViewSize + contentHeight * ((start - dayStart) / (dayEnd - dayStart)));
     }
 }

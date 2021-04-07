@@ -1,6 +1,5 @@
 package com.organizer;
 
-import static com.organizer.MainActivity.dateController;
 import static java.lang.Math.max;
 
 public class Day
@@ -14,6 +13,7 @@ public class Day
     
     public Day(int id)
     {
+        DateController dateController = MainActivity.getDateController();
         this.d = dateController.buildD(id);
         this.m = dateController.buildM(id);
         this.y = dateController.buildY(id);
@@ -74,6 +74,6 @@ public class Day
             this.y += (this.m % 12) * (this.m / 12);
             this.m -= ((this.m % 12) * (this.m / 12)) * 12;
         }
-        this.id = dateController.buildId(this.d, this.m, this.y);
+        this.id = MainActivity.getDateController().buildId(this.d, this.m, this.y);
     }
 }

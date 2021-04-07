@@ -3,7 +3,6 @@ package com.organizer.endless_scroll;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.organizer.MainActivity;
-import static com.organizer.MainActivity.dateController;
 
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener
 {
@@ -109,7 +108,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         // the visibleThreshold and need to reload more data.
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
         // threshold should reflect how many total columns there are too
-        if (!loading && (lastVisibleItemPosition % dateController.days.size() + visibleThreshold) > (currentPage + 1) * MainActivity.getInstance().getLayout().getCalendarLayout().getDayAmount())
+        if (!loading && (lastVisibleItemPosition % MainActivity.getDateController().days.size() + visibleThreshold) > (currentPage + 1) * MainActivity.getInstance().getLayout().getCalendarLayout().getDayAmount())
         {
             loading = true;
             currentPage++;
