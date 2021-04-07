@@ -4,18 +4,15 @@ import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import com.organizer.R;
 import com.organizer.layouts.calendar.CalendarLayout;
 import com.organizer.layouts.todo.TasksLayout;
 
-public class MainLayout extends ViewGroup
+public class MainLayout extends BaseLayout
 {
-    Context context;
     boolean init = true;
     private int startingChild = 1;
     private int currentChild = startingChild;
@@ -37,28 +34,20 @@ public class MainLayout extends ViewGroup
         this.context = context;
         setGestureListener();
         
-        
         tasksLayout = new TasksLayout(context);
-        addView(new Button(context));
+        addView(tasksLayout);
         calendarLayout = new CalendarLayout(context);
         addView(calendarLayout);
     }
-
-    /* TODO try this out
-    @Override
-    public boolean shouldDelayChildPressedState() {
-        return false;
-    }
-    */
     
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b)
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
         if (init)
         {
             for (int i = 0; i < getChildCount(); i++)
             {
-                getChildAt(i).layout(l, t, r, b);
+                getChildAt(i).layout(left, top, right, bottom);
                 getChildAt(i).setOnTouchListener(touchListener);
                 getChildAt(i).setVisibility(View.INVISIBLE);
             }
@@ -69,7 +58,6 @@ public class MainLayout extends ViewGroup
             getChildAt(startingChild).setVisibility(View.VISIBLE);
             init = false;
         }
-        //Toast.makeText(context, "onLayout", Toast.LENGTH_SHORT).show();
     }
     
     public CalendarLayout getCalendarLayout()

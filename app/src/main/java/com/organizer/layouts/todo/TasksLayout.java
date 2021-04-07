@@ -1,22 +1,18 @@
 package com.organizer.layouts.todo;
 
 import android.content.Context;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
+import com.organizer.layouts.BaseLayout;
 
-import androidx.annotation.NonNull;
-
-public class TasksLayout extends LinearLayout {
-    Context context;
-    public TasksLayout(Context context) {
+public class TasksLayout extends BaseLayout
+{
+    public TasksLayout(Context context)
+    {
         super(context);
         this.context = context;
-
-        //Toast.makeText(context, "tasklayout", Toast.LENGTH_SHORT).show();
-
-
-
-        this.addView(new Button(context));
+        
+        TextView textView = new TextView(context);
+        textView.setText("ToDo");
+        addView(textView);
     }
 }
