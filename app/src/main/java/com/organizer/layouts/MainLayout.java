@@ -1,7 +1,6 @@
 package com.organizer.layouts;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,15 +8,20 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import com.organizer.R;
+import com.organizer.layouts.calendar.CalendarLayout;
+import com.organizer.layouts.todo.TasksLayout;
 
 public class MainLayout extends ViewGroup
 {
     Context context;
-    GestureDetector gestureDetector = null;
     boolean init = true;
-    private int startingChild = 0;
+    private int startingChild = 1;
     private int currentChild = startingChild;
+    TasksLayout tasksLayout;
+    CalendarLayout calendarLayout;
+    GestureDetector gestureDetector = null;
     View.OnTouchListener touchListener = new View.OnTouchListener()
     {
         @Override
@@ -32,20 +36,12 @@ public class MainLayout extends ViewGroup
         super(context);
         this.context = context;
         setGestureListener();
-    }
-    
-    public MainLayout(Context context, AttributeSet attributes)
-    {
-        this(context, attributes, 0);
-        this.context = context;
-        setGestureListener();
-    }
-    
-    public MainLayout(Context context, AttributeSet attributes, int defStyle)
-    {
-        super(context, attributes, defStyle);
-        this.context = context;
-        setGestureListener();
+        
+        
+        tasksLayout = new TasksLayout(context);
+        addView(new Button(context));
+        calendarLayout = new CalendarLayout(context);
+        addView(calendarLayout);
     }
 
     /* TODO try this out
@@ -74,6 +70,11 @@ public class MainLayout extends ViewGroup
             init = false;
         }
         //Toast.makeText(context, "onLayout", Toast.LENGTH_SHORT).show();
+    }
+    
+    public CalendarLayout getCalendarLayout()
+    {
+        return calendarLayout;
     }
     
     private void setGestureListener()

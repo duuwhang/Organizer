@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity
     public static DisplayMetricsController displayMetricsController;
     public static DateController dateController;
     private static MainActivity activity;
+    private MainLayout mainLayout;
     
     public MainActivity()
     {
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity
         dateController = new DateController();
         
         
-        MainLayout mainLayout = new MainLayout(this);
+        mainLayout = new MainLayout(this);
         setContentView(mainLayout);
         
         new Task(this, dateController.buildId(dateController.todayD, dateController.todayM, dateController.todayY), "task", 8, 12);
@@ -42,10 +43,10 @@ public class MainActivity extends AppCompatActivity
         new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 23, 24);
         new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 6, 17);
         new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 17, 18);
-        
-        CalendarLayout calendarLayout = new CalendarLayout(this);
-        mainLayout.addView(calendarLayout);
-        TasksLayout tasksLayout = new TasksLayout(this);
-        mainLayout.addView(new Button(this));
+    }
+    
+    public MainLayout getLayout()
+    {
+        return mainLayout;
     }
 }
