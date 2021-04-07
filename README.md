@@ -8,6 +8,5 @@ The app is able to organize:
 
 ## How to install Organizer on Android
 - Visit Organizer's GitHub releases at https://github.com/duuwhang/Organizer/releases .
-- Choose the latest or an older Organizer Version.
 - Download the Organizer.apk under Assets and follow Android's app install instructions.
-- If the app can not be installed on your Android device, please choose an older Organizer Version.
+- If the app does not install, try an older Organizer Version.
