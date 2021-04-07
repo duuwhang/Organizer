@@ -31,7 +31,6 @@ public class MainLayout extends BaseLayout
     public MainLayout(Context context)
     {
         super(context);
-        this.context = context;
         setGestureListener();
         
         tasksLayout = new TasksLayout(context);

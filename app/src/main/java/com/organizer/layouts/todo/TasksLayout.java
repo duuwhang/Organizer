@@ -9,7 +9,6 @@ public class TasksLayout extends BaseLayout
     public TasksLayout(Context context)
     {
         super(context);
-        this.context = context;
         
         TextView textView = new TextView(context);
         textView.setText("ToDo");
