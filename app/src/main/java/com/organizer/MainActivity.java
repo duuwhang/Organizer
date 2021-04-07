@@ -12,6 +12,17 @@ public class MainActivity extends AppCompatActivity
 {
     public static DisplayMetricsController displayMetricsController;
     public static DateController dateController;
+    private static MainActivity activity;
+    
+    public MainActivity()
+    {
+        activity = this;
+    }
+    
+    public static MainActivity getInstance()
+    {
+        return activity;
+    }
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
