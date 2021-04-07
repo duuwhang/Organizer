@@ -3,11 +3,11 @@ package com.organizer;
 import android.content.Context;
 import android.widget.Button;
 import java.util.ArrayList;
-import static com.organizer.Functions.*;
+import static com.organizer.MainActivity.dateController;
 
 public class Task  {
     Context context;
-    int id = today;
+    int id = dateController.today;
     String location = "home";
     double start = 6;
     double end = start + 1;
@@ -54,14 +54,14 @@ public class Task  {
         initTask();
     }
     private void initTask(){
-        if(!dictionary.containsKey(id)){
-            dictionary.put(id, new ArrayList<Task>());
+        if(!dateController.dictionary.containsKey(id)){
+            dateController.dictionary.put(id, new ArrayList<Task>());
         }
-        dictionary.get(id).add(this);
+        dateController.dictionary.get(id).add(this);
 
         button = new Button(context);
         button.setText(location);
-        button.setY(calculateY(start));
-        button.setHeight(calculateHeight(start, end));
+        button.setY(dateController.calculateY(start));
+        button.setHeight(dateController.calculateHeight(start, end));
     }
 }

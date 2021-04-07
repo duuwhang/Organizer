@@ -13,6 +13,8 @@ import com.organizer.Day;
 import com.organizer.R;
 import com.organizer.Task;
 import static com.organizer.Functions.*;
+import static com.organizer.MainActivity.dateController;
+import static com.organizer.MainActivity.displayMetricsController;
 
 public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
     // Store a member variable for the contacts
@@ -41,22 +43,22 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
     public void onBindViewHolder(DaysAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         //int realPos = position % days.size();
-        Day day = days.get(position);// + Integer.MAX_VALUE / 2);
+        Day day = dateController.days.get(position);// + Integer.MAX_VALUE / 2);
 
         ConstraintLayout dayLayout = viewHolder.dayLayout;
-        dayLayout.getLayoutParams().width = screenWidth / dayAmount;
+        dayLayout.getLayoutParams().width = displayMetricsController.getScreenWidth() / dayAmount;
         // Set item views based on your views and data model
         TextView textView = viewHolder.textView;
         textView.setText((day.weekday + " " + day.d + "." + day.m + "."));
 
-        if(day.id == today){
+        if(day.id == dateController.today){
             textView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent));
-            textViewSize = textView.getLineHeight();
+            dateController.textViewSize = textView.getLineHeight();
         }else{
             textView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
 
-        List<Task> taskList = dictionary.get(day.id);
+        List<Task> taskList = dateController.dictionary.get(day.id);
         if(taskList != null) {
             for (Task task : taskList) {
                 dayLayout.addView(task.button);
@@ -67,7 +69,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return (days == null) ? 0 : Integer.MAX_VALUE;
+        return (dateController.days == null) ? 0 : Integer.MAX_VALUE;
         //return days.size();
     }
 

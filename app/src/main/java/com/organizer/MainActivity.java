@@ -1,41 +1,40 @@
 package com.organizer;
 
-import java.util.Objects;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.Objects;
 import com.organizer.layouts.MainLayout;
 import com.organizer.layouts.calendar.CalendarLayout;
 import com.organizer.layouts.todo.TasksLayout;
-import static com.organizer.Functions.*;
 
 public class MainActivity extends AppCompatActivity
 {
+    public static DisplayMetricsController displayMetricsController;
+    public static DateController dateController;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        final Context context = this;
         Objects.requireNonNull(this.getSupportActionBar()).hide();
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        screenHeight = displayMetrics.heightPixels;
-        screenWidth = displayMetrics.widthPixels;
-        actionBarSize = dpToPx(context, context.getResources().getInteger(R.integer.actionBarSize));
-        MainLayout mainLayout = new MainLayout(context);
+        
+        displayMetricsController = new DisplayMetricsController(getWindowManager().getDefaultDisplay(), getResources().getDisplayMetrics().density);
+        dateController = new DateController();
+        
+        
+        MainLayout mainLayout = new MainLayout(this);
         setContentView(mainLayout);
         
-        new Task(context, buildId(todayD, todayM, todayY), "task", 8, 12);
-        new Task(context, buildId(todayD + 1, todayM, todayY), "task", 6, 15);
-        new Task(context, buildId(todayD + 1, todayM, todayY), "task", 23, 24);
-        new Task(context, buildId(todayD + 2, todayM, todayY), "task", 6, 17);
-        new Task(context, buildId(todayD + 2, todayM, todayY), "task", 17, 18);
+        new Task(this, dateController.buildId(dateController.todayD, dateController.todayM, dateController.todayY), "task", 8, 12);
+        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 6, 15);
+        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 23, 24);
+        new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 6, 17);
+        new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 17, 18);
         
-        CalendarLayout calendarLayout = new CalendarLayout(context);
+        CalendarLayout calendarLayout = new CalendarLayout(this);
         mainLayout.addView(calendarLayout);
-        TasksLayout tasksLayout = new TasksLayout(context);
-        mainLayout.addView(new Button(context));
+        TasksLayout tasksLayout = new TasksLayout(this);
+        mainLayout.addView(new Button(this));
     }
 }
