@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 import com.organizer.layouts.MainLayout;
+import com.organizer.layouts.calendar.DayLayout;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -46,10 +47,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(mainLayout);
         
         new Task(this, dateController.buildId(dateController.todayD, dateController.todayM, dateController.todayY), "task", 8, 12);
-        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 6, 15);
-        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 23, 24);
+        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 6, 8);
+        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 9, 15);
         new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 6, 17);
         new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 17, 18);
+        new Task(this, dateController.buildId(dateController.todayD + 3, dateController.todayM, dateController.todayY), "task", 6, 24);
     }
     
     public MainLayout getLayout()

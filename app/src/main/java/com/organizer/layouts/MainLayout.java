@@ -9,6 +9,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import com.organizer.R;
 import com.organizer.layouts.calendar.CalendarLayout;
+import com.organizer.layouts.calendar.DayLayout;
 import com.organizer.layouts.todo.TasksLayout;
 
 public class MainLayout extends BaseLayout

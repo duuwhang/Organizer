@@ -1,6 +1,7 @@
 package com.organizer;
 
 import android.content.Context;
+import android.view.ViewGroup;
 import android.widget.Button;
 import java.util.ArrayList;
 
@@ -76,6 +77,21 @@ public class Task
         dateController.dictionary.get(id).add(this);
         
         button = new Button(context);
+        button.setLayoutParams(new ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT));
+        button.setText(location);
+        button.setY(dateController.calculateY(start));
+        button.setHeight(dateController.calculateHeight(start, end));
+    }
+    
+    public void generateButton()
+    {
+        DateController dateController = MainActivity.getDateController();
+        button = new Button(context);
+        button.setLayoutParams(new ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT));
         button.setText(location);
         button.setY(dateController.calculateY(start));
         button.setHeight(dateController.calculateHeight(start, end));

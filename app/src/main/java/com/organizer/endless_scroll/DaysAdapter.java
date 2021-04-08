@@ -15,6 +15,8 @@ import com.organizer.Day;
 import com.organizer.MainActivity;
 import com.organizer.R;
 import com.organizer.Task;
+import com.organizer.layouts.BaseLayout;
+import com.organizer.layouts.calendar.DayLayout;
 
 public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
 {
@@ -32,13 +34,14 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
     @Override
     public DaysAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        //LayoutInflater inflater = LayoutInflater.from(context);
         
         // Inflate the custom layout
-        View dayView = inflater.inflate(R.layout.layout_day, parent, false);
+        //View dayView = inflater.inflate(R.layout.layout_day, parent, false);
         
         // Return a new holder instance
-        return new ViewHolder(dayView);
+        return new ViewHolder(new DayLayout(context));
+        //return new ViewHolder(dayView);
     }
     
     // Involves populating data into the item through holder
@@ -50,8 +53,8 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
         //int realPos = position % days.size();
         Day day = dateController.days.get(position);// + Integer.MAX_VALUE / 2);
         
-        ConstraintLayout dayLayout = viewHolder.dayLayout;
-        dayLayout.getLayoutParams().width = MainActivity.getDisplayMetricsController().getScreenWidth() / MainActivity.getInstance().getLayout().getCalendarLayout().getDayAmount();
+        DayLayout dayLayout = viewHolder.dayLayout;
+        dayLayout.getLayoutParams().width =(MainActivity.getDisplayMetricsController().getScreenWidth() / MainActivity.getInstance().getLayout().getCalendarLayout().getDayAmount());
         // Set item views based on your views and data model
         TextView textView = viewHolder.textView;
         textView.setText((day.weekday + " " + day.d + "." + day.m + "."));
@@ -71,6 +74,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
         {
             for (Task task : taskList)
             {
+                task.generateButton();
                 dayLayout.addView(task.button);
             }
         }
@@ -90,7 +94,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
     {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public ConstraintLayout dayLayout;
+        public DayLayout dayLayout;
         public TextView textView;
         
         // We also create a constructor that accepts the entire item row
@@ -101,8 +105,8 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
             // to access the context from any ViewHolder instance.
             super(itemView);
             
-            dayLayout = itemView.findViewById(R.id.dayLayout);
-            textView = itemView.findViewById(R.id.textView);
+            dayLayout = (DayLayout) itemView;
+            textView = dayLayout.getTextView();
         }
     }
 }
