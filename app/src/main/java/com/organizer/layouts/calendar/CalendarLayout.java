@@ -54,8 +54,8 @@ public class CalendarLayout extends RecyclerView
                 }*/
                 MainActivity.getDateController().addDays(dayAmount, offset);
                 //days.addAll(min(0, offset), Day.createDaysList(dayAmount, offset));
-                //RecyclerView contentLayout = findViewById(R.id.contentLayout);
-                //contentLayout.swapAdapter(new DaysAdapter(getApplicationContext(), days), false); // TODO slow???
+                RecyclerView contentLayout = view;
+                contentLayout.swapAdapter(new DaysAdapter(context), false); // TODO slow???
             }
         };
         this.addOnScrollListener(scrollListener);

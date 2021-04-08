@@ -1,12 +1,10 @@
 package com.organizer.endless_scroll;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -15,7 +13,6 @@ import com.organizer.Day;
 import com.organizer.MainActivity;
 import com.organizer.R;
 import com.organizer.Task;
-import com.organizer.layouts.BaseLayout;
 import com.organizer.layouts.calendar.DayLayout;
 
 public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
@@ -54,7 +51,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
         Day day = dateController.days.get(position);// + Integer.MAX_VALUE / 2);
         
         DayLayout dayLayout = viewHolder.dayLayout;
-        dayLayout.getLayoutParams().width =(MainActivity.getDisplayMetricsController().getScreenWidth() / MainActivity.getInstance().getLayout().getCalendarLayout().getDayAmount());
+        dayLayout.getLayoutParams().width = MainActivity.getDisplayMetricsController().getScreenWidth() / MainActivity.getInstance().getLayout().getCalendarLayout().getDayAmount();
         // Set item views based on your views and data model
         TextView textView = viewHolder.textView;
         textView.setText((day.weekday + " " + day.d + "." + day.m + "."));
@@ -85,7 +82,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder>
     public int getItemCount()
     {
         return (MainActivity.getDateController().days == null) ? 0 : Integer.MAX_VALUE;
-        //return days.size();
+        //return MainActivity.getDateController().days.size();
     }
     
     // Provide a direct reference to each of the views within a data item
