@@ -9,15 +9,14 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import com.organizer.R;
 import com.organizer.layouts.calendar.CalendarLayout;
-import com.organizer.layouts.calendar.DayLayout;
-import com.organizer.layouts.todo.TasksLayout;
+import com.organizer.layouts.todo.ToDoLayout;
 
 public class MainLayout extends BaseLayout
 {
     boolean init = true;
     private int startingChild = 1;
     private int currentChild = startingChild;
-    TasksLayout tasksLayout;
+    ToDoLayout toDoLayout;
     CalendarLayout calendarLayout;
     GestureDetector gestureDetector = null;
     View.OnTouchListener touchListener = new View.OnTouchListener()
@@ -33,9 +32,9 @@ public class MainLayout extends BaseLayout
     {
         super(context);
         setGestureListener();
-        
-        tasksLayout = new TasksLayout(context);
-        addView(tasksLayout);
+    
+        toDoLayout = new ToDoLayout(context);
+        addView(toDoLayout);
         calendarLayout = new CalendarLayout(context);
         addView(calendarLayout);
     }

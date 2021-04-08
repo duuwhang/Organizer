@@ -4,9 +4,9 @@ import android.content.Context;
 import android.widget.TextView;
 import com.organizer.layouts.BaseLayout;
 
-public class TasksLayout extends BaseLayout
+public class ToDoLayout extends BaseLayout
 {
-    public TasksLayout(Context context)
+    public ToDoLayout(Context context)
     {
         super(context);
         
