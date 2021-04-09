@@ -71,7 +71,7 @@ public class MainLayout extends BaseLayout
         {
             for (int i = 0; i < getChildCount(); i++)
             {
-                getChildAt(i).layout(left, top, right, bottom);
+                getChildAt(i).layout(0, 0, right - left, bottom - top);
                 getChildAt(i).setOnTouchListener(touchListener);
                 getChildAt(i).setVisibility(View.INVISIBLE);
             }
