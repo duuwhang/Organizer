@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import com.organizer.MainActivity;
 import com.organizer.layouts.BaseLayout;
 
 public class ToDoLayout extends BaseLayout
@@ -20,13 +19,13 @@ public class ToDoLayout extends BaseLayout
     {
         super(context);
         
-        elements.addAll(Arrays.asList("Task1", "Task2", "Task3", "Task4", "Task5", "Task6", "Task7"));
+        elements.addAll(Arrays.asList("Task1", "Task2", "Task3", "Task4", "Task5", "Task6", "Task7", "Task8", "Task9", "Task10", "Task11", "Task12"));
         
         for (int i = 0; i < elements.size(); i++)
         {
             Button button = new Button(context);
             button.setText(elements.get(i));
-            button.setWidth(new Random().nextInt(500) + 500);
+            button.setWidth(new Random().nextInt(300) + 300);
             addView(button);
         }
         
@@ -38,7 +37,7 @@ public class ToDoLayout extends BaseLayout
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        int[] rowWidths = new int[4];
+        int[] rowWidths = new int[6];
         for (int i = 0; i < getChildCount(); i++)
         {
             View child = getChildAt(i);
@@ -50,9 +49,9 @@ public class ToDoLayout extends BaseLayout
                     minWidthIndex = row;
                 }
             }
-            int childHeight = MainActivity.getDisplayMetricsController().getScreenHeight() / rowWidths.length;
+            int childHeight = (bottom - top) / rowWidths.length;
             childRect.left = rowWidths[minWidthIndex];
-            childRect.top = childHeight * minWidthIndex % MainActivity.getDisplayMetricsController().getScreenHeight();
+            childRect.top = childHeight * minWidthIndex % (bottom - top);
             childRect.right = childRect.left + child.getMeasuredWidth();
             childRect.bottom = childRect.top + childHeight;
             getChildAt(i).layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
