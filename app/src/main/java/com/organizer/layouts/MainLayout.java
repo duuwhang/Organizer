@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import com.organizer.R;
 import com.organizer.layouts.calendar.CalendarLayout;
 import com.organizer.layouts.todo.ToDoLayout;
@@ -32,11 +34,34 @@ public class MainLayout extends BaseLayout
     {
         super(context);
         setGestureListener();
-    
+        
         toDoLayout = new ToDoLayout(context);
-        addView(toDoLayout);
+        
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setLayoutParams(new LayoutParams(
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.MATCH_PARENT));
+        linearLayout.addView(toDoLayout);
+        
+        HorizontalScrollView scrollLayout = new HorizontalScrollView(context);
+        scrollLayout.setHorizontalScrollBarEnabled(false);
+        scrollLayout.setLayoutParams(new LayoutParams(
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.MATCH_PARENT));
+        scrollLayout.addView(linearLayout);
+        addView(scrollLayout);
+        
+        scrollLayout.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                scrollLayout.scrollTo(1000, 0);
+            }
+        });
+        
         calendarLayout = new CalendarLayout(context);
-        addView(calendarLayout);
+        //addView(calendarLayout);
     }
     
     @Override
