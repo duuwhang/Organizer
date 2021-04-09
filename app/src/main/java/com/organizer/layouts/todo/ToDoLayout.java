@@ -2,65 +2,74 @@ package com.organizer.layouts.todo;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.view.View;
-import android.widget.Button;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import com.organizer.layouts.BaseLayout;
 
 public class ToDoLayout extends BaseLayout
 {
-    private List<String> elements = new ArrayList<>();
+    int[] rowWidths = new int[6];
     private final Rect childRect = new Rect();
     
     public ToDoLayout(Context context)
     {
         super(context);
         
-        elements.addAll(Arrays.asList("Task1", "Task2", "Task3", "Task4", "Task5", "Task6", "Task7", "Task8", "Task9", "Task10", "Task11", "Task12"));
-        
-        for (int i = 0; i < elements.size(); i++)
+        for (int i = 0; i < 20; i++)
         {
-            Button button = new Button(context);
-            button.setText(elements.get(i));
-            button.setWidth(new Random().nextInt(300) + 300);
-            addView(button);
+            TaskLayout task = new TaskLayout(context, "Task " + (i + 1));
+            addView(task);
+            
+            int minWidthRow = getMinWidthRow();
+            task.left = rowWidths[minWidthRow];
+            task.right = task.left + (new Random().nextInt(500) + 500);
+            task.row = minWidthRow;
+            rowWidths[minWidthRow] += task.right - task.left;
         }
         
-        setLayoutParams(new LayoutParams(
-            3000,
-            LayoutParams.MATCH_PARENT));
+        setLayoutParams(new LayoutParams(getMaxWidth(), LayoutParams.MATCH_PARENT));
     }
     
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        int[] rowWidths = new int[6];
         for (int i = 0; i < getChildCount(); i++)
         {
-            View child = getChildAt(i);
-            int minWidthIndex = 0;
-            for (int row = 1; row < rowWidths.length; row++)
-            {
-                if (rowWidths[row] < rowWidths[minWidthIndex])
-                {
-                    minWidthIndex = row;
-                }
-            }
+            TaskLayout child = (TaskLayout) getChildAt(i);
             int childHeight = (bottom - top) / rowWidths.length;
-            childRect.left = rowWidths[minWidthIndex];
-            childRect.top = childHeight * minWidthIndex % (bottom - top);
-            childRect.right = childRect.left + child.getMeasuredWidth();
+            
+            childRect.left = child.left;
+            childRect.top = childHeight * child.row % (bottom - top);
+            childRect.right = child.right;
             childRect.bottom = childRect.top + childHeight;
             getChildAt(i).layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
-            rowWidths[minWidthIndex] += child.getMeasuredWidth();
         }
     }
-}
-
-class ToDoElement
-{
-    public String description;
+    
+    private int getMinWidthRow()
+    {
+        int minWidthIndex = 0;
+        
+        for (int row = 1; row < rowWidths.length; row++)
+        {
+            if (rowWidths[row] < rowWidths[minWidthIndex])
+            {
+                minWidthIndex = row;
+            }
+        }
+        return minWidthIndex;
+    }
+    
+    private int getMaxWidth()
+    {
+        int maxWidth = rowWidths[0];
+        
+        for (int row = 1; row < rowWidths.length; row++)
+        {
+            if (rowWidths[row] > maxWidth)
+            {
+                maxWidth = rowWidths[row];
+            }
+        }
+        return maxWidth;
+    }
 }
