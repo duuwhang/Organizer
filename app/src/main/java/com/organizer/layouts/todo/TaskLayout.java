@@ -1,13 +1,14 @@
 package com.organizer.layouts.todo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.PaintDrawable;
 import android.widget.Button;
 import com.organizer.MainActivity;
-import com.organizer.R;
 import com.organizer.layouts.BaseLayout;
+import static com.organizer.R.color.colorPrimaryDark;
 
 public class TaskLayout extends BaseLayout
 {
@@ -32,11 +33,12 @@ public class TaskLayout extends BaseLayout
         init();
     }
     
+    @SuppressLint("ResourceType")
     private void init()
     {
         PaintDrawable shape = new PaintDrawable(Color.WHITE);
         shape.setCornerRadius(75);
-        shape.setTint(Color.parseColor(getResources().getString(R.color.colorPrimaryDark)));
+        shape.setTint(Color.parseColor(getResources().getString(colorPrimaryDark)));
         
         button = new Button(context);
         button.setText(title);
