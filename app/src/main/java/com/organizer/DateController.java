@@ -24,11 +24,6 @@ public class DateController
         SA
     }
     
-    public DateController()
-    {
-    
-    }
-    
     public void addDays(int numDays, int offset)
     {
         for (int i = offset; i < numDays + offset; i++)
