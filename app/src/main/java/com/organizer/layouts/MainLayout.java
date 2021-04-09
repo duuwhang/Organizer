@@ -56,12 +56,12 @@ public class MainLayout extends BaseLayout
             @Override
             public void run()
             {
-                scrollLayout.scrollTo(1000, 0);
+                scrollLayout.scrollTo(0, 0);
             }
         });
         
         calendarLayout = new CalendarLayout(context);
-        //addView(calendarLayout);
+        addView(calendarLayout);
     }
     
     @Override
