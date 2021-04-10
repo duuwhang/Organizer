@@ -9,6 +9,8 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.organizer.MainActivity;
 import com.organizer.R;
 import com.organizer.layouts.calendar.CalendarLayout;
 import com.organizer.layouts.todo.ToDoLayout;
@@ -20,6 +22,7 @@ public class MainLayout extends BaseLayout
     private int currentChild = startingChild;
     ToDoLayout toDoLayout;
     CalendarLayout calendarLayout;
+    FloatingActionButton addButton;
     GestureDetector gestureDetector = null;
     View.OnTouchListener touchListener = new View.OnTouchListener()
     {
@@ -62,26 +65,41 @@ public class MainLayout extends BaseLayout
         
         calendarLayout = new CalendarLayout(context);
         addView(calendarLayout);
+        
+        
+        for (int i = 0; i < getChildCount(); i++)
+        {
+            getChildAt(i).setOnTouchListener(touchListener);
+            getChildAt(i).setVisibility(View.INVISIBLE);
+        }
+        if (startingChild < 0 || startingChild >= getChildCount())
+        {
+            startingChild = 0;
+        }
+        getChildAt(startingChild).setVisibility(View.VISIBLE);
+        
+        addButton = new FloatingActionButton(context);
+        addButton.setImageResource(R.drawable.add_button);
+        addButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+            
+            }
+        });
+        addView(addButton);
     }
     
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        if (init)
+        for (int i = 0; i < getChildCount(); i++)
         {
-            for (int i = 0; i < getChildCount(); i++)
-            {
-                getChildAt(i).layout(0, 0, right - left, bottom - top);
-                getChildAt(i).setOnTouchListener(touchListener);
-                getChildAt(i).setVisibility(View.INVISIBLE);
-            }
-            if (startingChild < 0 || startingChild >= getChildCount())
-            {
-                startingChild = 0;
-            }
-            getChildAt(startingChild).setVisibility(View.VISIBLE);
-            init = false;
+            getChildAt(i).layout(0, 0, right - left, bottom - top);
         }
+        int margin = MainActivity.getDisplayMetricsController().dpToPx(16);
+        addButton.layout(right - addButton.getMeasuredWidth() - margin, bottom - addButton.getMeasuredHeight() - margin, right - margin, bottom - margin);
     }
     
     public CalendarLayout getCalendarLayout()
