@@ -3,10 +3,14 @@ package com.organizer.layouts.todo;
 import android.content.Context;
 import android.graphics.Rect;
 import java.util.Random;
+import com.organizer.MainActivity;
 import com.organizer.layouts.BaseLayout;
 
 public class ToDoLayout extends BaseLayout
 {
+    protected int widthMargin = MainActivity.getDisplayMetricsController().dpToPx(2400);
+    protected int heightMargin = MainActivity.getDisplayMetricsController().dpToPx(1600);
+    protected int roundingRadius = MainActivity.getDisplayMetricsController().dpToPx(4000);
     int[] rowWidths = new int[6];
     private final Rect childRect = new Rect();
     
@@ -16,12 +20,19 @@ public class ToDoLayout extends BaseLayout
         
         for (int i = 0; i < 20; i++)
         {
-            TaskLayout task = new TaskLayout(context, "Task " + (i + 1));
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Task ").append(i + 1);
+            for (int o = 0; o < new Random().nextInt(30); o++)
+            {
+                stringBuilder.append("A");
+            }
+            TaskLayout task = new TaskLayout(context, this, stringBuilder.toString());
+            task.title.measure(0, 0);
             addView(task);
             
             int minWidthRow = getMinWidthRow();
             task.left = rowWidths[minWidthRow];
-            task.right = task.left + (new Random().nextInt(500) + 500);
+            task.right = task.left + task.title.getMeasuredWidth() + widthMargin * 2 + roundingRadius * 2;
             task.row = minWidthRow;
             rowWidths[minWidthRow] += task.right - task.left;
         }
