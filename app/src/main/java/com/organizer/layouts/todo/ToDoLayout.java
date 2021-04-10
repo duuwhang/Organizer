@@ -10,9 +10,9 @@ import com.organizer.layouts.BaseLayout;
 
 public class ToDoLayout extends BaseLayout
 {
-    protected int roundingRadius = MainActivity.getDisplayMetricsController().dpToPx(4000);
-    protected int widthMargin = MainActivity.getDisplayMetricsController().dpToPx(2400);
-    protected int heightMargin = MainActivity.getDisplayMetricsController().dpToPx(1600);
+    protected int roundingRadius = MainActivity.getDisplayMetricsController().dpToPx(25);
+    protected int widthMargin = MainActivity.getDisplayMetricsController().dpToPx(15);
+    protected int heightMargin = MainActivity.getDisplayMetricsController().dpToPx(10);
     protected int textSizeSp = 18;
     protected final int[] rowWidths;
     private final Rect childRect = new Rect();
