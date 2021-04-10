@@ -1,10 +1,10 @@
 package com.organizer.layouts.todo;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.util.TypedValue;
 import android.widget.TextView;
-import java.util.Random;
 import com.organizer.MainActivity;
 import com.organizer.layouts.BaseLayout;
 
@@ -25,15 +25,11 @@ public class ToDoLayout extends BaseLayout
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSp);
         rowWidths = new int[(int) (Integer.min(MainActivity.getDisplayMetricsController().getScreenWidth(), MainActivity.getDisplayMetricsController().getScreenHeight()) / (textView.getTextSize() + roundingRadius + heightMargin * 2))];
         
-        for (int i = 0; i < 20; i++)
+        SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
+        int taskCount = preferences.getInt("taskCount", 1);
+        for (int i = 0; i < taskCount; i++)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("Task ").append(i + 1);
-            for (int o = 0; o < new Random().nextInt(30); o++)
-            {
-                stringBuilder.append("A");
-            }
-            TaskLayout task = new TaskLayout(context, this, stringBuilder.toString());
+            TaskLayout task = new TaskLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
             addView(task);
             task.title.measure(0, 0);
             
