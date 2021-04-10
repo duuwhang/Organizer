@@ -23,7 +23,8 @@ public class ToDoLayout extends BaseLayout
         
         TextView textView = new TextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSp);
-        rowWidths = new int[(int) (Integer.min(MainActivity.getDisplayMetricsController().getScreenWidth(), MainActivity.getDisplayMetricsController().getScreenHeight()) / (textView.getTextSize() + roundingRadius + heightMargin * 2))];
+        int min = Integer.min(MainActivity.getDisplayMetricsController().getScreenWidth(), MainActivity.getDisplayMetricsController().getScreenHeight());
+        rowWidths = new int[Integer.max(1, (int) (min / (textView.getTextSize() + roundingRadius + heightMargin * 2)))];
         
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
         int taskCount = preferences.getInt("taskCount", 1);
