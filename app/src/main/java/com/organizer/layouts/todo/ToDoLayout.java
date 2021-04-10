@@ -2,21 +2,28 @@ package com.organizer.layouts.todo;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.TypedValue;
+import android.widget.TextView;
 import java.util.Random;
 import com.organizer.MainActivity;
 import com.organizer.layouts.BaseLayout;
 
 public class ToDoLayout extends BaseLayout
 {
+    protected int roundingRadius = MainActivity.getDisplayMetricsController().dpToPx(4000);
     protected int widthMargin = MainActivity.getDisplayMetricsController().dpToPx(2400);
     protected int heightMargin = MainActivity.getDisplayMetricsController().dpToPx(1600);
-    protected int roundingRadius = MainActivity.getDisplayMetricsController().dpToPx(4000);
-    int[] rowWidths = new int[6];
+    protected int textSizeSp = 18;
+    protected final int[] rowWidths;
     private final Rect childRect = new Rect();
     
     public ToDoLayout(Context context)
     {
         super(context);
+        
+        TextView textView = new TextView(context);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSp);
+        rowWidths = new int[(int) (Integer.min(MainActivity.getDisplayMetricsController().getScreenWidth(), MainActivity.getDisplayMetricsController().getScreenHeight()) / (textView.getTextSize() + roundingRadius + heightMargin * 2))];
         
         for (int i = 0; i < 20; i++)
         {
@@ -27,12 +34,12 @@ public class ToDoLayout extends BaseLayout
                 stringBuilder.append("A");
             }
             TaskLayout task = new TaskLayout(context, this, stringBuilder.toString());
-            task.title.measure(0, 0);
             addView(task);
+            task.title.measure(0, 0);
             
             int minWidthRow = getMinWidthRow();
             task.left = rowWidths[minWidthRow];
-            task.right = task.left + task.title.getMeasuredWidth() + widthMargin * 2 + roundingRadius * 2;
+            task.right = task.left + task.title.getMeasuredWidth() + roundingRadius * 2 + widthMargin * 2;
             task.row = minWidthRow;
             rowWidths[minWidthRow] += task.right - task.left;
         }

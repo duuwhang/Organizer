@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.PaintDrawable;
+import android.util.TypedValue;
 import android.widget.TextView;
 import com.organizer.layouts.BaseLayout;
 import static com.organizer.R.color.colorPrimaryDark;
@@ -50,6 +51,7 @@ public class TaskLayout extends BaseLayout
         addView(background);
         
         title = new TextView(context);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, parent.textSizeSp);
         title.setTextAlignment(TEXT_ALIGNMENT_CENTER);
         title.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         addView(title);
@@ -67,7 +69,7 @@ public class TaskLayout extends BaseLayout
         backgroundRect.left = left == 0 ? widthMargin * 2 : widthMargin;
         backgroundRect.top = heightMargin + (row == 0 ? heightMargin : 0);
         backgroundRect.right = width - widthMargin;
-        backgroundRect.bottom = height - heightMargin - (row == 5 ? heightMargin : 0);
+        backgroundRect.bottom = height - heightMargin - (row == parent.rowWidths.length - 1 ? heightMargin : 0);
         background.layout(backgroundRect.left, backgroundRect.top, backgroundRect.right, backgroundRect.bottom);
         
         width = backgroundRect.right - backgroundRect.left;
