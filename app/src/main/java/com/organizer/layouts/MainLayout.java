@@ -17,12 +17,13 @@ import com.organizer.layouts.todo.ToDoLayout;
 
 public class MainLayout extends BaseLayout
 {
-    boolean init = true;
+    int scrollChildCount;
     private int startingChild = 1;
     private int currentChild = startingChild;
     ToDoLayout toDoLayout;
     CalendarLayout calendarLayout;
     FloatingActionButton addButton;
+    AddTaskLayout addTaskLayout;
     GestureDetector gestureDetector = null;
     View.OnTouchListener touchListener = new View.OnTouchListener()
     {
@@ -52,8 +53,6 @@ public class MainLayout extends BaseLayout
             LayoutParams.WRAP_CONTENT,
             LayoutParams.MATCH_PARENT));
         scrollLayout.addView(linearLayout);
-        addView(scrollLayout);
-        
         scrollLayout.post(new Runnable()
         {
             @Override
@@ -62,21 +61,23 @@ public class MainLayout extends BaseLayout
                 scrollLayout.scrollTo(0, 0);
             }
         });
+        addView(scrollLayout);
         
         calendarLayout = new CalendarLayout(context);
         addView(calendarLayout);
         
-        
-        for (int i = 0; i < getChildCount(); i++)
+        scrollChildCount = getChildCount();
+        for (int i = 0; i < scrollChildCount; i++)
         {
             getChildAt(i).setOnTouchListener(touchListener);
             getChildAt(i).setVisibility(View.INVISIBLE);
         }
-        if (startingChild < 0 || startingChild >= getChildCount())
+        if (startingChild < 0 || startingChild >= scrollChildCount)
         {
             startingChild = 0;
         }
         getChildAt(startingChild).setVisibility(View.VISIBLE);
+        
         
         addButton = new FloatingActionButton(context);
         addButton.setImageResource(R.drawable.add_button);
@@ -85,10 +86,14 @@ public class MainLayout extends BaseLayout
             @Override
             public void onClick(View v)
             {
-            
+                addTaskLayout.setVisibility(VISIBLE);
             }
         });
         addView(addButton);
+        
+        addTaskLayout = new AddTaskLayout(context);
+        addTaskLayout.setVisibility(INVISIBLE);
+        addView(addTaskLayout);
     }
     
     @Override
@@ -150,7 +155,7 @@ public class MainLayout extends BaseLayout
             
             void onSwipeUp()
             {
-                if (currentChild < getChildCount() - 1)
+                if (currentChild < scrollChildCount - 1)
                 {
                     AnimationSet animation = new AnimationSet(false);
                     final View child1 = getChildAt(currentChild);
