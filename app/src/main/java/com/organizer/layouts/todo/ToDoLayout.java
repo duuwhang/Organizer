@@ -27,6 +27,11 @@ public class ToDoLayout extends BaseLayout
         rowWidths = new int[Integer.max(1, (int) (min / (textView.getTextSize() + roundingRadius + heightMargin * 2)))];
         
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
+        
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("taskCount", 20);
+        editor.apply();
+        
         int taskCount = preferences.getInt("taskCount", 1);
         for (int i = 0; i < taskCount; i++)
         {
@@ -85,6 +90,6 @@ public class ToDoLayout extends BaseLayout
                 maxWidth = rowWidths[row];
             }
         }
-        return maxWidth;
+        return maxWidth + widthMargin;
     }
 }

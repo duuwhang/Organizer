@@ -63,12 +63,12 @@ public class TaskLayout extends BaseLayout
         int width = right - left;
         int height = bottom - top;
         
-        int widthMargin = parent.widthMargin / 2;
+        int widthMargin = parent.widthMargin;
         int heightMargin = parent.heightMargin / 2;
         
-        backgroundRect.left = left == 0 ? widthMargin * 2 : widthMargin;
+        backgroundRect.left = widthMargin;
         backgroundRect.top = heightMargin + (row == 0 ? heightMargin : 0);
-        backgroundRect.right = width - widthMargin;
+        backgroundRect.right = width;
         backgroundRect.bottom = height - heightMargin - (row == parent.rowWidths.length - 1 ? heightMargin : 0);
         background.layout(backgroundRect.left, backgroundRect.top, backgroundRect.right, backgroundRect.bottom);
         
