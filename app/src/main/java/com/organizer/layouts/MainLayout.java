@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.organizer.MainActivity;
 import com.organizer.R;
@@ -41,26 +39,8 @@ public class MainLayout extends BaseLayout
         
         toDoLayout = new ToDoLayout(context);
         
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setLayoutParams(new LayoutParams(
-            LayoutParams.WRAP_CONTENT,
-            LayoutParams.MATCH_PARENT));
-        linearLayout.addView(toDoLayout);
-        
-        HorizontalScrollView scrollLayout = new HorizontalScrollView(context);
-        scrollLayout.setHorizontalScrollBarEnabled(false);
-        scrollLayout.setLayoutParams(new LayoutParams(
-            LayoutParams.WRAP_CONTENT,
-            LayoutParams.MATCH_PARENT));
-        scrollLayout.addView(linearLayout);
-        scrollLayout.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                scrollLayout.scrollTo(0, 0);
-            }
-        });
+        HorizontalScrollLayout scrollLayout = new HorizontalScrollLayout(context);
+        scrollLayout.addContentView(toDoLayout);
         addView(scrollLayout);
         
         calendarLayout = new CalendarLayout(context);
