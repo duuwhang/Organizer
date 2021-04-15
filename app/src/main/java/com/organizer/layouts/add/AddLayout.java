@@ -25,14 +25,17 @@ public class AddLayout extends BaseLayout
         addView(addTaskLayout);
     }
     
-    public void showLayout(Object addLayoutClass)
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
+        int width = right - left;
+        int height = bottom - top;
+        int widthMargin = width / 6;
+        int childHeight = height / 4;
+        
         for (int i = 0; i < getChildCount(); i++)
         {
-            if (getChildAt(i).getClass() == addLayoutClass)
-            {
-                getChildAt(i).setVisibility(View.VISIBLE);
-            }
+            getChildAt(i).layout(left + widthMargin / 2, top + childHeight / 2, right - widthMargin / 2, bottom - childHeight / 2);
         }
     }
     
@@ -44,6 +47,17 @@ public class AddLayout extends BaseLayout
             for (int i = 0; i < getChildCount(); i++)
             {
                 getChildAt(i).setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+    
+    public void showLayout(Object addLayoutClass)
+    {
+        for (int i = 0; i < getChildCount(); i++)
+        {
+            if (getChildAt(i).getClass() == addLayoutClass)
+            {
+                getChildAt(i).setVisibility(View.VISIBLE);
             }
         }
     }
