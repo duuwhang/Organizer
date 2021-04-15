@@ -33,7 +33,7 @@ public class MainLayout extends BaseLayout
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent)
         {
-            return gestureDetector.onTouchEvent(motionEvent);
+            return gestureDetector.onTouchEvent(motionEvent) && view.isClickable();
         }
     };
     
@@ -73,6 +73,9 @@ public class MainLayout extends BaseLayout
             {
                 if (addLayout.getVisibility() == INVISIBLE)
                 {
+                    scrollLayout.setScrollable(false);
+                    scrollLayout.setClickable(false);
+                    
                     addLayout.setVisibility(VISIBLE);
                     switch (currentChild)
                     {
@@ -94,6 +97,9 @@ public class MainLayout extends BaseLayout
                 }
                 else
                 {
+                    scrollLayout.setScrollable(true);
+                    scrollLayout.setClickable(true);
+                    
                     addLayout.setVisibility(INVISIBLE);
                     
                     RotateAnimation rotate = new RotateAnimation(135, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
