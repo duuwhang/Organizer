@@ -12,6 +12,9 @@ import android.view.animation.RotateAnimation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.organizer.MainActivity;
 import com.organizer.R;
+import com.organizer.layouts.add.AddEventLayout;
+import com.organizer.layouts.add.AddLayout;
+import com.organizer.layouts.add.AddTaskLayout;
 import com.organizer.layouts.calendar.CalendarLayout;
 import com.organizer.layouts.todo.ToDoLayout;
 
@@ -71,6 +74,17 @@ public class MainLayout extends BaseLayout
                 if (addLayout.getVisibility() == INVISIBLE)
                 {
                     addLayout.setVisibility(VISIBLE);
+                    switch (currentChild)
+                    {
+                        case 0:
+                            addLayout.showLayout(AddTaskLayout.class);
+                            break;
+                        case 1:
+                            addLayout.showLayout(AddEventLayout.class);
+                            break;
+                        default:
+                            break;
+                    }
                     
                     RotateAnimation rotate = new RotateAnimation(0, 135, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                     rotate.setDuration(200);
