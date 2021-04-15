@@ -30,12 +30,12 @@ public class AddLayout extends BaseLayout
     {
         int width = right - left;
         int height = bottom - top;
-        int widthMargin = width / 6;
-        int childHeight = height / 4;
+        int widthMargin = (int) (width / ((float) Integer.max(width, height) / Integer.min(width, height) * (height >= width ? 3 : 2)));
+        int heightMargin = (int) (height / ((float) Integer.max(width, height) / Integer.min(width, height) * (width > height ? 3 : 2)));
         
         for (int i = 0; i < getChildCount(); i++)
         {
-            getChildAt(i).layout(left + widthMargin / 2, top + childHeight / 2, right - widthMargin / 2, bottom - childHeight / 2);
+            getChildAt(i).layout(left + widthMargin / 2, top + heightMargin / 2, right - widthMargin / 2, bottom - heightMargin / 2);
         }
     }
     
