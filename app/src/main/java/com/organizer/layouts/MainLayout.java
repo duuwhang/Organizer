@@ -23,6 +23,7 @@ public class MainLayout extends BaseLayout
     int scrollChildCount;
     private int startingChild = 1;
     private int currentChild = startingChild;
+    HorizontalScrollLayout scrollLayout;
     ToDoLayout toDoLayout;
     CalendarLayout calendarLayout;
     FloatingActionButton addButton;
@@ -44,7 +45,7 @@ public class MainLayout extends BaseLayout
         
         toDoLayout = new ToDoLayout(context);
         
-        HorizontalScrollLayout scrollLayout = new HorizontalScrollLayout(context);
+        scrollLayout = new HorizontalScrollLayout(context);
         scrollLayout.addContentView(toDoLayout);
         addView(scrollLayout);
         
@@ -73,40 +74,11 @@ public class MainLayout extends BaseLayout
             {
                 if (addLayout.getVisibility() == INVISIBLE)
                 {
-                    scrollLayout.setScrollable(false);
-                    scrollLayout.setClickable(false);
-                    
-                    addLayout.setVisibility(VISIBLE);
-                    switch (currentChild)
-                    {
-                        case 0:
-                            addLayout.showLayout(AddTaskLayout.class);
-                            break;
-                        case 1:
-                            addLayout.showLayout(AddEventLayout.class);
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    RotateAnimation rotate = new RotateAnimation(0, 135, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    rotate.setDuration(200);
-                    rotate.setFillAfter(true);
-                    rotate.setInterpolator(new LinearInterpolator());
-                    view.startAnimation(rotate);
+                    toggleAddLayout(true);
                 }
                 else
                 {
-                    scrollLayout.setScrollable(true);
-                    scrollLayout.setClickable(true);
-                    
-                    addLayout.setVisibility(INVISIBLE);
-                    
-                    RotateAnimation rotate = new RotateAnimation(135, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    rotate.setDuration(200);
-                    rotate.setFillAfter(true);
-                    rotate.setInterpolator(new LinearInterpolator());
-                    view.startAnimation(rotate);
+                    toggleAddLayout(false);
                 }
             }
         });
@@ -126,6 +98,47 @@ public class MainLayout extends BaseLayout
         }
         int margin = MainActivity.getDisplayMetricsController().dpToPx(16);
         addButton.layout(right - addButton.getMeasuredWidth() - margin, bottom - addButton.getMeasuredHeight() - margin, right - margin, bottom - margin);
+    }
+    
+    public void toggleAddLayout(boolean visibility)
+    {
+        if (visibility)
+        {
+            scrollLayout.setScrollable(false);
+            scrollLayout.setClickable(false);
+            
+            addLayout.setVisibility(VISIBLE);
+            switch (currentChild)
+            {
+                case 0:
+                    addLayout.showLayout(AddTaskLayout.class);
+                    break;
+                case 1:
+                    addLayout.showLayout(AddEventLayout.class);
+                    break;
+                default:
+                    break;
+            }
+            
+            RotateAnimation rotate = new RotateAnimation(0, 135, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotate.setDuration(200);
+            rotate.setFillAfter(true);
+            rotate.setInterpolator(new LinearInterpolator());
+            addButton.startAnimation(rotate);
+        }
+        else
+        {
+            scrollLayout.setScrollable(true);
+            scrollLayout.setClickable(true);
+            
+            addLayout.setVisibility(INVISIBLE);
+            
+            RotateAnimation rotate = new RotateAnimation(135, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotate.setDuration(200);
+            rotate.setFillAfter(true);
+            rotate.setInterpolator(new LinearInterpolator());
+            addButton.startAnimation(rotate);
+        }
     }
     
     public CalendarLayout getCalendarLayout()
