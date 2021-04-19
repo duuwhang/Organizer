@@ -97,7 +97,7 @@ public class MainLayout extends BaseLayout
         int width = right - left;
         int height = bottom - top;
     
-        for (int i = 1; i < getChildCount(); i++)
+        for (int i = 0; i < getChildCount(); i++)
         {
             getChildAt(i).layout(0, 0, width, height);
         }
