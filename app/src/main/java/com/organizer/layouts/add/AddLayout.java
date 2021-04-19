@@ -30,9 +30,9 @@ public class AddLayout extends BaseLayout
     {
         int width = right - left;
         int height = bottom - top;
-        int ratio = Integer.max(width, height) / Integer.min(width, height);
-        int widthMargin = width / (ratio * height >= width ? 3 : 2);
-        int heightMargin = height / (ratio * width > height ? 3 : 2);
+        float ratio = (float) Integer.max(width, height) / Integer.min(width, height);
+        int widthMargin = ((int) (width / (ratio * (height >= width ? 3 : 2))));
+        int heightMargin = ((int) (height / (ratio * (width > height ? 3 : 2))));
         
         for (int i = 0; i < getChildCount(); i++)
         {
