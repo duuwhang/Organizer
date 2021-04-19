@@ -17,12 +17,12 @@ public class AddLayout extends BaseLayout
         drawable.setTint(Color.BLACK);
         drawable.setAlpha(125);
         setBackground(drawable);
+    
+        AddTaskLayout addTaskLayout = new AddTaskLayout(context);
+        addView(addTaskLayout);
         
         AddEventLayout addEventLayout = new AddEventLayout(context);
         addView(addEventLayout);
-        
-        AddTaskLayout addTaskLayout = new AddTaskLayout(context);
-        addView(addTaskLayout);
     }
     
     @Override
