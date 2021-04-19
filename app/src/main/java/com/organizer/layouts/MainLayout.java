@@ -1,6 +1,7 @@
 package com.organizer.layouts;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,7 @@ public class MainLayout extends BaseLayout
     CalendarLayout calendarLayout;
     FloatingActionButton addButton;
     AddLayout addLayout;
+    private final Rect childRect = new Rect();
     GestureDetector gestureDetector = null;
     View.OnTouchListener touchListener = new View.OnTouchListener()
     {
@@ -92,12 +94,20 @@ public class MainLayout extends BaseLayout
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        for (int i = 0; i < getChildCount(); i++)
+        int width = right - left;
+        int height = bottom - top;
+    
+        for (int i = 1; i < getChildCount(); i++)
         {
-            getChildAt(i).layout(0, 0, right - left, bottom - top);
+            getChildAt(i).layout(0, 0, width, height);
         }
+    
         int margin = MainActivity.getDisplayMetricsController().dpToPx(16);
-        addButton.layout(right - addButton.getMeasuredWidth() - margin, bottom - addButton.getMeasuredHeight() - margin, right - margin, bottom - margin);
+        childRect.left = width - addButton.getMeasuredWidth() - margin;
+        childRect.top = height - addButton.getMeasuredHeight() - margin;
+        childRect.right = width - margin;
+        childRect.bottom = height - margin;
+        addButton.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
     }
     
     public void toggleAddLayout(boolean visibility)
