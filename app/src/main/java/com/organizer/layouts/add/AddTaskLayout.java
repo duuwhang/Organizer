@@ -29,6 +29,7 @@ public class AddTaskLayout extends BaseLayout
             @Override
             public void onClick(View v)
             {
+                MainActivity.getInstance().getLayout().getToDoLayout().addTask("Add Tasks");
                 MainActivity.getInstance().getLayout().toggleAddLayout(false);
             }
         });

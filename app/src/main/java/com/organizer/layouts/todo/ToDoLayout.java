@@ -14,7 +14,7 @@ public class ToDoLayout extends BaseLayout
     protected int widthMargin = MainActivity.getDisplayMetricsController().dpToPx(15);
     protected int heightMargin = MainActivity.getDisplayMetricsController().dpToPx(10);
     protected int textSizeSp = 18;
-    protected final int[] rowWidths;
+    protected int[] rowWidths;
     private final Rect childRect = new Rect();
     
     public ToDoLayout(Context context)
@@ -26,27 +26,14 @@ public class ToDoLayout extends BaseLayout
         int min = Integer.min(MainActivity.getDisplayMetricsController().getScreenWidth(), MainActivity.getDisplayMetricsController().getScreenHeight());
         rowWidths = new int[Integer.max(1, (int) (min / (textView.getTextSize() + roundingRadius + heightMargin * 2)))];
         
-        SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
         
+        SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("taskCount", 20);
         editor.apply();
         
-        int taskCount = preferences.getInt("taskCount", 1);
-        for (int i = 0; i < taskCount; i++)
-        {
-            TaskLayout task = new TaskLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
-            addView(task);
-            task.title.measure(0, 0);
-            
-            int minWidthRow = getMinWidthRow();
-            task.left = rowWidths[minWidthRow];
-            task.right = task.left + task.title.getMeasuredWidth() + roundingRadius * 2 + widthMargin * 2;
-            task.row = minWidthRow;
-            rowWidths[minWidthRow] += task.right - task.left;
-        }
-        
-        setLayoutParams(new LayoutParams(getMaxWidth(), LayoutParams.MATCH_PARENT));
+        updateTasks();
+        setLayoutParams(new LayoutParams(Integer.MAX_VALUE, LayoutParams.MATCH_PARENT));
     }
     
     @Override
@@ -79,7 +66,7 @@ public class ToDoLayout extends BaseLayout
         return minWidthIndex;
     }
     
-    private int getMaxWidth()
+    public int getMaxWidth()
     {
         int maxWidth = rowWidths[0];
         
@@ -91,5 +78,41 @@ public class ToDoLayout extends BaseLayout
             }
         }
         return maxWidth + widthMargin;
+    }
+    
+    private void updateTasks()
+    {
+        removeAllViews();
+        rowWidths = new int[rowWidths.length];
+        
+        SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
+        
+        int taskCount = preferences.getInt("taskCount", 1);
+        for (int i = 0; i < taskCount; i++)
+        {
+            TaskLayout task = new TaskLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
+            addView(task);
+            task.title.measure(0, 0);
+            
+            int minWidthRow = getMinWidthRow();
+            task.left = rowWidths[minWidthRow];
+            task.right = task.left + task.title.getMeasuredWidth() + roundingRadius * 2 + widthMargin * 2;
+            task.row = minWidthRow;
+            rowWidths[minWidthRow] += task.right - task.left;
+        }
+        
+    }
+    
+    public void addTask(String title)
+    {
+        SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
+        int taskCount = preferences.getInt("taskCount", 0);
+        
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("taskTitle" + taskCount, title);
+        editor.putInt("taskCount", taskCount + 1);
+        editor.apply();
+        
+        updateTasks();
     }
 }

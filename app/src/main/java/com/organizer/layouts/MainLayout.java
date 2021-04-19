@@ -151,6 +151,11 @@ public class MainLayout extends BaseLayout
         }
     }
     
+    public ToDoLayout getToDoLayout()
+    {
+        return toDoLayout;
+    }
+    
     public CalendarLayout getCalendarLayout()
     {
         return calendarLayout;

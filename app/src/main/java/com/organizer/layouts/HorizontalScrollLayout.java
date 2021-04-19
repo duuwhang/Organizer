@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import com.organizer.MainActivity;
 
 public class HorizontalScrollLayout extends HorizontalScrollView
 {
@@ -88,6 +89,17 @@ public class HorizontalScrollLayout extends HorizontalScrollView
         else
         {
             return false;
+        }
+    }
+    
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt)
+    {
+        super.onScrollChanged(l, t, oldl, oldt);
+        int width = MainActivity.getInstance().getLayout().getToDoLayout().getMaxWidth() - MainActivity.getDisplayMetricsController().getScreenWidth();
+        if (l > width)
+        {
+            scrollTo(width, 0);
         }
     }
 }
