@@ -20,20 +20,14 @@ public class ToDoLayout extends BaseLayout
     public ToDoLayout(Context context)
     {
         super(context);
+        setLayoutParams(new LayoutParams(Integer.MAX_VALUE, LayoutParams.MATCH_PARENT));
         
         TextView textView = new TextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSp);
         int min = Integer.min(MainActivity.getDisplayMetricsController().getScreenWidth(), MainActivity.getDisplayMetricsController().getScreenHeight());
         rowWidths = new int[Integer.max(1, (int) (min / (textView.getTextSize() + roundingRadius + heightMargin * 2)))];
         
-        
-        SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("taskCount", 20);
-        editor.apply();
-        
         updateTasks();
-        setLayoutParams(new LayoutParams(Integer.MAX_VALUE, LayoutParams.MATCH_PARENT));
     }
     
     @Override
@@ -100,7 +94,6 @@ public class ToDoLayout extends BaseLayout
             task.row = minWidthRow;
             rowWidths[minWidthRow] += task.right - task.left;
         }
-        
     }
     
     public void addTask(String title)
