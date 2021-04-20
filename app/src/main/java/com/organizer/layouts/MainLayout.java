@@ -142,6 +142,11 @@ public class MainLayout extends BaseLayout
         }
     }
     
+    public HorizontalScrollLayout getScrollLayout()
+    {
+        return scrollLayout;
+    }
+    
     public ToDoLayout getToDoLayout()
     {
         return toDoLayout;

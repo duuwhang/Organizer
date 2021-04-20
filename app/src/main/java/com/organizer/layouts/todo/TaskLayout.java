@@ -13,9 +13,9 @@ import static com.organizer.R.color.colorPrimaryDark;
 public class TaskLayout extends BaseLayout
 {
     boolean completed;
-    int left;
-    int right;
-    int row;
+    public int left;
+    public int right;
+    public int row;
     TextView background;
     TextView title;
     ToDoLayout parent;

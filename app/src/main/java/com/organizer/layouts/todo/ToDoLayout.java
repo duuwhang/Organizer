@@ -96,7 +96,7 @@ public class ToDoLayout extends BaseLayout
         }
     }
     
-    public void addTask(String title)
+    public TaskLayout addTask(String title)
     {
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
         int taskCount = preferences.getInt("taskCount", 0);
@@ -107,5 +107,6 @@ public class ToDoLayout extends BaseLayout
         editor.apply();
         
         updateTasks();
+        return (TaskLayout) getChildAt(taskCount);
     }
 }

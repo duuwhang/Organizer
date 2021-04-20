@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.organizer.MainActivity;
 import com.organizer.R;
 import com.organizer.layouts.BaseLayout;
+import com.organizer.layouts.todo.TaskLayout;
 
 public class AddTaskLayout extends BaseLayout
 {
@@ -40,8 +41,9 @@ public class AddTaskLayout extends BaseLayout
             {
                 if (!titleEditText.getText().toString().equals(""))
                 {
-                    MainActivity.getInstance().getLayout().getToDoLayout().addTask(titleEditText.getText().toString());
+                    TaskLayout task = MainActivity.getInstance().getLayout().getToDoLayout().addTask(titleEditText.getText().toString());
                     MainActivity.getInstance().getLayout().toggleAddLayout(false);
+                    MainActivity.getInstance().getLayout().getScrollLayout().scrollTo(task.left, 0);
                     titleEditText.setText("");
                     titleEditText.setHintTextColor(defaultHintColor);
                     titleEditText.clearFocus();
