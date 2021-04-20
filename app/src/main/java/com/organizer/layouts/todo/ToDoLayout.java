@@ -14,7 +14,9 @@ public class ToDoLayout extends BaseLayout
     protected int widthMargin = MainActivity.getDisplayMetricsController().dpToPx(15);
     protected int heightMargin = MainActivity.getDisplayMetricsController().dpToPx(10);
     protected int textSizeSp = 18;
+    protected int textSize;
     protected int[] rowWidths;
+    protected int rows;
     private final Rect childRect = new Rect();
     
     public ToDoLayout(Context context)
@@ -23,9 +25,8 @@ public class ToDoLayout extends BaseLayout
         setLayoutParams(new LayoutParams(Integer.MAX_VALUE, LayoutParams.MATCH_PARENT));
         
         TextView textView = new TextView(context);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSp);
-        int min = Integer.min(MainActivity.getDisplayMetricsController().getScreenWidth(), MainActivity.getDisplayMetricsController().getScreenHeight());
-        rowWidths = new int[Integer.max(1, (int) (min / (textView.getTextSize() + roundingRadius + heightMargin * 2)))];
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        textSize = (int) textView.getTextSize();
         
         updateTasks();
     }
@@ -33,6 +34,8 @@ public class ToDoLayout extends BaseLayout
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
+        updateTasks();
+        
         for (int i = 0; i < getChildCount(); i++)
         {
             TaskLayout child = (TaskLayout) getChildAt(i);
@@ -77,7 +80,8 @@ public class ToDoLayout extends BaseLayout
     private void updateTasks()
     {
         removeAllViews();
-        rowWidths = new int[rowWidths.length];
+        rows = Integer.max(1, MainActivity.getDisplayMetricsController().getScreenHeight() / (textSize + roundingRadius + heightMargin * 2));
+        rowWidths = new int[rows];
         
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
         
