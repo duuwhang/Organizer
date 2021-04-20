@@ -23,6 +23,7 @@ public class AddTaskLayout extends BaseLayout
     private TextView displayText;
     private EditText titleEditText;
     private final Rect childRect = new Rect();
+    private final Rect optionsRect = new Rect();
     
     public AddTaskLayout(Context context)
     {
@@ -42,11 +43,13 @@ public class AddTaskLayout extends BaseLayout
                 if (!titleEditText.getText().toString().equals(""))
                 {
                     TaskLayout task = MainActivity.getInstance().getLayout().getToDoLayout().addTask(titleEditText.getText().toString());
+                    
                     MainActivity.getInstance().getLayout().toggleAddLayout(false);
-                    MainActivity.getInstance().getLayout().getScrollLayout().scrollTo(task.left, 0);
                     titleEditText.setText("");
                     titleEditText.setHintTextColor(defaultHintColor);
                     titleEditText.clearFocus();
+                    
+                    MainActivity.getInstance().getLayout().getScrollLayout().scrollTo(task.left, 0);
                 }
                 else
                 {
@@ -59,8 +62,6 @@ public class AddTaskLayout extends BaseLayout
         displayText = new TextView(context);
         displayText.setText("Add a new Task");
         displayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        displayText.setTextAlignment(TEXT_ALIGNMENT_TEXT_START);
-        displayText.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         addView(displayText);
         
         titleEditText = new EditText(context);
@@ -86,6 +87,10 @@ public class AddTaskLayout extends BaseLayout
             }
         });
         addView(titleEditText);
+        addView(new Button(context));
+        addView(new Button(context));
+        addView(new Button(context));
+        addView(new Button(context));
     }
     
     @Override
@@ -93,23 +98,34 @@ public class AddTaskLayout extends BaseLayout
     {
         int width = right - left;
         int height = bottom - top;
-        
         int margin = MainActivity.getDisplayMetricsController().dpToPx(6);
+        
         childRect.left = width - addButton.getMeasuredWidth() - margin;
         childRect.top = height - addButton.getMeasuredHeight() - margin;
         childRect.right = width - margin;
         childRect.bottom = height - margin;
         addButton.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
         
-        height = childRect.top;
-        int currentTop = margin;
-        for (int i = 1; i < getChildCount(); i++)
+        margin = MainActivity.getDisplayMetricsController().dpToPx(8);
+        childRect.left = width / 2 - displayText.getMeasuredWidth() / 2;
+        childRect.top = margin;
+        childRect.right = childRect.left + displayText.getMeasuredWidth();
+        childRect.bottom = margin + displayText.getMeasuredHeight();
+        displayText.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
+        
+        optionsRect.left = margin;
+        optionsRect.top = childRect.bottom + margin;
+        optionsRect.right = width - margin;
+        optionsRect.bottom = addButton.getTop() - margin;
+        
+        int currentTop = optionsRect.top;
+        for (int i = 2; i < getChildCount(); i++)
         {
-            childRect.left = margin;
+            childRect.left = optionsRect.left;
             childRect.top = currentTop;
-            childRect.right = width - margin;
+            childRect.right = optionsRect.right;
             currentTop += getChildAt(i).getMeasuredHeight();
-            childRect.bottom = Integer.min(height, currentTop);
+            childRect.bottom = Integer.min(optionsRect.bottom, currentTop);
             getChildAt(i).layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
         }
     }
