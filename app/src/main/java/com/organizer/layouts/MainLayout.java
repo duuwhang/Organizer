@@ -23,7 +23,7 @@ public class MainLayout extends BaseLayout
 {
     int scrollChildCount;
     private int startingChild = 1;
-    private int currentChild = startingChild;
+    private int currentChild;
     HorizontalScrollLayout scrollLayout;
     ToDoLayout toDoLayout;
     CalendarLayout calendarLayout;
@@ -64,6 +64,7 @@ public class MainLayout extends BaseLayout
         {
             startingChild = 0;
         }
+        currentChild = startingChild;
         getChildAt(startingChild).setVisibility(View.VISIBLE);
         
         
@@ -74,14 +75,7 @@ public class MainLayout extends BaseLayout
             @Override
             public void onClick(View view)
             {
-                if (addLayout.getVisibility() == INVISIBLE)
-                {
-                    toggleAddLayout(true);
-                }
-                else
-                {
-                    toggleAddLayout(false);
-                }
+                toggleAddLayout(addLayout.getVisibility() == INVISIBLE);
             }
         });
         addView(addButton);
@@ -96,12 +90,12 @@ public class MainLayout extends BaseLayout
     {
         int width = right - left;
         int height = bottom - top;
-    
+        
         for (int i = 0; i < getChildCount(); i++)
         {
             getChildAt(i).layout(0, 0, width, height);
         }
-    
+        
         int margin = MainActivity.getDisplayMetricsController().dpToPx(16);
         childRect.left = width - addButton.getMeasuredWidth() - margin;
         childRect.top = height - addButton.getMeasuredHeight() - margin;
@@ -118,16 +112,13 @@ public class MainLayout extends BaseLayout
             scrollLayout.setClickable(false);
             
             addLayout.setVisibility(VISIBLE);
-            switch (currentChild)
+            if (getChildAt(currentChild).equals(scrollLayout))
             {
-                case 0:
-                    addLayout.showLayout(AddTaskLayout.class);
-                    break;
-                case 1:
-                    addLayout.showLayout(AddEventLayout.class);
-                    break;
-                default:
-                    break;
+                addLayout.showLayout(AddTaskLayout.class);
+            }
+            else if (getChildAt(currentChild).equals(calendarLayout))
+            {
+                addLayout.showLayout(AddEventLayout.class);
             }
             
             RotateAnimation rotate = new RotateAnimation(0, 135, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

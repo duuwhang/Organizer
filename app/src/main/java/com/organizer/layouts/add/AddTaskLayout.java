@@ -6,9 +6,11 @@ import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import com.organizer.MainActivity;
 import com.organizer.R;
 import com.organizer.layouts.BaseLayout;
@@ -17,6 +19,7 @@ public class AddTaskLayout extends BaseLayout
 {
     private final int defaultHintColor;
     private Button addButton;
+    private TextView displayText;
     private EditText titleEditText;
     private final Rect childRect = new Rect();
     
@@ -50,6 +53,13 @@ public class AddTaskLayout extends BaseLayout
             }
         });
         addView(addButton);
+        
+        displayText = new TextView(context);
+        displayText.setText("Add a new Task");
+        displayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        displayText.setTextAlignment(TEXT_ALIGNMENT_TEXT_START);
+        displayText.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        addView(displayText);
         
         titleEditText = new EditText(context);
         defaultHintColor = titleEditText.getHintTextColors().getDefaultColor();
@@ -90,10 +100,15 @@ public class AddTaskLayout extends BaseLayout
         addButton.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
         
         height = childRect.top;
-        
+        int currentTop = margin;
         for (int i = 1; i < getChildCount(); i++)
         {
-            getChildAt(i).layout(0, 0, width, height);
+            childRect.left = margin;
+            childRect.top = currentTop;
+            childRect.right = width - margin;
+            currentTop += getChildAt(i).getMeasuredHeight();
+            childRect.bottom = Integer.min(height, currentTop);
+            getChildAt(i).layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
         }
     }
 }
