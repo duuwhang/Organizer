@@ -48,6 +48,7 @@ public class MainLayout extends BaseLayout
         toDoLayout = new ToDoLayout(context);
         
         scrollLayout = new HorizontalScrollLayout(context);
+        scrollLayout.setOverScrollMode(OVER_SCROLL_NEVER);
         scrollLayout.addContentView(toDoLayout);
         addView(scrollLayout);
         
