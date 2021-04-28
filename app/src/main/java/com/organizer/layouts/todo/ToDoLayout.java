@@ -89,6 +89,7 @@ public class ToDoLayout extends BaseLayout
         for (int i = 0; i < taskCount; i++)
         {
             TaskLayout task = new TaskLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
+            task.setCompleted(preferences.getBoolean("taskCompleted" + i, false));
             addView(task);
             task.title.measure(0, 0);
             

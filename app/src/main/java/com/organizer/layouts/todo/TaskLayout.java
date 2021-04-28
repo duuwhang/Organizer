@@ -2,11 +2,13 @@ package com.organizer.layouts.todo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.PaintDrawable;
 import android.util.TypedValue;
 import android.widget.TextView;
+import com.organizer.MainActivity;
 import com.organizer.layouts.BaseLayout;
 import static com.organizer.R.color.colorPrimaryDark;
 
@@ -55,6 +57,8 @@ public class TaskLayout extends BaseLayout
         title.setTextAlignment(TEXT_ALIGNMENT_CENTER);
         title.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         addView(title);
+        
+        setOnClickListener(view -> setCompleted(!completed));
     }
     
     @Override
@@ -80,5 +84,17 @@ public class TaskLayout extends BaseLayout
         childRect.right = childRect.left + title.getMeasuredWidth();
         childRect.bottom = childRect.top + title.getMeasuredHeight();
         title.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
+    }
+    
+    public void setCompleted(boolean completed)
+    {
+        this.completed = completed;
+        background.setAlpha(completed ? 0.3f : 1);
+        
+        SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        int id = parent.indexOfChild(this);
+        editor.putBoolean("taskCompleted" + id, completed);
+        editor.apply();
     }
 }
