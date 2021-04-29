@@ -67,7 +67,6 @@ public class AddTaskLayout extends BaseLayout
         titleEditText = new EditText(context);
         defaultHintColor = titleEditText.getHintTextColors().getDefaultColor();
         titleEditText.setHint("Title");
-        titleEditText.setCursorVisible(false);
         titleEditText.addTextChangedListener(new TextWatcher()
         {
             @Override
