@@ -4,7 +4,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 import com.organizer.layouts.MainLayout;
-import com.organizer.layouts.calendar.DayLayout;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -52,6 +51,13 @@ public class MainActivity extends AppCompatActivity
         new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 6, 17);
         new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 17, 18);
         new Task(this, dateController.buildId(dateController.todayD + 3, dateController.todayM, dateController.todayY), "task", 6, 24);
+    }
+    
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        //mainLayout.getToDoLayout().init();
     }
     
     public MainLayout getLayout()

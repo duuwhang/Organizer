@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import com.organizer.MainActivity;
 import com.organizer.layouts.BaseLayout;
 
@@ -27,8 +29,31 @@ public class ToDoLayout extends BaseLayout
         TextView textView = new TextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         textSize = (int) textView.getTextSize();
-        
+    }
+    
+    public void init()
+    {
         updateTasks();
+    }
+    
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility)
+    {
+        super.onVisibilityChanged(changedView, visibility);
+        
+        if (visibility == VISIBLE)
+        {
+            int scrollOffset = rowWidths[getMinWidthRow()];
+            for (int i = 0; i < getChildCount(); i++)
+            {
+                TaskLayout task = (TaskLayout) getChildAt(i);
+                if (!task.completed && task.left < scrollOffset)
+                {
+                    scrollOffset = task.left;
+                }
+            }
+            MainActivity.getInstance().getLayout().getScrollLayout().scrollTo(scrollOffset, 0);
+        }
     }
     
     @Override
@@ -108,6 +133,7 @@ public class ToDoLayout extends BaseLayout
         
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("taskTitle" + taskCount, title);
+        editor.putBoolean("taskCompleted"+ taskCount, false);
         editor.putInt("taskCount", taskCount + 1);
         editor.apply();
         
