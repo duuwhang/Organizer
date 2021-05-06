@@ -7,7 +7,6 @@ The app is able to:
 - remind you when to depart
 - tell you when to work out based on your free time
 - remind you to work on urgent tasks that approach their deadline
-- organize a To-Do list
 
 ## How to install Organizer on Android
 - Visit Organizer's GitHub releases at https://github.com/duuwhang/Organizer/releases.
