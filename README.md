@@ -1,7 +1,8 @@
 # Organizer
-Organizer is an Android app that organizes your day through an array of automated features. It also includes a synchronized To-Do list.
+Organizer is an Android app that organizes your day through an array of automated features. It includes a calendar with an overview of the upcoming days and a synchronized To-Do list.
 
 The app is able to:
+- show repeated events
 - automatically set morning alarm clocks based on events
 - calculate public transport departure times
 - remind you when to depart
