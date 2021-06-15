@@ -113,7 +113,15 @@ public class ToDoLayout extends BaseLayout
         int taskCount = preferences.getInt("taskCount", 1);
         for (int i = 0; i < taskCount; i++)
         {
-            TaskLayout task = new TaskLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
+            TaskLayout task;
+            if (preferences.getBoolean("isFolder" + i, false))
+            {
+                task = new FolderLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
+            }
+            else
+            {
+                task = new TaskLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
+            }
             task.setCompleted(preferences.getBoolean("taskCompleted" + i, false));
             addView(task);
             task.title.measure(0, 0);
@@ -126,14 +134,15 @@ public class ToDoLayout extends BaseLayout
         }
     }
     
-    public TaskLayout addTask(String title)
+    public TaskLayout addTask(String title, boolean isFolder)
     {
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
         int taskCount = preferences.getInt("taskCount", 0);
         
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("taskTitle" + taskCount, title);
-        editor.putBoolean("taskCompleted"+ taskCount, false);
+        editor.putBoolean("taskCompleted" + taskCount, false);
+        editor.putBoolean("isFolder" + taskCount, isFolder);
         editor.putInt("taskCount", taskCount + 1);
         editor.apply();
         

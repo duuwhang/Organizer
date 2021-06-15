@@ -24,14 +24,6 @@ public class TaskLayout extends BaseLayout
     private final Rect backgroundRect = new Rect();
     private final Rect childRect = new Rect();
     
-    public TaskLayout(Context context, ToDoLayout parent)
-    {
-        super(context);
-        this.parent = parent;
-        init();
-        this.title.setText("Task");
-    }
-    
     public TaskLayout(Context context, ToDoLayout parent, String title)
     {
         super(context);

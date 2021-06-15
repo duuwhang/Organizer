@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.organizer.MainActivity;
@@ -22,6 +23,7 @@ public class AddTaskLayout extends BaseLayout
     private Button addButton;
     private TextView displayText;
     private EditText titleEditText;
+    private FolderCheckOption folderCheckOption;
     private final Rect childRect = new Rect();
     private final Rect optionsRect = new Rect();
     
@@ -42,7 +44,9 @@ public class AddTaskLayout extends BaseLayout
             {
                 if (!titleEditText.getText().toString().equals(""))
                 {
-                    TaskLayout task = MainActivity.getInstance().getLayout().getToDoLayout().addTask(titleEditText.getText().toString());
+                    TaskLayout task = MainActivity.getInstance().getLayout().getToDoLayout().addTask(
+                        titleEditText.getText().toString(),
+                        ((CheckBox) folderCheckOption.getChildAt(0)).isChecked());
                     
                     MainActivity.getInstance().getLayout().toggleAddLayout(false);
                     titleEditText.setText("");
@@ -86,7 +90,10 @@ public class AddTaskLayout extends BaseLayout
             }
         });
         addView(titleEditText);
-        addView(new Button(context));
+        
+        folderCheckOption = new FolderCheckOption(context);
+        addView(folderCheckOption);
+        
         addView(new Button(context));
         addView(new Button(context));
         addView(new Button(context));
