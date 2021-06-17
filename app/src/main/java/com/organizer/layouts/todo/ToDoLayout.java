@@ -34,12 +34,6 @@ public class ToDoLayout extends BaseLayout
         TextView textView = new TextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         textSize = (int) textView.getTextSize();
-        init();
-    }
-    
-    public void init()
-    {
-        updateTasks();
     }
     
     @Override
@@ -65,7 +59,7 @@ public class ToDoLayout extends BaseLayout
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        //updateTasks();
+        updateTasks();
         
         for (int i = 0; i < getChildCount(); i++)
         {
@@ -84,14 +78,11 @@ public class ToDoLayout extends BaseLayout
     {
         int minWidthIndex = 0;
         
-        if (rowWidths.length > 1)
+        for (int row = 1; row < rowWidths.length; row++)
         {
-            for (int row = 1; row < rowWidths.length; row++)
+            if (rowWidths[row] < rowWidths[minWidthIndex])
             {
-                if (rowWidths[row] < rowWidths[minWidthIndex])
-                {
-                    minWidthIndex = row;
-                }
+                minWidthIndex = row;
             }
         }
         return minWidthIndex;
@@ -118,20 +109,20 @@ public class ToDoLayout extends BaseLayout
         rowWidths = new int[rows];
         
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
-        
-        int taskCount = preferences.getInt("taskCount", 1);
-        for (int i = 0; i < taskCount; i++)
+        String[] root = preferences.getString("root", "").split(";;");
+        for (int i = 0; i < root.length || i == 0; i++)
         {
+            String[] s = preferences.getString(root[i], "Add Tasks;;0").split(";;");
             TaskLayout task;
-            if (preferences.getBoolean("isFolder" + i, false))
+            if (root[i].startsWith("folder"))
             {
-                task = new FolderLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
+                task = new FolderLayout(context, this, Integer.parseInt(root[i].substring(6)), s[0]);
             }
             else
             {
-                task = new TaskLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
+                task = new TaskLayout(context, this, s[0]);
             }
-            task.setCompleted(preferences.getBoolean("taskCompleted" + i, false));
+            task.setCompleted(s[1].equals("1"));
             addView(task);
             task.title.measure(0, 0);
             
@@ -146,16 +137,26 @@ public class ToDoLayout extends BaseLayout
     public TaskLayout addTask(String title, boolean isFolder)
     {
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
-        int taskCount = preferences.getInt("taskCount", 0);
-        
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("taskTitle" + taskCount, title);
-        editor.putBoolean("taskCompleted" + taskCount, false);
-        editor.putBoolean("isFolder" + taskCount, isFolder);
-        editor.putInt("taskCount", taskCount + 1);
+        if (isFolder)
+        {
+            int folderCount = preferences.getInt("folderCount", 0);
+            editor.putString("folder" + folderCount, title + ";;0");
+            editor.putInt("folderCount", folderCount + 1);
+            String root = preferences.getString("root", "");
+            editor.putString("root", root + (root.equals("") ? "" : ";;") + "folder" + folderCount);
+        }
+        else
+        {
+            int taskCount = preferences.getInt("taskCount", 0);
+            editor.putString("task" + taskCount, title + ";;0");
+            editor.putInt("taskCount", taskCount + 1);
+            String root = preferences.getString("root", "");
+            editor.putString("root", root + (root.equals("") ? "" : ";;") + "task" + taskCount);
+        }
         editor.apply();
         
         updateTasks();
-        return (TaskLayout) getChildAt(taskCount);
+        return (TaskLayout) getChildAt(getChildCount() - 1);
     }
 }

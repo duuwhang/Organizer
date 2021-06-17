@@ -3,22 +3,23 @@ package com.organizer.layouts.todo;
 import android.content.Context;
 import android.graphics.drawable.PaintDrawable;
 import com.organizer.MainActivity;
-import com.organizer.Task;
 
 public class FolderLayout extends TaskLayout
 {
-    private Task[] tasks;
+    public int id;
     
-    public FolderLayout(Context context, ToDoLayout parent, String title)
+    public FolderLayout(Context context, ToDoLayout parent, int id, String title)
     {
         super(context, parent, title);
+        this.id = id;
         ((PaintDrawable) background.getBackground()).setCornerRadius(MainActivity.getDisplayMetricsController().dpToPx(4));
         setOnClickListener(view -> open());
     }
     
-    public FolderLayout(Context context, ToDoLayout parent, FolderLayout folder)
+    public FolderLayout(FolderLayout folder)
     {
-        super(context, parent, folder.title.getText().toString());
+        super(folder.context, folder.parent, folder.title.getText().toString());
+        id = folder.id;
         ((PaintDrawable) background.getBackground()).setCornerRadius(MainActivity.getDisplayMetricsController().dpToPx(4));
         setOnClickListener(view -> close());
     }

@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.organizer.MainActivity;
 import com.organizer.R;
 import com.organizer.layouts.BaseLayout;
+import com.organizer.layouts.MainLayout;
 import com.organizer.layouts.todo.TaskLayout;
+import com.organizer.layouts.todo.ToDoLayout;
 
 public class AddTaskLayout extends BaseLayout
 {
@@ -44,7 +46,13 @@ public class AddTaskLayout extends BaseLayout
             {
                 if (!titleEditText.getText().toString().equals(""))
                 {
-                    TaskLayout task = MainActivity.getInstance().getLayout().getToDoLayout().addTask(
+                    MainLayout mainLayout = MainActivity.getInstance().getLayout();
+                    ToDoLayout toDoLayout = mainLayout.getToDoLayout();
+                    if (mainLayout.getToDoFolderScrollLayout().getVisibility() == VISIBLE)
+                    {
+                        toDoLayout = mainLayout.getToDoFolderLayout();
+                    }
+                    TaskLayout task = toDoLayout.addTask(
                         titleEditText.getText().toString(),
                         ((CheckBox) folderCheckOption.getChildAt(0)).isChecked());
                     
