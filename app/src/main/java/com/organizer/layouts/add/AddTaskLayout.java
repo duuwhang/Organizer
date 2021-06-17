@@ -53,7 +53,7 @@ public class AddTaskLayout extends BaseLayout
                     titleEditText.setHintTextColor(defaultHintColor);
                     titleEditText.clearFocus();
                     
-                    MainActivity.getInstance().getLayout().getScrollLayout().scrollTo(task.left, 0);
+                    MainActivity.getInstance().getLayout().getToDoScrollLayout().scrollTo(task.left, 0);
                 }
                 else
                 {

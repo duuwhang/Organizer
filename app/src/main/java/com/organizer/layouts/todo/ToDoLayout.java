@@ -1,7 +1,9 @@
 package com.organizer.layouts.todo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.TypedValue;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.organizer.MainActivity;
 import com.organizer.layouts.BaseLayout;
+import static com.organizer.R.color.colorBackground;
 
 public class ToDoLayout extends BaseLayout
 {
@@ -17,18 +20,21 @@ public class ToDoLayout extends BaseLayout
     protected int heightMargin = MainActivity.getDisplayMetricsController().dpToPx(10);
     protected int textSizeSp = 18;
     protected int textSize;
-    protected int[] rowWidths;
+    protected int[] rowWidths = new int[1];
     protected int rows;
     private final Rect childRect = new Rect();
     
+    @SuppressLint("ResourceType")
     public ToDoLayout(Context context)
     {
         super(context);
+        setBackgroundColor(Color.parseColor(getResources().getString(colorBackground)));
         setLayoutParams(new LayoutParams(Integer.MAX_VALUE, LayoutParams.MATCH_PARENT));
         
         TextView textView = new TextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         textSize = (int) textView.getTextSize();
+        init();
     }
     
     public void init()
@@ -52,14 +58,14 @@ public class ToDoLayout extends BaseLayout
                     scrollOffset = task.left;
                 }
             }
-            MainActivity.getInstance().getLayout().getScrollLayout().scrollTo(scrollOffset, 0);
+            MainActivity.getInstance().getLayout().getToDoScrollLayout().scrollTo(scrollOffset, 0);
         }
     }
     
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        updateTasks();
+        //updateTasks();
         
         for (int i = 0; i < getChildCount(); i++)
         {
@@ -74,15 +80,18 @@ public class ToDoLayout extends BaseLayout
         }
     }
     
-    private int getMinWidthRow()
+    protected int getMinWidthRow()
     {
         int minWidthIndex = 0;
         
-        for (int row = 1; row < rowWidths.length; row++)
+        if (rowWidths.length > 1)
         {
-            if (rowWidths[row] < rowWidths[minWidthIndex])
+            for (int row = 1; row < rowWidths.length; row++)
             {
-                minWidthIndex = row;
+                if (rowWidths[row] < rowWidths[minWidthIndex])
+                {
+                    minWidthIndex = row;
+                }
             }
         }
         return minWidthIndex;
@@ -102,7 +111,7 @@ public class ToDoLayout extends BaseLayout
         return maxWidth + widthMargin;
     }
     
-    private void updateTasks()
+    protected void updateTasks()
     {
         removeAllViews();
         rows = Integer.max(1, MainActivity.getDisplayMetricsController().getScreenHeight() / (textSize + roundingRadius + heightMargin * 2));
