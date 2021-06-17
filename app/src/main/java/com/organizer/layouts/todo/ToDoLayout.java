@@ -102,7 +102,7 @@ public class ToDoLayout extends BaseLayout
         return maxWidth + widthMargin;
     }
     
-    protected void updateTasks()
+    public void updateTasks()
     {
         removeAllViews();
         rows = Integer.max(1, MainActivity.getDisplayMetricsController().getScreenHeight() / (textSize + roundingRadius + heightMargin * 2));

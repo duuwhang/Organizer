@@ -42,7 +42,7 @@ public class ToDoFolderLayout extends ToDoLayout
     }
     
     @Override
-    protected void updateTasks()
+    public void updateTasks()
     {
         if (folder != null)
         {

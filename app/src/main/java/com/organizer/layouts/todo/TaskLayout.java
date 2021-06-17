@@ -52,7 +52,11 @@ public class TaskLayout extends BaseLayout
         title.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         addView(title);
         
-        setOnClickListener(view -> toggleCompleted());
+        setOnClickListener(view ->
+        {
+            setCompleted(!completed);
+            updateFolderCompletions();
+        });
     }
     
     @Override
@@ -80,9 +84,39 @@ public class TaskLayout extends BaseLayout
         title.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
     }
     
-    public void toggleCompleted()
+    private void updateFolderCompletions()
     {
-        setCompleted(!completed);
+        SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        for (int i = 0; i < preferences.getInt("folderCount", 0); i++)
+        {
+            String[] folder = preferences.getString("folder" + i, "Add Tasks;;0").split(";;");
+            if (folder.length > 2)
+            {
+                completed = true;
+                for (int j = 2; j < folder.length; j++)
+                {
+                    if ("0".equals(preferences.getString(folder[j], "").split(";;")[1]))
+                    {
+                        completed = false;
+                        break;
+                    }
+                }
+                
+                folder[1] = completed ? "1" : "0";
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int j = 0; j < folder.length; j++)
+                {
+                    stringBuilder.append(folder[j]).append(j == folder.length - 1 ? "" : ";;");
+                }
+                
+                editor.putString("folder" + i, stringBuilder.toString());
+            }
+        }
+        editor.apply();
+        
+        MainActivity.getInstance().getLayout().getToDoLayout().updateTasks();
+        MainActivity.getInstance().getLayout().getToDoFolderLayout().updateTasks();
     }
     
     public void setCompleted(boolean completed)
