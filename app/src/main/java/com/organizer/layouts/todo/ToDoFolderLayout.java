@@ -72,7 +72,7 @@ public class ToDoFolderLayout extends ToDoLayout
                 }
                 else
                 {
-                    task = new TaskLayout(context, this, s[0]);
+                    task = new TaskLayout(context, this, Integer.parseInt(root[i].substring(4)), s[0]);
                 }
                 task.setCompleted(s[1].equals("1"));
                 addView(task);

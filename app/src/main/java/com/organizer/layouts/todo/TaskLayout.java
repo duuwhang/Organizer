@@ -15,6 +15,7 @@ import static com.organizer.R.color.colorPrimaryDark;
 public class TaskLayout extends BaseLayout
 {
     boolean completed;
+    public int id;
     public int left;
     public int right;
     public int row;
@@ -24,10 +25,11 @@ public class TaskLayout extends BaseLayout
     private final Rect backgroundRect = new Rect();
     private final Rect childRect = new Rect();
     
-    public TaskLayout(Context context, ToDoLayout parent, String title)
+    public TaskLayout(Context context, ToDoLayout parent, int id, String title)
     {
         super(context);
         this.parent = parent;
+        this.id = id;
         init();
         this.title.setText(title);
     }
@@ -50,7 +52,7 @@ public class TaskLayout extends BaseLayout
         title.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         addView(title);
         
-        setOnClickListener(view -> setCompleted(!completed));
+        setOnClickListener(view -> toggleCompleted());
     }
     
     @Override
@@ -78,6 +80,11 @@ public class TaskLayout extends BaseLayout
         title.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
     }
     
+    public void toggleCompleted()
+    {
+        setCompleted(!completed);
+    }
+    
     public void setCompleted(boolean completed)
     {
         this.completed = completed;
@@ -85,8 +92,14 @@ public class TaskLayout extends BaseLayout
         
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        int id = parent.indexOfChild(this);
-        editor.putBoolean("taskCompleted" + id, completed);
+        String[] task = preferences.getString("task" + id, "Add Tasks;;0").split(";;");
+        task[1] = completed ? "1" : "0";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < task.length; i++)
+        {
+            stringBuilder.append(task[i]).append(i == task.length - 1 ? "" : ";;");
+        }
+        editor.putString("task" + id, stringBuilder.toString());
         editor.apply();
     }
 }
