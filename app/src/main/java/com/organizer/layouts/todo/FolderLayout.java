@@ -13,7 +13,7 @@ public class FolderLayout extends TaskLayout
         super(context, parent, title);
         this.id = id;
         ((PaintDrawable) background.getBackground()).setCornerRadius(MainActivity.getDisplayMetricsController().dpToPx(4));
-        setOnClickListener(view -> open());
+        setOnClickListener(view -> MainActivity.getInstance().getLayout().getToDoFolderLayout().show(this));
     }
     
     public FolderLayout(FolderLayout folder)
@@ -21,16 +21,6 @@ public class FolderLayout extends TaskLayout
         super(folder.context, folder.parent, folder.title.getText().toString());
         id = folder.id;
         ((PaintDrawable) background.getBackground()).setCornerRadius(MainActivity.getDisplayMetricsController().dpToPx(4));
-        setOnClickListener(view -> close());
-    }
-    
-    private void open()
-    {
-        MainActivity.getInstance().getLayout().getToDoFolderLayout().show(this);
-    }
-    
-    private void close()
-    {
-        MainActivity.getInstance().getLayout().getToDoFolderLayout().hide();
+        setOnClickListener(view -> MainActivity.getInstance().getLayout().getToDoFolderLayout().hide());
     }
 }
