@@ -7,8 +7,8 @@ import android.view.WindowMetrics;
 
 public class DisplayMetricsController
 {
-    private float pixelDensity;
-    private WindowManager windowManager;
+    private final float pixelDensity;
+    private final WindowManager windowManager;
     
     public DisplayMetricsController(WindowManager windowManager, float pixelDensity)
     {
@@ -21,6 +21,7 @@ public class DisplayMetricsController
         return (int) (dp * pixelDensity);
     }
     
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     public int getScreenHeight()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
@@ -36,6 +37,7 @@ public class DisplayMetricsController
         }
     }
     
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     public int getScreenWidth()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
