@@ -1,7 +1,9 @@
 package com.organizer.layouts.todo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.TypedValue;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.organizer.MainActivity;
 import com.organizer.layouts.BaseLayout;
+import static com.organizer.R.color.colorBackground;
 
 public class ToDoLayout extends BaseLayout
 {
@@ -17,23 +20,20 @@ public class ToDoLayout extends BaseLayout
     protected int heightMargin = MainActivity.getDisplayMetricsController().dpToPx(10);
     protected int textSizeSp = 18;
     protected int textSize;
-    protected int[] rowWidths;
+    protected int[] rowWidths = new int[1];
     protected int rows;
     private final Rect childRect = new Rect();
     
+    @SuppressLint("ResourceType")
     public ToDoLayout(Context context)
     {
         super(context);
+        setBackgroundColor(Color.parseColor(getResources().getString(colorBackground)));
         setLayoutParams(new LayoutParams(Integer.MAX_VALUE, LayoutParams.MATCH_PARENT));
         
         TextView textView = new TextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         textSize = (int) textView.getTextSize();
-    }
-    
-    public void init()
-    {
-        updateTasks();
     }
     
     @Override
@@ -52,7 +52,7 @@ public class ToDoLayout extends BaseLayout
                     scrollOffset = task.left;
                 }
             }
-            MainActivity.getInstance().getLayout().getScrollLayout().scrollTo(scrollOffset, 0);
+            MainActivity.getInstance().getLayout().getToDoScrollLayout().scrollTo(scrollOffset, 0);
         }
     }
     
@@ -74,7 +74,7 @@ public class ToDoLayout extends BaseLayout
         }
     }
     
-    private int getMinWidthRow()
+    protected int getMinWidthRow()
     {
         int minWidthIndex = 0;
         
@@ -102,19 +102,27 @@ public class ToDoLayout extends BaseLayout
         return maxWidth + widthMargin;
     }
     
-    private void updateTasks()
+    public void updateTasks()
     {
         removeAllViews();
         rows = Integer.max(1, MainActivity.getDisplayMetricsController().getScreenHeight() / (textSize + roundingRadius + heightMargin * 2));
         rowWidths = new int[rows];
         
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
-        
-        int taskCount = preferences.getInt("taskCount", 1);
-        for (int i = 0; i < taskCount; i++)
+        String[] root = preferences.getString("root", "").split(";;");
+        for (int i = 0; i < root.length || i == 0; i++)
         {
-            TaskLayout task = new TaskLayout(context, this, preferences.getString("taskTitle" + i, "Add Tasks"));
-            task.setCompleted(preferences.getBoolean("taskCompleted" + i, false));
+            String[] s = preferences.getString(root[i], "Add Tasks;;0").split(";;");
+            TaskLayout task;
+            if (root[i].startsWith("folder"))
+            {
+                task = new FolderLayout(context, this, Integer.parseInt(root[i].substring(6)), s[0]);
+            }
+            else
+            {
+                task = new TaskLayout(context, this, Integer.parseInt(root[i].substring(4)), s[0]);
+            }
+            task.setCompleted(s[1].equals("1"));
             addView(task);
             task.title.measure(0, 0);
             
@@ -126,18 +134,29 @@ public class ToDoLayout extends BaseLayout
         }
     }
     
-    public TaskLayout addTask(String title)
+    public TaskLayout addTask(String title, boolean isFolder)
     {
         SharedPreferences preferences = MainActivity.getInstance().getPreferences(Context.MODE_PRIVATE);
-        int taskCount = preferences.getInt("taskCount", 0);
-        
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("taskTitle" + taskCount, title);
-        editor.putBoolean("taskCompleted"+ taskCount, false);
-        editor.putInt("taskCount", taskCount + 1);
+        if (isFolder)
+        {
+            int folderCount = preferences.getInt("folderCount", 0);
+            editor.putString("folder" + folderCount, title + ";;0");
+            editor.putInt("folderCount", folderCount + 1);
+            String root = preferences.getString("root", "");
+            editor.putString("root", root + (root.equals("") ? "" : ";;") + "folder" + folderCount);
+        }
+        else
+        {
+            int taskCount = preferences.getInt("taskCount", 0);
+            editor.putString("task" + taskCount, title + ";;0");
+            editor.putInt("taskCount", taskCount + 1);
+            String root = preferences.getString("root", "");
+            editor.putString("root", root + (root.equals("") ? "" : ";;") + "task" + taskCount);
+        }
         editor.apply();
         
         updateTasks();
-        return (TaskLayout) getChildAt(taskCount);
+        return (TaskLayout) getChildAt(getChildCount() - 1);
     }
 }

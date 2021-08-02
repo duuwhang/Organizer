@@ -17,7 +17,7 @@ public class AddLayout extends BaseLayout
         drawable.setTint(Color.BLACK);
         drawable.setAlpha(125);
         setBackground(drawable);
-    
+        
         AddTaskLayout addTaskLayout = new AddTaskLayout(context);
         addView(addTaskLayout);
         
@@ -52,7 +52,7 @@ public class AddLayout extends BaseLayout
         }
     }
     
-    public void showLayout(Object addLayoutClass)
+    public void show(Object addLayoutClass)
     {
         for (int i = 0; i < getChildCount(); i++)
         {

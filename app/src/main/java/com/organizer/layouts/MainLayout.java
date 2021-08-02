@@ -17,6 +17,7 @@ import com.organizer.layouts.add.AddEventLayout;
 import com.organizer.layouts.add.AddLayout;
 import com.organizer.layouts.add.AddTaskLayout;
 import com.organizer.layouts.calendar.CalendarLayout;
+import com.organizer.layouts.todo.ToDoFolderLayout;
 import com.organizer.layouts.todo.ToDoLayout;
 
 public class MainLayout extends BaseLayout
@@ -24,8 +25,10 @@ public class MainLayout extends BaseLayout
     int scrollChildCount;
     private int startingChild = 1;
     private int currentChild;
-    HorizontalScrollLayout scrollLayout;
+    HorizontalScrollLayout toDoScrollLayout;
+    HorizontalScrollLayout toDoFolderScrollLayout;
     ToDoLayout toDoLayout;
+    ToDoFolderLayout toDoFolderLayout;
     CalendarLayout calendarLayout;
     FloatingActionButton addButton;
     AddLayout addLayout;
@@ -47,10 +50,9 @@ public class MainLayout extends BaseLayout
         
         toDoLayout = new ToDoLayout(context);
         
-        scrollLayout = new HorizontalScrollLayout(context);
-        scrollLayout.setOverScrollMode(OVER_SCROLL_NEVER);
-        scrollLayout.addContentView(toDoLayout);
-        addView(scrollLayout);
+        toDoScrollLayout = new HorizontalScrollLayout(context);
+        toDoScrollLayout.addContentView(toDoLayout);
+        addView(toDoScrollLayout);
         
         calendarLayout = new CalendarLayout(context);
         addView(calendarLayout);
@@ -68,6 +70,12 @@ public class MainLayout extends BaseLayout
         currentChild = startingChild;
         getChildAt(startingChild).setVisibility(View.VISIBLE);
         
+        toDoFolderLayout = new ToDoFolderLayout(context);
+        
+        toDoFolderScrollLayout = new HorizontalScrollLayout(context);
+        toDoFolderScrollLayout.setVisibility(INVISIBLE);
+        toDoFolderScrollLayout.addContentView(toDoFolderLayout);
+        addView(toDoFolderScrollLayout);
         
         addButton = new FloatingActionButton(context);
         addButton.setImageResource(R.drawable.add_button);
@@ -109,17 +117,17 @@ public class MainLayout extends BaseLayout
     {
         if (visibility)
         {
-            scrollLayout.setScrollable(false);
-            scrollLayout.setClickable(false);
+            toDoScrollLayout.setScrollable(false);
+            toDoScrollLayout.setClickable(false);
             
             addLayout.setVisibility(VISIBLE);
-            if (getChildAt(currentChild).equals(scrollLayout))
+            if (getChildAt(currentChild).equals(toDoScrollLayout))
             {
-                addLayout.showLayout(AddTaskLayout.class);
+                addLayout.show(AddTaskLayout.class);
             }
             else if (getChildAt(currentChild).equals(calendarLayout))
             {
-                addLayout.showLayout(AddEventLayout.class);
+                addLayout.show(AddEventLayout.class);
             }
             
             RotateAnimation rotate = new RotateAnimation(0, 135, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -130,8 +138,8 @@ public class MainLayout extends BaseLayout
         }
         else
         {
-            scrollLayout.setScrollable(true);
-            scrollLayout.setClickable(true);
+            toDoScrollLayout.setScrollable(true);
+            toDoScrollLayout.setClickable(true);
             
             addLayout.setVisibility(INVISIBLE);
             
@@ -143,14 +151,24 @@ public class MainLayout extends BaseLayout
         }
     }
     
-    public HorizontalScrollLayout getScrollLayout()
+    public HorizontalScrollLayout getToDoScrollLayout()
     {
-        return scrollLayout;
+        return toDoScrollLayout;
+    }
+    
+    public HorizontalScrollLayout getToDoFolderScrollLayout()
+    {
+        return toDoFolderScrollLayout;
     }
     
     public ToDoLayout getToDoLayout()
     {
         return toDoLayout;
+    }
+    
+    public ToDoFolderLayout getToDoFolderLayout()
+    {
+        return toDoFolderLayout;
     }
     
     public CalendarLayout getCalendarLayout()

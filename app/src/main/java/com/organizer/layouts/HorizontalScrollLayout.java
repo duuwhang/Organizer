@@ -3,17 +3,18 @@ package com.organizer.layouts;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import com.organizer.MainActivity;
+import com.organizer.layouts.todo.ToDoLayout;
 
 public class HorizontalScrollLayout extends HorizontalScrollView
 {
     private boolean scrollable = true;
     private Context context;
     LinearLayout linearLayout;
+    ToDoLayout toDoLayout;
     
     public boolean isScrollable()
     {
@@ -49,6 +50,7 @@ public class HorizontalScrollLayout extends HorizontalScrollView
     private void init()
     {
         setHorizontalScrollBarEnabled(false);
+        setOverScrollMode(OVER_SCROLL_NEVER);
         setLayoutParams(new ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.MATCH_PARENT));
@@ -60,8 +62,9 @@ public class HorizontalScrollLayout extends HorizontalScrollView
         addView(linearLayout);
     }
     
-    public void addContentView(View contentView)
+    public void addContentView(ToDoLayout contentView)
     {
+        toDoLayout = contentView;
         linearLayout.addView(contentView);
     }
     
@@ -93,11 +96,11 @@ public class HorizontalScrollLayout extends HorizontalScrollView
     }
     
     @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt)
+    protected void onScrollChanged(int left, int top, int oldLeft, int oldTop)
     {
-        super.onScrollChanged(l, t, oldl, oldt);
-        int width = MainActivity.getInstance().getLayout().getToDoLayout().getMaxWidth() - MainActivity.getDisplayMetricsController().getScreenWidth();
-        if (l > width)
+        super.onScrollChanged(left, top, oldLeft, oldTop);
+        int width = toDoLayout.getMaxWidth() - MainActivity.getDisplayMetricsController().getScreenWidth();
+        if (left > width)
         {
             scrollTo(width, 0);
         }
