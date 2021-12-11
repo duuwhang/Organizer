@@ -116,11 +116,11 @@ public class ToDoLayout extends BaseLayout
             TaskLayout task;
             if (root[i].startsWith("folder"))
             {
-                task = new FolderLayout(context, this, Integer.parseInt(root[i].substring(6)), s[0]);
+                task = new FolderLayout(context, this, root[i].equals("") ? 0 : Integer.parseInt(root[i].substring(6)), s[0]);
             }
             else
             {
-                task = new TaskLayout(context, this, Integer.parseInt(root[i].substring(4)), s[0]);
+                task = new TaskLayout(context, this, root[i].equals("") ? 0 : Integer.parseInt(root[i].substring(4)), s[0]);
             }
             task.setCompleted(s[1].equals("1"));
             addView(task);
