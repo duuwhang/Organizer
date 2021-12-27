@@ -9,8 +9,7 @@ The app is able to:
 - tell you when to work out based on your free time
 - remind you to work on urgent tasks that approach their deadline
 
-## How to install Organizer on Android
+## How to install Organizer on Android 8 (Oreo) and up
 - Visit Organizer's GitHub releases at https://github.com/duuwhang/Organizer/releases.
 - Download the Organizer.apk under Assets and follow Android's app install instructions.
 - If the app does not install, try an older Organizer Version.
-
