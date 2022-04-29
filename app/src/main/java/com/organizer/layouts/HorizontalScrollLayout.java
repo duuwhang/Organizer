@@ -71,7 +71,6 @@ public class HorizontalScrollLayout extends HorizontalScrollView
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev)
     {
-        
         if (isScrollable())
         {
             return super.onInterceptTouchEvent(ev);
@@ -87,12 +86,19 @@ public class HorizontalScrollLayout extends HorizontalScrollView
     {
         if (isScrollable())
         {
+            super.performClick();
             return super.onTouchEvent(ev);
         }
         else
         {
             return false;
         }
+    }
+    
+    @Override
+    public boolean performClick()
+    {
+        return super.performClick();
     }
     
     @Override

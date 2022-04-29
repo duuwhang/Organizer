@@ -41,16 +41,15 @@ public class MainActivity extends AppCompatActivity
         displayMetricsController = new DisplayMetricsController(getWindowManager(), getResources().getDisplayMetrics().density);
         dateController = new DateController();
         
-        
         mainLayout = new MainLayout(this);
         setContentView(mainLayout);
         
-        new Task(this, dateController.buildId(dateController.todayD, dateController.todayM, dateController.todayY), "task", 8, 12);
-        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 6, 8);
-        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "task", 9, 15);
-        new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 6, 17);
-        new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "task", 17, 18);
-        new Task(this, dateController.buildId(dateController.todayD + 3, dateController.todayM, dateController.todayY), "task", 6, 24);
+        new Task(this, dateController.buildId(dateController.todayD, dateController.todayM, dateController.todayY), "Work", 8, 12);
+        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "Programming", 6, 8);
+        new Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "Dancing", 9, 15);
+        new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "Work", 6, 17);
+        new Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "Family Dinner", 17, 18);
+        new Task(this, dateController.buildId(dateController.todayD + 3, dateController.todayM, dateController.todayY), "Dancing", 6, 24);
     }
     
     @Override
