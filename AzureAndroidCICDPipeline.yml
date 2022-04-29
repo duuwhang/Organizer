@@ -13,8 +13,8 @@ stages:
             persistCredentials: true
 
           - script: |
-              echo "##vso[task.setvariable variable=MinSdkVersion;isOutput=true]`grep 'minSdkVersion' $(MacRoot)/app/build.gradle | tr 'minSdkVersion' ' '| sed 's/ //g'`"
-              echo "##vso[task.setvariable variable=TargetSdkVersion;isOutput=true]`grep 'targetSdkVersion' $(MacRoot)/app/build.gradle | tr 'targetSdkVersion' ' '| sed 's/ //g'`"
+              echo "##vso[task.setvariable variable=MinSdkVersion;isOutput=true]`grep 'minSdk' $(MacRoot)/app/build.gradle.kts | tr 'minSdk' ' '| tr '=' ' '| sed 's/ //g'`"
+              echo "##vso[task.setvariable variable=TargetSdkVersion;isOutput=true]`grep 'targetSdk' $(MacRoot)/app/build.gradle.kts | tr 'targetSdk' ' '| tr '=' ' '| sed 's/ //g'`"
             displayName: Read SDK Versions
             name: ReadSDKVersions
 
@@ -137,7 +137,7 @@ stages:
             persistCredentials: true
 
           - script: |
-              echo "##vso[task.setvariable variable=Version;isOutput=true]`grep 'versionName' $(Root)/app/build.gradle | tr '"' ' ' | tr 'versionName' ' '| sed 's/ //g'`"
+              echo "##vso[task.setvariable variable=Version;isOutput=true]`grep 'versionName' $(Root)/app/build.gradle.kts | tr '"' ' ' | tr '=' ' ' | tr 'versionName' ' '| sed 's/ //g'`"
             displayName: Read Release Version
             name: ReadReleaseVersion
             condition: always()
