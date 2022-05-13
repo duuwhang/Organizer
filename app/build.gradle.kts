@@ -43,6 +43,7 @@ android {
             java.srcDir("src/main/kotlin")
         }
     }
+    namespace = "com.organizer"
 }
 
 tasks.withType<JavaCompile> {
