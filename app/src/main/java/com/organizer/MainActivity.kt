@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -44,8 +43,8 @@ class MainActivity : AppCompatActivity() {
         Task(this, dateController.buildId(dateController.todayD + 3, dateController.todayM, dateController.todayY), "Dancing", 6.0, 24.0)
     }
 
-    override fun onResume() {
-        super.onResume()
-        //mainLayout.getToDoLayout().init();
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        mainLayout.getToDoLayout().init();
+//    }
 }
