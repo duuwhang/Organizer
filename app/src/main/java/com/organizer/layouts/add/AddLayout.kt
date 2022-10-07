@@ -1,64 +1,55 @@
-package com.organizer.layouts.add;
+package com.organizer.layouts.add
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.view.View;
-import androidx.annotation.NonNull;
-import com.organizer.layouts.BaseLayout;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Color
+import com.organizer.layouts.BaseLayout
+import android.graphics.drawable.GradientDrawable
+import android.view.View
+import com.organizer.layouts.add.AddTaskLayout
+import com.organizer.layouts.add.AddEventLayout
 
-public class AddLayout extends BaseLayout
-{
-    public AddLayout(Context context)
-    {
-        super(context);
-        
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setTint(Color.BLACK);
-        drawable.setAlpha(125);
-        setBackground(drawable);
-        
-        AddTaskLayout addTaskLayout = new AddTaskLayout(context);
-        addView(addTaskLayout);
-        
-        AddEventLayout addEventLayout = new AddEventLayout(context);
-        addView(addEventLayout);
+@SuppressLint("ViewConstructor")
+class AddLayout : BaseLayout() {
+    init {
+        val drawable = GradientDrawable()
+        drawable.setTint(Color.BLACK)
+        drawable.alpha = 125
+        background = drawable
+        val addTaskLayout = AddTaskLayout()
+        addView(addTaskLayout)
+        val addEventLayout = AddEventLayout()
+        addView(addEventLayout)
     }
-    
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom)
-    {
-        int width = right - left;
-        int height = bottom - top;
-        float ratio = (float) Integer.max(width, height) / Integer.min(width, height);
-        int widthMargin = ((int) (width / (ratio * (height >= width ? 3 : 2))));
-        int heightMargin = ((int) (height / (ratio * (width > height ? 3 : 2))));
-        
-        for (int i = 0; i < getChildCount(); i++)
-        {
-            getChildAt(i).layout(left + widthMargin / 2, top + heightMargin / 2, right - widthMargin / 2, bottom - heightMargin / 2);
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        val width = right - left
+        val height = bottom - top
+        val ratio = Integer.max(width, height).toFloat() / Integer.min(width, height)
+        val widthMargin = (width / (ratio * if (height >= width) 3 else 2)).toInt()
+        val heightMargin = (height / (ratio * if (width > height) 3 else 2)).toInt()
+        for (i in 0 until childCount) {
+            getChildAt(i).layout(
+                left + widthMargin / 2,
+                top + heightMargin / 2,
+                right - widthMargin / 2,
+                bottom - heightMargin / 2
+            )
         }
     }
-    
-    @Override
-    protected void onVisibilityChanged(@NonNull View changedView, int visibility)
-    {
-        if (visibility == INVISIBLE)
-        {
-            for (int i = 0; i < getChildCount(); i++)
-            {
-                getChildAt(i).setVisibility(View.INVISIBLE);
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        if (visibility == INVISIBLE) {
+            for (i in 0 until childCount) {
+                getChildAt(i).visibility = INVISIBLE
             }
         }
     }
-    
-    public void show(Object addLayoutClass)
-    {
-        for (int i = 0; i < getChildCount(); i++)
-        {
-            if (getChildAt(i).getClass() == addLayoutClass)
-            {
-                getChildAt(i).setVisibility(View.VISIBLE);
+
+    fun show(addLayoutClass: Any) {
+        for (i in 0 until childCount) {
+            if (getChildAt(i).javaClass == addLayoutClass) {
+                getChildAt(i).visibility = VISIBLE
             }
         }
     }

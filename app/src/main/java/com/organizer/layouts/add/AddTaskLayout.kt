@@ -1,146 +1,103 @@
-package com.organizer.layouts.add;
+package com.organizer.layouts.add
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.GradientDrawable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
-import com.organizer.MainActivity;
-import com.organizer.R;
-import com.organizer.layouts.BaseLayout;
-import com.organizer.layouts.MainLayout;
-import com.organizer.layouts.todo.TaskLayout;
-import com.organizer.layouts.todo.ToDoLayout;
+import android.graphics.Color
+import android.graphics.Rect
+import android.graphics.drawable.GradientDrawable
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.TypedValue
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.TextView
+import com.organizer.DisplayMetricsController
+import com.organizer.MainActivity.Companion.inject
+import com.organizer.R
+import com.organizer.layouts.BaseLayout
+import com.organizer.layouts.MainLayout
 
-public class AddTaskLayout extends BaseLayout
-{
-    private final int defaultHintColor;
-    private Button addButton;
-    private TextView displayText;
-    private EditText titleEditText;
-    private FolderCheckOption folderCheckOption;
-    private final Rect childRect = new Rect();
-    private final Rect optionsRect = new Rect();
-    
-    public AddTaskLayout(Context context)
-    {
-        super(context);
-        
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setTint(Color.DKGRAY);
-        setBackground(drawable);
-        
-        addButton = new Button(context);
-        addButton.setText("Add");
-        addButton.setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (!titleEditText.getText().toString().equals(""))
-                {
-                    MainLayout mainLayout = MainActivity.getInstance().getLayout();
-                    ToDoLayout toDoLayout = mainLayout.getToDoLayout();
-                    if (mainLayout.getToDoFolderScrollLayout().getVisibility() == VISIBLE)
-                    {
-                        toDoLayout = mainLayout.getToDoFolderLayout();
-                    }
-                    TaskLayout task = toDoLayout.addTask(
-                        titleEditText.getText().toString(),
-                        ((CheckBox) folderCheckOption.getChildAt(0)).isChecked());
-                    
-                    MainActivity.getInstance().getLayout().toggleAddLayout(false);
-                    titleEditText.setText("");
-                    titleEditText.setHintTextColor(defaultHintColor);
-                    titleEditText.clearFocus();
-                    
-                    MainActivity.getInstance().getLayout().getToDoScrollLayout().scrollTo(task.left, 0);
+class AddTaskLayout : BaseLayout() {
+    private val displayMetricsController: DisplayMetricsController by inject()
+    private val mainLayout: MainLayout by inject()
+    private val addButton = Button(context)
+    private val displayText = TextView(context)
+    private val titleEditText = EditText(context)
+    private val folderCheckOption = FolderCheckOption()
+    private val defaultHintColor = titleEditText.hintTextColors.defaultColor;
+    private val childRect = Rect()
+    private val optionsRect = Rect()
+
+    init {
+        val drawable = GradientDrawable()
+        drawable.setTint(Color.DKGRAY)
+        background = drawable
+        addButton.text = "Add"
+        addButton.setOnClickListener {
+            if (titleEditText.text.toString() != "") {
+                var toDoLayout = mainLayout.toDoLayout
+                if (mainLayout.toDoFolderScrollLayout.visibility == VISIBLE) {
+                    toDoLayout = mainLayout.toDoFolderLayout
                 }
-                else
-                {
-                    titleEditText.setHintTextColor(getResources().getColor(R.color.colorAccent));
-                }
+                val task = toDoLayout.addTask(
+                    titleEditText.text.toString(),
+                    (folderCheckOption.getChildAt(0) as CheckBox).isChecked
+                )
+                mainLayout.toggleAddLayout(false)
+                titleEditText.setText("")
+                titleEditText.setHintTextColor(defaultHintColor)
+                titleEditText.clearFocus()
+                mainLayout.toDoScrollLayout.scrollTo(task!!.leftX, 0)
+            } else {
+                titleEditText.setHintTextColor(resources.getColor(R.color.colorAccent))
             }
-        });
-        addView(addButton);
-        
-        displayText = new TextView(context);
-        displayText.setText("Add a new Task");
-        displayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        addView(displayText);
-        
-        titleEditText = new EditText(context);
-        defaultHintColor = titleEditText.getHintTextColors().getDefaultColor();
-        titleEditText.setHint("Title");
-        titleEditText.addTextChangedListener(new TextWatcher()
-        {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+        }
+        addView(addButton)
+        displayText.text = "Add a new Task"
+        displayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
+        addView(displayText)
+        titleEditText.hint = "Title"
+        titleEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                titleEditText.setHintTextColor(defaultHintColor)
             }
-            
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                titleEditText.setHintTextColor(defaultHintColor);
-            }
-            
-            @Override
-            public void afterTextChanged(Editable s)
-            {
-            }
-        });
-        addView(titleEditText);
-        
-        folderCheckOption = new FolderCheckOption(context);
-        addView(folderCheckOption);
-        
-        addView(new Button(context));
-        addView(new Button(context));
-        addView(new Button(context));
+
+            override fun afterTextChanged(s: Editable) {}
+        })
+        addView(titleEditText)
+        addView(folderCheckOption)
+        addView(Button(context))
+        addView(Button(context))
+        addView(Button(context))
     }
-    
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom)
-    {
-        int width = right - left;
-        int height = bottom - top;
-        int margin = MainActivity.getDisplayMetricsController().dpToPx(6);
-        
-        childRect.left = width - addButton.getMeasuredWidth() - margin;
-        childRect.top = height - addButton.getMeasuredHeight() - margin;
-        childRect.right = width - margin;
-        childRect.bottom = height - margin;
-        addButton.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
-        
-        margin = MainActivity.getDisplayMetricsController().dpToPx(8);
-        childRect.left = width / 2 - displayText.getMeasuredWidth() / 2;
-        childRect.top = margin;
-        childRect.right = childRect.left + displayText.getMeasuredWidth();
-        childRect.bottom = margin + displayText.getMeasuredHeight();
-        displayText.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
-        
-        optionsRect.left = margin;
-        optionsRect.top = childRect.bottom + margin;
-        optionsRect.right = width - margin;
-        optionsRect.bottom = addButton.getTop() - margin;
-        
-        int currentTop = optionsRect.top;
-        for (int i = 2; i < getChildCount(); i++)
-        {
-            childRect.left = optionsRect.left;
-            childRect.top = currentTop;
-            childRect.right = optionsRect.right;
-            currentTop += getChildAt(i).getMeasuredHeight();
-            childRect.bottom = Integer.min(optionsRect.bottom, currentTop);
-            getChildAt(i).layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        val width = right - left
+        val height = bottom - top
+        var margin = displayMetricsController.dpToPx(6f)
+        childRect.left = width - addButton.measuredWidth - margin
+        childRect.top = height - addButton.measuredHeight - margin
+        childRect.right = width - margin
+        childRect.bottom = height - margin
+        addButton.layout(childRect.left, childRect.top, childRect.right, childRect.bottom)
+        margin = displayMetricsController.dpToPx(8f)
+        childRect.left = width / 2 - displayText.measuredWidth / 2
+        childRect.top = margin
+        childRect.right = childRect.left + displayText.measuredWidth
+        childRect.bottom = margin + displayText.measuredHeight
+        displayText.layout(childRect.left, childRect.top, childRect.right, childRect.bottom)
+        optionsRect.left = margin
+        optionsRect.top = childRect.bottom + margin
+        optionsRect.right = width - margin
+        optionsRect.bottom = addButton.top - margin
+        var currentTop = optionsRect.top
+        for (i in 2 until childCount) {
+            childRect.left = optionsRect.left
+            childRect.top = currentTop
+            childRect.right = optionsRect.right
+            currentTop += getChildAt(i).measuredHeight
+            childRect.bottom = Integer.min(optionsRect.bottom, currentTop)
+            getChildAt(i).layout(childRect.left, childRect.top, childRect.right, childRect.bottom)
         }
     }
 }

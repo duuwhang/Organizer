@@ -1,4 +1,5 @@
 val kotlinVersion: String by rootProject.extra
+val koinVersion: String by rootProject.extra
 
 plugins {
     id("com.android.application")
@@ -59,7 +60,11 @@ dependencies {
     implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    implementation("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-android-compat:$koinVersion")
 
+    testImplementation("io.insert-koin:koin-test:$koinVersion")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:4.3.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
