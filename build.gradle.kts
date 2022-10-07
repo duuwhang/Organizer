@@ -1,6 +1,6 @@
 buildscript {
     var kotlinVersion: String by extra
-    kotlinVersion = "1.6.21"
+    kotlinVersion = "1.7.20"
 
     repositories {
         google()
@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.2.0")
+        classpath("com.android.tools.build:gradle:7.3.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
