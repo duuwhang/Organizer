@@ -1,7 +1,7 @@
 package com.organizer.layouts.todo
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.SharedPreferences
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import com.organizer.DisplayMetricsController
@@ -11,7 +11,8 @@ import com.organizer.layouts.MainLayout
 
 @SuppressLint("ViewConstructor")
 class ToDoFolderLayout : ToDoLayout() {
-    private val mainActivity: MainActivity by inject()
+
+    private val preferences: SharedPreferences by inject()
     private val mainLayout: MainLayout by inject()
     private val displayMetricsController: DisplayMetricsController by inject()
 
@@ -52,8 +53,7 @@ class ToDoFolderLayout : ToDoLayout() {
                 task.leftX + task.title.measuredWidth + roundingRadius * 2 + widthMargin * 2
             task.row = minWidthRow
             rowWidths[minWidthRow] += task.rightX - task.leftX
-            val preferences = mainActivity.getPreferences(Context.MODE_PRIVATE)
-            val root = preferences.getString("folder" + folder!!.id, "Add Tasks;;0")!!
+            val root = preferences.getString("folder${it.id}", "Add Tasks;;0")!!
                 .split(";;").toTypedArray()
             for (i in 2 until root.size) {
                 val s = preferences.getString(root[i], "Add Tasks;;0")!!
@@ -75,8 +75,7 @@ class ToDoFolderLayout : ToDoLayout() {
         }
     }
 
-    override fun addTask(title: String, isFolder: Boolean): TaskLayout? {
-        val preferences = mainActivity.getPreferences(Context.MODE_PRIVATE)
+    override fun addTask(title: String, isFolder: Boolean): TaskLayout {
         val editor = preferences.edit()
         if (isFolder) {
             val folderCount = preferences.getInt("folderCount", 0)

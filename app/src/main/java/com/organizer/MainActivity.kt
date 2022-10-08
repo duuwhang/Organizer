@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
             androidContext(this@MainActivity)
             modules(module {
                 single { this@MainActivity }
+                single { this@MainActivity.getPreferences(MODE_PRIVATE) }
                 single { DisplayMetricsController(windowManager, resources.displayMetrics.density) }
                 single { DateController() }
                 single { MainLayout() }

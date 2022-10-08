@@ -1,6 +1,6 @@
 package com.organizer.layouts.todo
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Rect
 import android.util.TypedValue
@@ -14,7 +14,8 @@ import com.organizer.layouts.MainLayout
 import java.lang.Integer.max
 
 open class ToDoLayout : BaseLayout() {
-    private val mainActivity: MainActivity by inject()
+
+    private val preferences: SharedPreferences by inject()
     private val displayMetricsController: DisplayMetricsController by inject()
     private val mainLayout: MainLayout by inject()
 
@@ -82,7 +83,6 @@ open class ToDoLayout : BaseLayout() {
             displayMetricsController.screenHeight / (textSize + roundingRadius + heightMargin * 2)
         )
         rowWidths = IntArray(rows)
-        val preferences = mainActivity.getPreferences(Context.MODE_PRIVATE)
         val root = preferences.getString("root", "")!!.split(";;").toTypedArray()
         var i = 0
         while (i < root.size || i == 0) {
@@ -115,7 +115,6 @@ open class ToDoLayout : BaseLayout() {
     }
 
     open fun addTask(title: String, isFolder: Boolean): TaskLayout? {
-        val preferences = mainActivity.getPreferences(Context.MODE_PRIVATE)
         val editor = preferences.edit()
         if (isFolder) {
             val folderCount = preferences.getInt("folderCount", 0)

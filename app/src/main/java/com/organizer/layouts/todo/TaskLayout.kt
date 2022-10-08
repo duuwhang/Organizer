@@ -1,7 +1,7 @@
 package com.organizer.layouts.todo
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.PaintDrawable
@@ -17,6 +17,7 @@ import com.organizer.layouts.MainLayout
 open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLayout() {
 
     private val mainActivity: MainActivity by inject()
+    private val preferences: SharedPreferences by inject()
     private val mainLayout: MainLayout by inject()
 
     val parentLayout: ToDoLayout = parent
@@ -81,7 +82,6 @@ open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLa
     }
 
     private fun updateFolderCompletions() {
-        val preferences = mainActivity.getPreferences(Context.MODE_PRIVATE)
         val editor = preferences.edit()
         for (i in 0 until preferences.getInt("folderCount", 0)) {
             val folder = preferences.getString("folder$i", "Add Tasks;;0")!!
@@ -111,8 +111,7 @@ open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLa
 
     fun setCompleted(completed: Boolean) {
         this.done = completed
-        background!!.alpha = (if (completed) 0.3f else 1f)
-        val preferences = mainActivity.getPreferences(Context.MODE_PRIVATE)
+        background.alpha = (if (completed) 0.3f else 1f)
         val editor = preferences.edit()
         val task = preferences.getString("task$identifier", "Add Tasks;;0")!!
             .split(";;").toTypedArray()
