@@ -1,12 +1,10 @@
 package com.organizer.layouts.todo
 
-import android.annotation.SuppressLint
 import android.graphics.drawable.PaintDrawable
 import com.organizer.DisplayMetricsController
 import com.organizer.MainActivity.Companion.inject
 import com.organizer.layouts.MainLayout
 
-@SuppressLint("ViewConstructor")
 class FolderLayout : TaskLayout {
     private val displayMetricsController: DisplayMetricsController by inject()
     private val mainLayout: MainLayout by inject()

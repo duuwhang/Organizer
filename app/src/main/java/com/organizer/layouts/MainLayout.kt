@@ -1,6 +1,5 @@
 package com.organizer.layouts
 
-import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
@@ -16,7 +15,6 @@ import com.organizer.layouts.todo.ToDoFolderLayout
 import com.organizer.layouts.todo.ToDoLayout
 import kotlin.math.abs
 
-@SuppressLint("ViewConstructor")
 class MainLayout : BaseLayout() {
 
     private val displayMetricsController: DisplayMetricsController by inject()

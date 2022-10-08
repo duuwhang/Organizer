@@ -1,7 +1,5 @@
 package com.organizer.layouts.add
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import com.organizer.layouts.BaseLayout
 import android.graphics.drawable.GradientDrawable
@@ -9,7 +7,6 @@ import android.view.View
 import com.organizer.layouts.add.AddTaskLayout
 import com.organizer.layouts.add.AddEventLayout
 
-@SuppressLint("ViewConstructor")
 class AddLayout : BaseLayout() {
     init {
         val drawable = GradientDrawable()

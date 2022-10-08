@@ -1,6 +1,5 @@
 package com.organizer.layouts.todo
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Rect
@@ -13,7 +12,6 @@ import com.organizer.R.color
 import com.organizer.layouts.BaseLayout
 import com.organizer.layouts.MainLayout
 
-@SuppressLint("ViewConstructor")
 open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLayout() {
 
     private val mainActivity: MainActivity by inject()

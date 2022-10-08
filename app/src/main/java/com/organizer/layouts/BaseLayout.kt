@@ -1,6 +1,5 @@
 package com.organizer.layouts
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -8,7 +7,6 @@ import com.organizer.DisplayMetricsController
 import com.organizer.MainActivity.Companion.inject
 import kotlin.math.max
 
-@SuppressLint("ViewConstructor")
 open class BaseLayout : ViewGroup(inject<Context>().value) {
 
     private val displayMetricsController: DisplayMetricsController by inject()

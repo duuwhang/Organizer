@@ -1,6 +1,5 @@
 package com.organizer.layouts.todo
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
@@ -9,7 +8,6 @@ import com.organizer.MainActivity.Companion.inject
 import com.organizer.R
 import com.organizer.layouts.MainLayout
 
-@SuppressLint("ViewConstructor")
 class ToDoFolderLayout : ToDoLayout() {
 
     private val preferences: SharedPreferences by inject()
