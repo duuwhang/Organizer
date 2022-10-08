@@ -9,7 +9,9 @@ import com.organizer.endless_scroll.DaysAdapter
 import com.organizer.endless_scroll.EndlessRecyclerViewScrollListener
 
 class CalendarLayout : RecyclerView(inject<Context>().value) {
+
     private val dateController: DateController by inject()
+
     val dayAmount = 3
 
     init {

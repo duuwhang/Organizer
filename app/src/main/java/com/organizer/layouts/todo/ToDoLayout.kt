@@ -114,7 +114,7 @@ open class ToDoLayout : BaseLayout() {
         }
     }
 
-    open fun addTask(title: String, isFolder: Boolean): TaskLayout? {
+    open fun addTask(title: String, isFolder: Boolean): TaskLayout {
         val editor = preferences.edit()
         if (isFolder) {
             val folderCount = preferences.getInt("folderCount", 0)

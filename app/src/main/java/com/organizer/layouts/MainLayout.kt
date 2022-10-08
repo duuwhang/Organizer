@@ -7,8 +7,9 @@ import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.view.animation.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.organizer.*
+import com.organizer.DisplayMetricsController
 import com.organizer.MainActivity.Companion.inject
+import com.organizer.R
 import com.organizer.layouts.add.*
 import com.organizer.layouts.calendar.CalendarLayout
 import com.organizer.layouts.todo.ToDoFolderLayout
@@ -38,7 +39,6 @@ class MainLayout : BaseLayout() {
         addView(toDoScrollLayout.apply {
             addContentView(this@MainLayout.toDoLayout)
         })
-
         addView(calendarLayout)
 
         scrollChildCount = childCount
@@ -56,11 +56,9 @@ class MainLayout : BaseLayout() {
             visibility = INVISIBLE
             addContentView(toDoFolderLayout)
         })
-
         addView(addLayout.apply {
             visibility = INVISIBLE
         })
-
         addView(addButton.apply {
             setImageResource(R.drawable.add_button)
             setOnClickListener { toggleAddLayout(addLayout.visibility == INVISIBLE) }

@@ -6,14 +6,15 @@ import com.organizer.MainActivity.Companion.inject
 import com.organizer.layouts.MainLayout
 
 class FolderLayout : TaskLayout {
+
     private val displayMetricsController: DisplayMetricsController by inject()
     private val mainLayout: MainLayout by inject()
 
     constructor(
-        parentLayout: ToDoLayout?,
+        parentLayout: ToDoLayout,
         id: Int,
         title: String
-    ) : super(parentLayout!!, id, title)
+    ) : super(parentLayout, id, title)
 
     constructor(folder: FolderLayout) : super(
         folder.parentLayout,

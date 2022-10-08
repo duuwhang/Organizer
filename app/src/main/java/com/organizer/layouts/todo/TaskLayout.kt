@@ -6,20 +6,17 @@ import android.graphics.Rect
 import android.graphics.drawable.PaintDrawable
 import android.util.TypedValue
 import android.widget.TextView
-import com.organizer.MainActivity
 import com.organizer.MainActivity.Companion.inject
 import com.organizer.R.color
 import com.organizer.layouts.BaseLayout
 import com.organizer.layouts.MainLayout
 
-open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLayout() {
+open class TaskLayout(val parentLayout: ToDoLayout, val identifier: Int, displayText: String) :
+    BaseLayout() {
 
-    private val mainActivity: MainActivity by inject()
     private val preferences: SharedPreferences by inject()
     private val mainLayout: MainLayout by inject()
 
-    val parentLayout: ToDoLayout = parent
-    val identifier: Int = id
     var done = false
     var leftX = 0
     var rightX = 0
@@ -38,7 +35,6 @@ open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLa
             text = ""
             background = shape
         })
-
         addView(title.apply {
             setTextSize(
                 TypedValue.COMPLEX_UNIT_SP,
@@ -59,6 +55,7 @@ open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLa
         var height = bottom - top
         val widthMargin = parentLayout.widthMargin
         val heightMargin = parentLayout.heightMargin / 2
+
         backgroundRect.left = widthMargin
         backgroundRect.top = heightMargin + if (row == 0) heightMargin else 0
         backgroundRect.right = width
@@ -70,6 +67,7 @@ open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLa
             backgroundRect.right,
             backgroundRect.bottom
         )
+
         width = backgroundRect.right - backgroundRect.left
         height = backgroundRect.bottom - backgroundRect.top
         childRect.left = backgroundRect.left + width / 2 - title.measuredWidth / 2

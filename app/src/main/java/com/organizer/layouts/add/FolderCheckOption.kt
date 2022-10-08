@@ -9,17 +9,19 @@ import android.widget.TextView
 import com.organizer.MainActivity.Companion.inject
 
 class FolderCheckOption : LinearLayout(inject<Context>().value) {
-    private val checkBox = CheckBox(context)
+
+    internal val checkBox = CheckBox(context)
     private val folderText = TextView(context)
     private val childRect = Rect()
 
     init {
-        checkBox.setOnCheckedChangeListener { _, _ -> }
-        addView(checkBox)
-
-        folderText.text = "Folder"
-        folderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
-        addView(folderText)
+        addView(checkBox.apply {
+            setOnCheckedChangeListener { _, _ -> }
+        })
+        addView(folderText.apply {
+            text = "Folder"
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
+        })
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {

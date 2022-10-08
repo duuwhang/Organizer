@@ -16,7 +16,7 @@ class ToDoFolderLayout : ToDoLayout() {
 
     private var folder: FolderLayout? = null
 
-    fun show(folder: FolderLayout?) {
+    fun show(folder: FolderLayout) {
         this.folder = folder
         val scrollLayout = mainLayout.toDoFolderScrollLayout
         scrollLayout.visibility = VISIBLE

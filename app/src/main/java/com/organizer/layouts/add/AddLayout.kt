@@ -1,22 +1,20 @@
 package com.organizer.layouts.add
 
 import android.graphics.Color
-import com.organizer.layouts.BaseLayout
 import android.graphics.drawable.GradientDrawable
 import android.view.View
-import com.organizer.layouts.add.AddTaskLayout
-import com.organizer.layouts.add.AddEventLayout
+import com.organizer.layouts.BaseLayout
 
 class AddLayout : BaseLayout() {
+
     init {
         val drawable = GradientDrawable()
         drawable.setTint(Color.BLACK)
         drawable.alpha = 125
         background = drawable
-        val addTaskLayout = AddTaskLayout()
-        addView(addTaskLayout)
-        val addEventLayout = AddEventLayout()
-        addView(addEventLayout)
+
+        addView(AddTaskLayout())
+        addView(AddEventLayout())
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
