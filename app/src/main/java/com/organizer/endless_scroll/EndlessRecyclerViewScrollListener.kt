@@ -8,27 +8,32 @@ import com.organizer.layouts.MainLayout
 
 abstract class EndlessRecyclerViewScrollListener(layoutManager: LinearLayoutManager, days: Int) :
     RecyclerView.OnScrollListener() {
+
     private val dateController: DateController by inject()
     private val mainLayout: MainLayout by inject()
 
     // True if we are still waiting for the last set of data to load.
     private var loading = true
-
     // The minimum amount of items to have below your current scroll position
     // before loading more.
     private val visibleThreshold: Int
-
     // The current offset index of data you have loaded
     private var currentPage = 0
-
     // The current offset index of data you have loaded
     //private int negcurrentPage = 0; // TODO
     // The total number of items in the dataset after the last load
     private var previousTotalItemCount = 0
-
     // Sets the starting page index
     private val startingPageIndex = 0
     var mLayoutManager: RecyclerView.LayoutManager
+
+    init {
+        mLayoutManager = layoutManager
+        visibleThreshold = days
+        //layoutManager.scrollToPosition((Integer.MAX_VALUE / 2) - (Integer.MAX_VALUE / 2) % days.size());
+    }
+
+    @Suppress("unused")
     fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
         var maxSize = 0
         for (i in lastVisibleItemPositions.indices) {
@@ -41,6 +46,7 @@ abstract class EndlessRecyclerViewScrollListener(layoutManager: LinearLayoutMana
         return maxSize
     }
 
+    @Suppress("unused")
     fun getFirstVisibleItem(lastVisibleItemPositions: IntArray): Int {
         var maxSize = 0
         for (i in lastVisibleItemPositions.indices) {
@@ -59,6 +65,7 @@ abstract class EndlessRecyclerViewScrollListener(layoutManager: LinearLayoutMana
     override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
         val lastVisibleItemPosition =
             (mLayoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+        @Suppress("UNUSED_VARIABLE")
         val firstVisibleItemPosition =
             (mLayoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
         val totalItemCount = mLayoutManager.itemCount
@@ -122,10 +129,4 @@ abstract class EndlessRecyclerViewScrollListener(layoutManager: LinearLayoutMana
     }
 
     abstract fun onLoadMore(page: Int, view: RecyclerView?)
-
-    init {
-        mLayoutManager = layoutManager
-        visibleThreshold = days
-        //layoutManager.scrollToPosition((Integer.MAX_VALUE / 2) - (Integer.MAX_VALUE / 2) % days.size());
-    }
 }

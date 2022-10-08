@@ -4,8 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import com.organizer.*
+import com.organizer.DisplayMetricsController
 import com.organizer.MainActivity.Companion.inject
+import com.organizer.R
 import com.organizer.layouts.MainLayout
 
 @SuppressLint("ViewConstructor")
@@ -13,7 +14,9 @@ class ToDoFolderLayout : ToDoLayout() {
     private val mainActivity: MainActivity by inject()
     private val mainLayout: MainLayout by inject()
     private val displayMetricsController: DisplayMetricsController by inject()
+
     private var folder: FolderLayout? = null
+
     fun show(folder: FolderLayout?) {
         this.folder = folder
         val scrollLayout = mainLayout.toDoFolderScrollLayout
@@ -33,20 +36,20 @@ class ToDoFolderLayout : ToDoLayout() {
     }
 
     override fun updateTasks() {
-        if (folder != null) {
+        folder?.let {
             removeAllViews()
             rows = Integer.max(
                 1,
                 displayMetricsController.screenHeight / (textSize + roundingRadius + heightMargin * 2)
             )
             rowWidths = IntArray(rows)
-            var task: TaskLayout = FolderLayout(folder!!)
+            var task: TaskLayout = FolderLayout(it)
             addView(task)
-            task.title!!.measure(0, 0)
-            var minWidthRow = getMinWidthRow()
+            task.title.measure(0, 0)
+            val minWidthRow = getMinWidthRow()
             task.leftX = rowWidths[minWidthRow]
             task.rightX =
-                task.leftX + task.title!!.measuredWidth + roundingRadius * 2 + widthMargin * 2
+                task.leftX + task.title.measuredWidth + roundingRadius * 2 + widthMargin * 2
             task.row = minWidthRow
             rowWidths[minWidthRow] += task.rightX - task.leftX
             val preferences = mainActivity.getPreferences(Context.MODE_PRIVATE)
@@ -62,11 +65,10 @@ class ToDoFolderLayout : ToDoLayout() {
                 }
                 task.setCompleted(s[1] == "1")
                 addView(task)
-                task.title!!.measure(0, 0)
-                minWidthRow = minWidthRow
+                task.title.measure(0, 0)
                 task.leftX = rowWidths[minWidthRow]
                 task.rightX =
-                    task.leftX + task.title!!.measuredWidth + roundingRadius * 2 + widthMargin * 2
+                    task.leftX + task.title.measuredWidth + roundingRadius * 2 + widthMargin * 2
                 task.row = minWidthRow
                 rowWidths[minWidthRow] += task.rightX - task.leftX
             }
@@ -82,17 +84,17 @@ class ToDoFolderLayout : ToDoLayout() {
             editor.putInt("folderCount", folderCount + 1)
             val root = preferences.getString("folder" + folder!!.id, "Add Tasks;;0")
             editor.putString(
-                "folder" + folder!!.id,
-                root + (if (root == "") "" else ";;") + "folder" + folderCount
+                "folder${folder!!.id}",
+                "$root${if (root == "") "" else ";;"}folder$folderCount"
             )
         } else {
             val taskCount = preferences.getInt("taskCount", 0)
             editor.putString("task$taskCount", "$title;;0")
             editor.putInt("taskCount", taskCount + 1)
-            val root = preferences.getString("folder" + folder!!.id, "Add Tasks;;0")
+            val root = preferences.getString("folder${folder!!.id}", "Add Tasks;;0")
             editor.putString(
-                "folder" + folder!!.id,
-                root + (if (root == "") "" else ";;") + "task" + taskCount
+                "folder${folder!!.id}",
+                "$root${if (root == "") "" else ";;"}task$taskCount"
             )
         }
         editor.apply()

@@ -9,9 +9,7 @@ class DisplayMetricsController(
     private val pixelDensity: Float
 ) {
 
-    fun dpToPx(dp: Float): Int {
-        return (dp * pixelDensity).toInt()
-    }
+    fun dpToPx(dp: Float) = (dp * pixelDensity).toInt()
 
     @Suppress("DEPRECATION")
     val screenHeight: Int

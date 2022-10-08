@@ -18,33 +18,29 @@ import kotlin.math.abs
 
 @SuppressLint("ViewConstructor")
 class MainLayout : BaseLayout() {
+
     private val displayMetricsController: DisplayMetricsController by inject()
-    var scrollChildCount: Int
+
+    // TODO layouts in koin? factory/simple
+    private val scrollChildCount: Int
     private var startingChild = 1
     private var currentChild: Int
-    var toDoScrollLayout: HorizontalScrollLayout
-    var toDoFolderScrollLayout: HorizontalScrollLayout
-    var toDoLayout: ToDoLayout
-    var toDoFolderLayout: ToDoFolderLayout
-    var calendarLayout: CalendarLayout
-    var addButton: FloatingActionButton
-    private var addLayout: AddLayout
+    val toDoScrollLayout = HorizontalScrollLayout()
+    val toDoFolderScrollLayout = HorizontalScrollLayout()
+    val toDoLayout = ToDoLayout()
+    val toDoFolderLayout = ToDoFolderLayout()
+    val calendarLayout = CalendarLayout()
+    private val addButton = FloatingActionButton(context)
+    private val addLayout = AddLayout()
     private val childRect = Rect()
-    var gestureDetector: GestureDetector? = null
-    private var touchListener = OnTouchListener { view, motionEvent ->
-        super.performClick()
-        gestureDetector!!.onTouchEvent(motionEvent) && view.isClickable
-    }
+    private var touchListener = setTouchListener()
+    private var gestureDetector = setGestureListener()
 
     init {
-        setGestureListener()
+        addView(toDoScrollLayout.apply {
+            addContentView(this@MainLayout.toDoLayout)
+        })
 
-        toDoLayout = ToDoLayout()
-        toDoScrollLayout = HorizontalScrollLayout()
-        toDoScrollLayout.addContentView(toDoLayout)
-        addView(toDoScrollLayout)
-
-        calendarLayout = CalendarLayout()
         addView(calendarLayout)
 
         scrollChildCount = childCount
@@ -57,20 +53,20 @@ class MainLayout : BaseLayout() {
         }
         currentChild = startingChild
         getChildAt(startingChild).visibility = VISIBLE
-        toDoFolderLayout = ToDoFolderLayout()
-        toDoFolderScrollLayout = HorizontalScrollLayout()
-        toDoFolderScrollLayout.visibility = INVISIBLE
-        toDoFolderScrollLayout.addContentView(toDoFolderLayout)
-        addView(toDoFolderScrollLayout)
 
-        addLayout = AddLayout()
-        addLayout.visibility = INVISIBLE
-        addView(addLayout)
+        addView(toDoFolderScrollLayout.apply {
+            visibility = INVISIBLE
+            addContentView(toDoFolderLayout)
+        })
 
-        addButton = FloatingActionButton(context)
-        addButton.setImageResource(R.drawable.add_button)
-        addButton.setOnClickListener { toggleAddLayout(addLayout.visibility == INVISIBLE) }
-        addView(addButton)
+        addView(addLayout.apply {
+            visibility = INVISIBLE
+        })
+
+        addView(addButton.apply {
+            setImageResource(R.drawable.add_button)
+            setOnClickListener { toggleAddLayout(addLayout.visibility == INVISIBLE) }
+        })
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -80,6 +76,7 @@ class MainLayout : BaseLayout() {
             getChildAt(i).layout(0, 0, width, height)
         }
         val margin = displayMetricsController.dpToPx(16f)
+
         childRect.left = width - addButton.measuredWidth - margin
         childRect.top = height - addButton.measuredHeight - margin
         childRect.right = width - margin
@@ -128,89 +125,92 @@ class MainLayout : BaseLayout() {
         }
     }
 
-    private fun setGestureListener() {
-        gestureDetector = GestureDetector(context, object : SimpleOnGestureListener() {
-            val SWIPE_THRESHOLD = 100
-            val SWIPE_VELOCITY_THRESHOLD = 100
-            override fun onDown(e: MotionEvent): Boolean {
-                return true
-            }
-
-            override fun onFling(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                var result = false
-                try {
-                    val diffY = e2.y - e1.y
-                    val diffX = e2.x - e1.x
-                    if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD && abs(
-                            diffY
-                        ) > abs(diffX)
-                    ) {
-                        if (diffY > 0) {
-                            onSwipeDown()
-                        } else {
-                            onSwipeUp()
-                        }
-                        result = true
-                    }
-                } catch (exception: Exception) {
-                    exception.printStackTrace()
-                }
-                return result
-            }
-
-            fun onSwipeUp() {
-                if (currentChild < scrollChildCount - 1) {
-                    val animation = AnimationSet(false)
-                    val child1 = getChildAt(currentChild)
-                    val child2 = getChildAt(currentChild + 1)
-                    animation.addAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeoutup))
-                    animation.setAnimationListener(object : Animation.AnimationListener {
-                        override fun onAnimationStart(animation: Animation) {
-                            child1.visibility = INVISIBLE
-                        }
-
-                        override fun onAnimationEnd(animation: Animation) {
-                            child2.visibility = VISIBLE
-                        }
-
-                        override fun onAnimationRepeat(animation: Animation) {}
-                    })
-                    child1.startAnimation(animation)
-                    currentChild++
-                }
-            }
-
-            fun onSwipeDown() {
-                if (currentChild > 0) {
-                    val animation = AnimationSet(false)
-                    val child1 = getChildAt(currentChild)
-                    val child2 = getChildAt(currentChild - 1)
-                    animation.addAnimation(
-                        AnimationUtils.loadAnimation(
-                            context,
-                            R.anim.fadeoutdown
-                        )
-                    )
-                    animation.setAnimationListener(object : Animation.AnimationListener {
-                        override fun onAnimationStart(animation: Animation) {
-                            child1.visibility = INVISIBLE
-                        }
-
-                        override fun onAnimationEnd(animation: Animation) {
-                            child2.visibility = VISIBLE
-                        }
-
-                        override fun onAnimationRepeat(animation: Animation) {}
-                    })
-                    child1.startAnimation(animation)
-                    currentChild--
-                }
-            }
-        })
+    private fun setTouchListener() = OnTouchListener { view, motionEvent ->
+        super.performClick()
+        gestureDetector.onTouchEvent(motionEvent) && view.isClickable
     }
+
+    private fun setGestureListener() = GestureDetector(context, object : SimpleOnGestureListener() {
+        val SWIPE_THRESHOLD = 100
+        val SWIPE_VELOCITY_THRESHOLD = 100
+        override fun onDown(e: MotionEvent): Boolean {
+            return true
+        }
+
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            var result = false
+            try {
+                val diffY = e2.y - e1.y
+                val diffX = e2.x - e1.x
+                if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD && abs(
+                        diffY
+                    ) > abs(diffX)
+                ) {
+                    if (diffY > 0) {
+                        onSwipeDown()
+                    } else {
+                        onSwipeUp()
+                    }
+                    result = true
+                }
+            } catch (exception: Exception) {
+                exception.printStackTrace()
+            }
+            return result
+        }
+
+        fun onSwipeUp() {
+            if (currentChild < scrollChildCount - 1) {
+                val animation = AnimationSet(false)
+                val child1 = getChildAt(currentChild)
+                val child2 = getChildAt(currentChild + 1)
+                animation.addAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeoutup))
+                animation.setAnimationListener(object : Animation.AnimationListener {
+                    override fun onAnimationStart(animation: Animation) {
+                        child1.visibility = INVISIBLE
+                    }
+
+                    override fun onAnimationEnd(animation: Animation) {
+                        child2.visibility = VISIBLE
+                    }
+
+                    override fun onAnimationRepeat(animation: Animation) {}
+                })
+                child1.startAnimation(animation)
+                currentChild++
+            }
+        }
+
+        fun onSwipeDown() {
+            if (currentChild > 0) {
+                val animation = AnimationSet(false)
+                val child1 = getChildAt(currentChild)
+                val child2 = getChildAt(currentChild - 1)
+                animation.addAnimation(
+                    AnimationUtils.loadAnimation(
+                        context,
+                        R.anim.fadeoutdown
+                    )
+                )
+                animation.setAnimationListener(object : Animation.AnimationListener {
+                    override fun onAnimationStart(animation: Animation) {
+                        child1.visibility = INVISIBLE
+                    }
+
+                    override fun onAnimationEnd(animation: Animation) {
+                        child2.visibility = VISIBLE
+                    }
+
+                    override fun onAnimationRepeat(animation: Animation) {}
+                })
+                child1.startAnimation(animation)
+                currentChild--
+            }
+        }
+    })
 }

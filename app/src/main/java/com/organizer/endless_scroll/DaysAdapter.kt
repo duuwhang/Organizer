@@ -34,29 +34,24 @@ class DaysAdapter : RecyclerView.Adapter<DaysAdapter.ViewHolder>() {
 
     // Involves populating data into the item through holder
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val dateController = dateController
         // Get the data model based on position
         //int realPos = position % days.size();
-        val day = dateController.days[position] // + Integer.MAX_VALUE / 2);
+        val day = dateController.days[position]!! // + Integer.MAX_VALUE / 2);
         val dayLayout = viewHolder.dayLayout
         dayLayout.layoutParams.width =
             displayController.screenWidth / mainLayout.calendarLayout.dayAmount
         // Set item views based on your views and data model
         val textView = viewHolder.textView
-        val text = "${day!!.weekday} ${day.d}.${day.m}."
-        textView.text = text
+        textView.text = "${day.weekday} ${day.d}.${day.m}."
         if (day.id == dateController.today) {
             textView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
             dateController.textViewSize = textView.lineHeight
         } else {
             textView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
         }
-        val taskList: List<Task>? = dateController.dictionary[day.id]
-        if (taskList != null) {
-            for (task in taskList) {
-                task.generateButton()
-                dayLayout.addView(task.button)
-            }
+        dateController.dictionary[day.id]?.forEach {
+            it.generateButton()
+            dayLayout.addView(it.button)
         }
     }
 

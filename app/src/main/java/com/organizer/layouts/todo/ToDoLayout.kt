@@ -6,23 +6,23 @@ import android.graphics.Rect
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
-import com.organizer.*
+import com.organizer.DisplayMetricsController
 import com.organizer.MainActivity.Companion.inject
 import com.organizer.R.color
 import com.organizer.layouts.BaseLayout
 import com.organizer.layouts.MainLayout
+import java.lang.Integer.max
 
 open class ToDoLayout : BaseLayout() {
     private val mainActivity: MainActivity by inject()
     private val displayMetricsController: DisplayMetricsController by inject()
-    private val dateController: DateController by inject()
     private val mainLayout: MainLayout by inject()
 
-    var roundingRadius = displayMetricsController.dpToPx(25f)
-    var widthMargin = displayMetricsController.dpToPx(15f)
-    var heightMargin = displayMetricsController.dpToPx(10f)
-    var textSizeSp = 18
-    protected var textSize: Int
+    val roundingRadius = displayMetricsController.dpToPx(25f)
+    val widthMargin = displayMetricsController.dpToPx(15f)
+    val heightMargin = displayMetricsController.dpToPx(10f)
+    internal val textSizeSp = 18
+    protected val textSize: Int
     var rowWidths = IntArray(1)
     protected var rows = 0
     private val childRect = Rect()
@@ -77,7 +77,7 @@ open class ToDoLayout : BaseLayout() {
 
     open fun updateTasks() {
         removeAllViews()
-        rows = Integer.max(
+        rows = max(
             1,
             displayMetricsController.screenHeight / (textSize + roundingRadius + heightMargin * 2)
         )
@@ -88,8 +88,7 @@ open class ToDoLayout : BaseLayout() {
         while (i < root.size || i == 0) {
             val s = preferences.getString(root[i], "Add Tasks;;0")!!
                 .split(";;").toTypedArray()
-            var task: TaskLayout
-            task = if (root[i].startsWith("folder")) {
+            val task: TaskLayout = if (root[i].startsWith("folder")) {
                 FolderLayout(
                     this,
                     if (root[i] == "") 0 else root[i].substring(6).toInt(),
@@ -104,11 +103,11 @@ open class ToDoLayout : BaseLayout() {
             }
             task.setCompleted(s[1] == "1")
             addView(task)
-            task.title!!.measure(0, 0)
+            task.title.measure(0, 0)
             val minWidthRow = getMinWidthRow()
             task.leftX = rowWidths[minWidthRow]
             task.rightX =
-                task.leftX + task.title!!.measuredWidth + roundingRadius * 2 + widthMargin * 2
+                task.leftX + task.title.measuredWidth + roundingRadius * 2 + widthMargin * 2
             task.row = minWidthRow
             rowWidths[minWidthRow] += task.rightX - task.leftX
             i++
@@ -123,13 +122,13 @@ open class ToDoLayout : BaseLayout() {
             editor.putString("folder$folderCount", "$title;;0")
             editor.putInt("folderCount", folderCount + 1)
             val root = preferences.getString("root", "")
-            editor.putString("root", root + (if (root == "") "" else ";;") + "folder" + folderCount)
+            editor.putString("root", "$root${if (root == "") "" else ";;"}folder$folderCount")
         } else {
             val taskCount = preferences.getInt("taskCount", 0)
             editor.putString("task$taskCount", "$title;;0")
             editor.putInt("taskCount", taskCount + 1)
             val root = preferences.getString("root", "")
-            editor.putString("root", root + (if (root == "") "" else ";;") + "task" + taskCount)
+            editor.putString("root", "$root${if (root == "") "" else ";;"}task$taskCount")
         }
         editor.apply()
         updateTasks()

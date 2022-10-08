@@ -20,11 +20,11 @@ class FolderLayout : TaskLayout {
     constructor(folder: FolderLayout) : super(
         folder.parentLayout,
         folder.identifier,
-        folder.title!!.text.toString()
+        folder.title.text.toString()
     )
 
     init {
-        (background!!.background as PaintDrawable).setCornerRadius(
+        (background.background as PaintDrawable).setCornerRadius(
             displayMetricsController.dpToPx(
                 4f
             ).toFloat()

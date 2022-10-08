@@ -1,27 +1,18 @@
 package com.organizer
 
-import org.koin.java.KoinJavaComponent
+import com.organizer.MainActivity.Companion.inject
 
+@Suppress("unused")
 class DateController {
 
-    private val displayController: DisplayMetricsController by KoinJavaComponent.inject(
-        DisplayMetricsController::class.java
-    )
+    private val displayController: DisplayMetricsController by inject()
 
-
-    @JvmField
     var dictionary = HashMap<Int, MutableList<Task>>()
-
-    @JvmField
     var days = HashMap<Int, Day>()
     var todayD = 7
     var todayM = 4
     var todayY = 2021
-
-    @JvmField
     var today = buildId(todayD, todayM, todayY)
-
-    @JvmField
     var textViewSize = 0
 
     enum class Weekdays {

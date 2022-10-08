@@ -5,14 +5,9 @@ import com.organizer.MainActivity.Companion.inject
 class Day(var id: Int) {
     private val dateController: DateController by inject()
 
-    @JvmField
     var d: Int = 0
-
-    @JvmField
     var m: Int = 0
     var y: Int = 0
-
-    @JvmField
     var weekday: String? = null
     var monthdays = intArrayOf(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 

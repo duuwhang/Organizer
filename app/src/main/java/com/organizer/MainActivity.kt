@@ -12,7 +12,6 @@ import org.koin.java.KoinJavaComponent
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        @JvmStatic
         inline fun <reified T> inject(): Lazy<T> {
             return KoinJavaComponent.inject(T::class.java)
         }

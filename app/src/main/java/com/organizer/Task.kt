@@ -12,7 +12,6 @@ class Task {
     var location = "home"
     var start = 6.0
     var end = start + 1
-    @JvmField
     var button: Button? = null
 
     internal constructor(context: Context, id: Int, location: String, start: Double, end: Double) {

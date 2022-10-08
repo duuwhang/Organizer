@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.PaintDrawable
-import android.util.Half.toFloat
 import android.util.TypedValue
 import android.widget.TextView
 import com.organizer.MainActivity
@@ -16,17 +15,18 @@ import com.organizer.layouts.MainLayout
 
 @SuppressLint("ViewConstructor")
 open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLayout() {
+
     private val mainActivity: MainActivity by inject()
     private val mainLayout: MainLayout by inject()
 
-    public var parentLayout: ToDoLayout = parent
-    public var identifier: Int = id
-    public var done = false
-    public var leftX = 0
-    public var rightX = 0
-    public var row = 0
-    public var background: TextView? = null
-    public var title: TextView? = null
+    val parentLayout: ToDoLayout = parent
+    val identifier: Int = id
+    var done = false
+    var leftX = 0
+    var rightX = 0
+    var row = 0
+    val background = TextView(context)
+    val title = TextView(context)
     private val backgroundRect = Rect()
     private val childRect = Rect()
 
@@ -34,25 +34,25 @@ open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLa
         val shape = PaintDrawable(Color.WHITE)
         parentLayout.roundingRadius.let { shape.setCornerRadius(it.toFloat()) }
         shape.setTint(Color.parseColor(resources.getString(color.colorPrimaryDark)))
-        background = TextView(context)
-        background!!.text = ""
-        background!!.background = shape
-        addView(background)
-        title = TextView(context)
-        parentLayout.textSizeSp.let {
-            title!!.setTextSize(
+
+        addView(background.apply {
+            text = ""
+            background = shape
+        })
+
+        addView(title.apply {
+            setTextSize(
                 TypedValue.COMPLEX_UNIT_SP,
-                it.toFloat()
+                parentLayout.textSizeSp.toFloat()
             )
-        }
-        title!!.textAlignment = TEXT_ALIGNMENT_CENTER
-        title!!.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-        addView(title)
+            textAlignment = TEXT_ALIGNMENT_CENTER
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        })
         setOnClickListener {
             setCompleted(!done)
             updateFolderCompletions()
         }
-        this.title?.text = displayText
+        this.title.text = displayText
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -65,7 +65,7 @@ open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLa
         backgroundRect.right = width
         backgroundRect.bottom =
             height - heightMargin - if (row == parentLayout.rowWidths.size - 1) heightMargin else 0
-        background!!.layout(
+        background.layout(
             backgroundRect.left,
             backgroundRect.top,
             backgroundRect.right,
@@ -73,11 +73,11 @@ open class TaskLayout(parent: ToDoLayout, id: Int, displayText: String) : BaseLa
         )
         width = backgroundRect.right - backgroundRect.left
         height = backgroundRect.bottom - backgroundRect.top
-        childRect.left = backgroundRect.left + width / 2 - title!!.measuredWidth / 2
-        childRect.top = backgroundRect.top + height / 2 - title!!.measuredHeight / 2
-        childRect.right = childRect.left + title!!.measuredWidth
-        childRect.bottom = childRect.top + title!!.measuredHeight
-        title!!.layout(childRect.left, childRect.top, childRect.right, childRect.bottom)
+        childRect.left = backgroundRect.left + width / 2 - title.measuredWidth / 2
+        childRect.top = backgroundRect.top + height / 2 - title.measuredHeight / 2
+        childRect.right = childRect.left + title.measuredWidth
+        childRect.bottom = childRect.top + title.measuredHeight
+        title.layout(childRect.left, childRect.top, childRect.right, childRect.bottom)
     }
 
     private fun updateFolderCompletions() {

@@ -11,10 +11,12 @@ import com.organizer.MainActivity.Companion.inject
 import com.organizer.layouts.todo.ToDoLayout
 
 class HorizontalScrollLayout : HorizontalScrollView(inject<Context>().value) {
+
     private val displayMetricsController: DisplayMetricsController by inject()
+
     var isScrollable = true
-    var linearLayout: LinearLayout? = null
-    var toDoLayout: ToDoLayout? = null
+    private val linearLayout = LinearLayout(context)
+    private var toDoLayout: ToDoLayout? = null
 
     init {
         isHorizontalScrollBarEnabled = false
@@ -23,17 +25,18 @@ class HorizontalScrollLayout : HorizontalScrollView(inject<Context>().value) {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        linearLayout = LinearLayout(context)
-        linearLayout!!.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        addView(linearLayout)
+
+        addView(linearLayout.apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        })
     }
 
-    fun addContentView(contentView: ToDoLayout?) {
+    fun addContentView(contentView: ToDoLayout) {
         toDoLayout = contentView
-        linearLayout!!.addView(contentView)
+        linearLayout.addView(contentView)
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
@@ -56,9 +59,11 @@ class HorizontalScrollLayout : HorizontalScrollView(inject<Context>().value) {
 
     override fun onScrollChanged(left: Int, top: Int, oldLeft: Int, oldTop: Int) {
         super.onScrollChanged(left, top, oldLeft, oldTop)
-        val width = toDoLayout!!.maxWidth - displayMetricsController.screenWidth
-        if (left > width) {
-            scrollTo(width, 0)
+        toDoLayout?.let {
+            val width = it.maxWidth - displayMetricsController.screenWidth
+            if (left > width) {
+                scrollTo(width, 0)
+            }
         }
     }
 }
