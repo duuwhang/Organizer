@@ -41,7 +41,7 @@ android {
 
     sourceSets {
         getByName("main") {
-            java.srcDir("src/main/kotlin")
+            kotlin.srcDir("src/main/kotlin")
         }
     }
     namespace = "com.organizer"

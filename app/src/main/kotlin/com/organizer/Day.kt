@@ -1,6 +1,7 @@
 package com.organizer
 
 import com.organizer.MainActivity.Companion.inject
+import kotlin.math.max
 
 class Day(var id: Int) {
     private val dateController: DateController by inject()
@@ -54,8 +55,8 @@ class Day(var id: Int) {
                 monthdays[1] = 29
             }
             val dd = d
-            d -= Math.max(1, d / (monthdays[m - 1] + 1)) * monthdays[m - 1]
-            m += Math.max(1, dd / (monthdays[m - 1] + 1))
+            d -= max(1, d / (monthdays[m - 1] + 1)) * monthdays[m - 1]
+            m += max(1, dd / (monthdays[m - 1] + 1))
             y += m % 12 * (m / 12)
             m -= m % 12 * (m / 12) * 12
         }

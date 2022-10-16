@@ -6,7 +6,7 @@ school, work, clubs, ...
 imported from webuntis
 
 Dayly Routine:
-wakeup, bedtime(no screentime), ...
+wakeup, bedtime, ...
 own alarm funktion (anti oversleep) -> tasks(math/exercise?)
 shower calcs
 
@@ -30,7 +30,6 @@ wifi/mobile data switch on location/transport...
 brightness?, flashlight toggle on daytime/task(->keymapping?)
 , auto blue light filter????, auto volume on tasks
 
--task levels (drivers liscence>volleyball)
 -quick available time mode for events/friends/tests
 -auto most used task sorter for quicker use
 -bad food tracker
@@ -53,3 +52,17 @@ DEV:
 14. transport-recalc
 15. transport-loc already on
 16. ...
+
+
+SharedPreferences File:
+folderCount 2
+
+root task0;;task1
+
+task0 TestTask;;1
+task1 Hi;;0
+task2 Task;;0
+task3 Hello;;0
+
+folder0 TestFolder;;0
+folder1 TestFolder;;0;;task2;;task3
