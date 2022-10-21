@@ -3,6 +3,8 @@ buildscript {
     kotlinVersion = "1.7.20"
     var koinVersion: String by extra
     koinVersion = "3.2.3"
+    var koinCoreVersion: String by extra
+    koinCoreVersion = "3.2.2"
 
     repositories {
         google()
