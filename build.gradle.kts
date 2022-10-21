@@ -2,7 +2,7 @@ buildscript {
     var kotlinVersion: String by extra
     kotlinVersion = "1.7.20"
     var koinVersion: String by extra
-    koinVersion = "3.2.2"
+    koinVersion = "3.2.3"
 
     repositories {
         google()
