@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 val kotlinVersion: String by rootProject.extra
 val koinVersion: String by rootProject.extra
 val koinCoreVersion: String by rootProject.extra
@@ -37,7 +39,7 @@ android {
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_18
     }
 
     sourceSets {
@@ -53,21 +55,26 @@ tasks.withType<JavaCompile> {
     options.compilerArgs = listOf("-Xlint:all", "-Xlint:unchecked", "-Xlint:deprecation")
 }
 
+tasks.withType<Test>{
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.material:material:1.7.0")
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.core:core-ktx:1.10.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("io.insert-koin:koin-core:$koinCoreVersion")
     implementation("io.insert-koin:koin-android:$koinVersion")
     implementation("io.insert-koin:koin-android-compat:$koinVersion")
+    implementation(kotlin("reflect"))
 
     testImplementation("io.insert-koin:koin-test:$koinCoreVersion")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:4.8.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+    testImplementation("io.mockk:mockk:1.13.2")
+//    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+//    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }

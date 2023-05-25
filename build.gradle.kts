@@ -1,10 +1,10 @@
 buildscript {
     var kotlinVersion: String by extra
-    kotlinVersion = "1.7.20"
+    kotlinVersion = "1.8.21"
     var koinVersion: String by extra
-    koinVersion = "3.2.3"
+    koinVersion = "3.4.0"
     var koinCoreVersion: String by extra
-    koinCoreVersion = "3.2.2"
+    koinCoreVersion = "3.4.0"
 
     repositories {
         google()
@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.android.tools.build:gradle:8.0.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
