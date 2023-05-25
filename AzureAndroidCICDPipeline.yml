@@ -51,7 +51,7 @@ stages:
           - task: JavaToolInstaller@0
             displayName: Set Java Home
             inputs:
-              versionSpec: '17'
+              versionSpec: '18'
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
 
@@ -105,7 +105,7 @@ stages:
           - task: JavaToolInstaller@0
             displayName: Set Java Home
             inputs:
-              versionSpec: '17'
+              versionSpec: '18'
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
 
@@ -164,7 +164,7 @@ stages:
           - task: JavaToolInstaller@0
             displayName: Set Java Home
             inputs:
-              versionSpec: '17'
+              versionSpec: '18'
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
 
