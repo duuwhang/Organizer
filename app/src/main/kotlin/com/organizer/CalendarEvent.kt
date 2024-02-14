@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.organizer.MainActivity.Companion.inject
 
-class Task {
+class CalendarEvent {
     private val dateController: DateController by inject()
     var context: Context
     var id: Int
@@ -20,7 +20,7 @@ class Task {
         this.location = location
         this.start = start
         this.end = end
-        initTask()
+        initEvent()
     }
 
     internal constructor(context: Context, id: Int, location: String, start: Double) {
@@ -29,14 +29,14 @@ class Task {
         this.location = location
         this.start = start
         end = start + 1
-        initTask()
+        initEvent()
     }
 
     internal constructor(context: Context, id: Int, location: String) {
         this.context = context
         this.id = id
         this.location = location
-        initTask()
+        initEvent()
     }
 
     internal constructor(context: Context, id: Int, start: Double, end: Double) {
@@ -44,7 +44,7 @@ class Task {
         this.id = id
         this.start = start
         this.end = end
-        initTask()
+        initEvent()
     }
 
     internal constructor(context: Context, id: Int, start: Double) {
@@ -52,16 +52,16 @@ class Task {
         this.id = id
         this.start = start
         end = start + 1
-        initTask()
+        initEvent()
     }
 
     internal constructor(context: Context, id: Int) {
         this.context = context
         this.id = id
-        initTask()
+        initEvent()
     }
 
-    private fun initTask() {
+    private fun initEvent() {
         if (!dateController.dictionary.containsKey(id)) {
             dateController.dictionary[id] = ArrayList()
         }

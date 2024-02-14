@@ -1,16 +1,16 @@
 package com.organizer.layouts
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import com.organizer.*
 import com.organizer.MainActivity.Companion.inject
+import com.organizer.MainActivity.Companion.injectNow
 import com.organizer.layouts.todo.ToDoLayout
 
-class HorizontalScrollLayout : HorizontalScrollView(inject<Context>().value) {
+class HorizontalScrollLayout : HorizontalScrollView(injectNow()) {
 
     private val displayMetricsController: DisplayMetricsController by inject()
 

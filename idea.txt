@@ -55,14 +55,17 @@ DEV:
 
 
 SharedPreferences File:
-folderCount 2
 
-root task0;;task1
+  root <contained tasks/folders>...
+root folder0;;folder2;;task3
 
-task0 TestTask;;1
-task1 Hi;;0
-task2 Task;;0
-task3 Hello;;0
+  task<index> <name>;;<completed>
+task0 TaskMessage;;1
+task1 otherTaskMessage;;1
+task2 testMessage;;0
+task3 anotherMessage;;0
 
-folder0 TestFolder;;0
-folder1 TestFolder;;0;;task2;;task3
+  folder<index> <name>;;<completed>;;<contained tasks/folders>...
+folder0 FolderMessage;;0
+folder1 otherFolderMessage;;1;;task0;;task1
+folder2 testMessage;;0;;task2;;folder1

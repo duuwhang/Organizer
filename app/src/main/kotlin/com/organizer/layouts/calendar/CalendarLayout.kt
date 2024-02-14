@@ -1,14 +1,14 @@
 package com.organizer.layouts.calendar
 
-import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.organizer.DateController
 import com.organizer.MainActivity.Companion.inject
+import com.organizer.MainActivity.Companion.injectNow
 import com.organizer.endless_scroll.DaysAdapter
 import com.organizer.endless_scroll.EndlessRecyclerViewScrollListener
 
-class CalendarLayout : RecyclerView(inject<Context>().value) {
+class CalendarLayout : RecyclerView(injectNow()) {
 
     private val dateController: DateController by inject()
 

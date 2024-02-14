@@ -6,10 +6,10 @@ import android.graphics.drawable.GradientDrawable
 import android.widget.Button
 import com.organizer.DisplayMetricsController
 import com.organizer.MainActivity.Companion.inject
-import com.organizer.layouts.BaseLayout
+import com.organizer.layouts.Layout
 import com.organizer.layouts.MainLayout
 
-class AddEventLayout : BaseLayout() {
+class AddEventLayout : Layout() {
     private val displayMetricsController: DisplayMetricsController by inject()
     private val mainLayout: MainLayout by inject()
     private val addButton: Button

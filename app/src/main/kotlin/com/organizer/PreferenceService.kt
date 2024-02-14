@@ -1,47 +1,39 @@
 package com.organizer
 
-import android.content.SharedPreferences
+import com.organizer.data.Folder
+import com.organizer.data.Task
 
-class PreferenceService(private val preferences: SharedPreferences) : PreferenceServiceInterface {
+interface PreferenceService {
 
-    private val editor = preferences.edit()
+    /**
+     * Gets a task from its key.
+     *
+     * @param key The name of the task to retrieve from the preference.
+     *
+     * @return A task object from the preference or null if not found.
+     */
+    fun restoreTask(key: String): Task?
 
-    override fun restoreTask(key: String): Pair<String, Boolean>? {
-        val task = preferences.getString(key, null)?.split(";;")
-        return task?.let { it.first() to (it.last() == "1") }
-    }
+    fun restoreTasks(folder: String = "root"): List<Task>
 
-    override fun restoreTasks(folder: String): Map<String, Pair<String, Boolean>> {
-        TODO("Not yet implemented")
-    }
+    fun restoreTasks(folders: List<String>): List<Task>
 
-    override fun restoreTasks(folders: List<String>): Map<String, Pair<String, Boolean>> {
-        val tasks = mutableMapOf<String, Pair<String, Boolean>>()
+    /**
+     * Gets a folder from its key.
+     *
+     * @param key The name of the folder to retrieve from the preference.
+     *
+     * @return A folder object or null if not found.
+     */
+    fun restoreFolder(key: String): Folder?
 
-        folders.forEach { key ->
-            preferences.getString(key, null)
-                ?.let { folder ->
-                    folder.split(";;").apply { subList(2, size - 1) }.forEach { task ->
-                        preferences.getString(task, "Add Tasks;;0")!!.split(";;").also {
-                            tasks[task] = it[0] to (it[1] == "1")
-                        }
-                    }
-                }
-        }
-        return tasks
-    }
+    fun restoreFolders(): List<Folder>
 
-    override fun restoreFolder(key: String): Pair<String, Boolean>? {
-        val folder = preferences.getString(key, null)?.split(";;")
-        return folder?.let { it.first() to (it.last() == "1") }
-    }
+    fun storeTask(task: Task)
 
-    override fun restoreFolders(): Map<String, Pair<String, Boolean>> {
-        val folders = mutableMapOf<String, Pair<String, Boolean>>()
+    fun storeTasks(tasks: List<Task>)
 
-        preferences.getInt("folderCount", 0).downTo(0).forEach { index ->
-            restoreFolder("folder$index")?.let { folders["folder$index"] = it }
-        }
-        return folders
-    }
+    fun findTaskIndex(): Int
+
+    fun findFolderIndex(): Int
 }

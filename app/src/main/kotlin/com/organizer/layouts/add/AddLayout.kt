@@ -3,9 +3,10 @@ package com.organizer.layouts.add
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.View
-import com.organizer.layouts.BaseLayout
+import com.organizer.layouts.Layout
+import kotlin.reflect.KClass
 
-class AddLayout : BaseLayout() {
+class AddLayout : Layout() {
 
     init {
         val drawable = GradientDrawable()
@@ -41,9 +42,9 @@ class AddLayout : BaseLayout() {
         }
     }
 
-    fun show(addLayoutClass: Any) {
+    fun show(addLayoutClass: KClass<*>) {
         for (i in 0 until childCount) {
-            if (getChildAt(i).javaClass == addLayoutClass) {
+            if (getChildAt(i)::class == addLayoutClass) {
                 getChildAt(i).visibility = VISIBLE
             }
         }

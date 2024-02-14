@@ -7,7 +7,7 @@ class DateController {
 
     private val displayController: DisplayMetricsController by inject()
 
-    var dictionary = HashMap<Int, MutableList<Task>>()
+    var dictionary = HashMap<Int, MutableList<CalendarEvent>>()
     var days = HashMap<Int, Day>()
     var todayD = 7
     var todayM = 4

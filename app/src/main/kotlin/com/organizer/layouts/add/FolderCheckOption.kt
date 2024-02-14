@@ -1,14 +1,11 @@
 package com.organizer.layouts.add
 
-import android.content.Context
 import android.graphics.Rect
 import android.util.TypedValue
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.TextView
-import com.organizer.MainActivity.Companion.inject
+import android.widget.*
+import com.organizer.MainActivity.Companion.injectNow
 
-class FolderCheckOption : LinearLayout(inject<Context>().value) {
+class FolderCheckOption : LinearLayout(injectNow()) {
 
     internal val checkBox = CheckBox(context)
     private val folderText = TextView(context)

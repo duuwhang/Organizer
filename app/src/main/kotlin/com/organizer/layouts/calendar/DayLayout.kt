@@ -1,11 +1,10 @@
 package com.organizer.layouts.calendar
 
-import android.content.Context
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.organizer.MainActivity.Companion.inject
+import com.organizer.MainActivity.Companion.injectNow
 
-class DayLayout : ConstraintLayout(inject<Context>().value) {
+class DayLayout : ConstraintLayout(injectNow()) {
 
     val textView = TextView(context)
 

@@ -9,10 +9,10 @@ import android.util.TypedValue
 import android.widget.*
 import com.organizer.*
 import com.organizer.MainActivity.Companion.inject
-import com.organizer.layouts.BaseLayout
+import com.organizer.layouts.Layout
 import com.organizer.layouts.MainLayout
 
-class AddTaskLayout : BaseLayout() {
+class AddTaskLayout : Layout() {
 
     private val mainActivity: MainActivity by inject()
     private val displayMetricsController: DisplayMetricsController by inject()

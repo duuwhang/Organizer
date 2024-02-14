@@ -1,13 +1,13 @@
 package com.organizer.layouts
 
-import android.content.Context
 import android.view.ViewGroup
 import androidx.core.view.children
 import com.organizer.DisplayMetricsController
 import com.organizer.MainActivity.Companion.inject
+import com.organizer.MainActivity.Companion.injectNow
 import kotlin.math.max
 
-open class BaseLayout : ViewGroup(inject<Context>().value) {
+open class Layout : ViewGroup(injectNow()) {
 
     private val displayMetricsController: DisplayMetricsController by inject()
 

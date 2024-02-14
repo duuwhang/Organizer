@@ -12,9 +12,9 @@ import org.koin.java.KoinJavaComponent
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        inline fun <reified T> inject(): Lazy<T> {
-            return KoinJavaComponent.inject(T::class.java)
-        }
+        inline fun <reified T> inject(): Lazy<T> = KoinJavaComponent.inject(T::class.java)
+
+        inline fun <reified T> injectNow(): T = KoinJavaComponent.inject<T>(T::class.java).value
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,20 +27,21 @@ class MainActivity : AppCompatActivity() {
             modules(module {
                 single { this@MainActivity }
                 single { DisplayMetricsController(windowManager, resources.displayMetrics.density) }
-                single { PreferenceService(this@MainActivity.getPreferences(MODE_PRIVATE)) }
+                @Suppress("USELESS_CAST")
+                single { PreferenceServiceImpl(getPreferences(MODE_PRIVATE)) as PreferenceService }
                 single { DateController() }
                 single { MainLayout() }
             })
         }
-        setContentView(inject<MainLayout>().value)
-        val dateController = inject<DateController>().value
+        setContentView(injectNow<MainLayout>())
+        val dateController = injectNow<DateController>()
 
-        Task(this, dateController.buildId(dateController.todayD, dateController.todayM, dateController.todayY), "Work", 8.0, 12.0)
-        Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "Programming", 6.0, 8.0)
-        Task(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "Dancing", 9.0, 15.0)
-        Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "Work", 6.0, 17.0)
-        Task(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "Family Dinner", 17.0, 18.0)
-        Task(this, dateController.buildId(dateController.todayD + 3, dateController.todayM, dateController.todayY), "Dancing", 6.0, 24.0)
+        CalendarEvent(this, dateController.buildId(dateController.todayD, dateController.todayM, dateController.todayY), "Work", 8.0, 12.0)
+        CalendarEvent(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "Programming", 6.0, 8.0)
+        CalendarEvent(this, dateController.buildId(dateController.todayD + 1, dateController.todayM, dateController.todayY), "Dancing", 9.0, 15.0)
+        CalendarEvent(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "Work", 6.0, 17.0)
+        CalendarEvent(this, dateController.buildId(dateController.todayD + 2, dateController.todayM, dateController.todayY), "Family Dinner", 17.0, 18.0)
+        CalendarEvent(this, dateController.buildId(dateController.todayD + 3, dateController.todayM, dateController.todayY), "Dancing", 6.0, 24.0)
     }
 
 //    override fun onResume() {

@@ -24,7 +24,7 @@ class Day(var id: Int) {
             yy -= 1
         }
         weekday =
-            DateController.Weekdays.values()[(yy + yy / 4 - yy / 100 + yy / 400 + t[m - 1] + d) % 7].toString()
+            DateController.Weekdays.entries[(yy + yy / 4 - yy / 100 + yy / 400 + t[m - 1] + d) % 7].toString()
     }
 
     fun addDays(days: Int) {

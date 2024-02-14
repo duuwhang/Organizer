@@ -16,7 +16,7 @@ import com.organizer.layouts.todo.ToDoFolderLayout
 import com.organizer.layouts.todo.ToDoLayout
 import kotlin.math.abs
 
-class MainLayout : BaseLayout() {
+class MainLayout : Layout() {
 
     private val displayMetricsController: DisplayMetricsController by inject()
 
@@ -86,9 +86,9 @@ class MainLayout : BaseLayout() {
             toDoScrollLayout.isClickable = false
             addLayout.visibility = VISIBLE
             if (getChildAt(currentChild) == toDoScrollLayout) {
-                addLayout.show(AddTaskLayout::class.java)
+                addLayout.show(AddTaskLayout::class)
             } else if (getChildAt(currentChild) == calendarLayout) {
-                addLayout.show(AddEventLayout::class.java)
+                addLayout.show(AddEventLayout::class)
             }
             val rotate = RotateAnimation(
                 0F,
@@ -129,20 +129,22 @@ class MainLayout : BaseLayout() {
     private fun setGestureListener() = GestureDetector(context, object : SimpleOnGestureListener() {
         val SWIPE_THRESHOLD = 100
         val SWIPE_VELOCITY_THRESHOLD = 100
+
         override fun onDown(e: MotionEvent): Boolean {
             return true
         }
 
         override fun onFling(
-            e1: MotionEvent,
-            e2: MotionEvent,
+            motion1: MotionEvent?,
+            motion2: MotionEvent,
             velocityX: Float,
             velocityY: Float
         ): Boolean {
+            if (motion1 == null) return false
             var result = false
             try {
-                val diffY = e2.y - e1.y
-                val diffX = e2.x - e1.x
+                val diffY = motion2.y - motion1.y
+                val diffX = motion2.x - motion1.x
                 if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD && abs(
                         diffY
                     ) > abs(diffX)

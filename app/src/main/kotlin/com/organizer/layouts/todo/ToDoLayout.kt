@@ -1,21 +1,21 @@
 package com.organizer.layouts.todo
 
-import android.content.SharedPreferences
-import android.graphics.Color
 import android.graphics.Rect
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
-import com.organizer.DisplayMetricsController
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
+import com.organizer.*
 import com.organizer.MainActivity.Companion.inject
-import com.organizer.R.color
-import com.organizer.layouts.BaseLayout
+import com.organizer.data.Folder
+import com.organizer.data.Task
+import com.organizer.layouts.Layout
 import com.organizer.layouts.MainLayout
-import java.lang.Integer.max
 
-open class ToDoLayout : BaseLayout() {
+open class ToDoLayout : Layout() {
 
-    private val preferences: SharedPreferences by inject()
+    private val preferences: PreferenceService by inject()
     private val displayMetricsController: DisplayMetricsController by inject()
     private val mainLayout: MainLayout by inject()
 
@@ -28,18 +28,24 @@ open class ToDoLayout : BaseLayout() {
     protected var rows = 0
     private val childRect = Rect()
 
+    init {
+        this.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground))
+        layoutParams = LayoutParams(Int.MAX_VALUE, LayoutParams.MATCH_PARENT)
+        val textView = TextView(context)
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        textSize = textView.textSize.toInt()
+    }
+
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if (visibility == VISIBLE) {
-            var scrollOffset = rowWidths[getMinWidthRow()]
-            for (i in 0 until childCount) {
-                val task = getChildAt(i) as TaskLayout
-                if (!task.done && task.leftX < scrollOffset) {
-                    scrollOffset = task.leftX
-                }
-            }
-            mainLayout.toDoScrollLayout.scrollTo(scrollOffset, 0)
+        if (visibility != VISIBLE) return
+
+        var scrollOffset = rowWidths[getMinWidthRow()]
+        children.forEach {
+            if (it is TaskLayout && it.task.completed && it.leftX < scrollOffset)
+                scrollOffset = it.leftX
         }
+        mainLayout.toDoScrollLayout.scrollTo(scrollOffset, 0)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -78,68 +84,38 @@ open class ToDoLayout : BaseLayout() {
 
     open fun updateTasks() {
         removeAllViews()
-        rows = max(
+        rows = Integer.max(
             1,
             displayMetricsController.screenHeight / (textSize + roundingRadius + heightMargin * 2)
         )
         rowWidths = IntArray(rows)
-        val root = preferences.getString("root", "")!!.split(";;").toTypedArray()
-        var i = 0
-        while (i < root.size || i == 0) {
-            val s = preferences.getString(root[i], "Add Tasks;;0")!!
-                .split(";;").toTypedArray()
-            val task: TaskLayout = if (root[i].startsWith("folder")) {
-                FolderLayout(
-                    this,
-                    if (root[i] == "") 0 else root[i].substring(6).toInt(),
-                    s[0]
-                )
-            } else {
-                TaskLayout(
-                    this,
-                    if (root[i] == "") 0 else root[i].substring(4).toInt(),
-                    s[0]
-                )
+
+        (preferences.restoreFolder("root")?.tasks ?: listOf(Task(-1, DEFAULT_MESSAGE, false)))
+            .forEach {
+                val layout = when (it) {
+                    is Folder -> FolderLayout(this, it)
+                    else -> TaskLayout(this, it)
+                }
+                addView(layout)
+                layout.title.measure(0, 0)
+                val minWidthRow = getMinWidthRow()
+                layout.leftX = rowWidths[minWidthRow]
+                layout.rightX =
+                    layout.leftX + layout.title.measuredWidth + roundingRadius * 2 + widthMargin * 2
+                layout.row = minWidthRow
+                rowWidths[minWidthRow] += layout.rightX - layout.leftX
             }
-            task.setCompleted(s[1] == "1")
-            addView(task)
-            task.title.measure(0, 0)
-            val minWidthRow = getMinWidthRow()
-            task.leftX = rowWidths[minWidthRow]
-            task.rightX =
-                task.leftX + task.title.measuredWidth + roundingRadius * 2 + widthMargin * 2
-            task.row = minWidthRow
-            rowWidths[minWidthRow] += task.rightX - task.leftX
-            i++
-        }
     }
 
     open fun addTask(title: String, isFolder: Boolean): TaskLayout {
-        val editor = preferences.edit()
-        if (isFolder) {
-            val folderCount = preferences.getInt("folderCount", 0)
-            editor.putString("folder$folderCount", "$title;;0")
-            editor.putInt("folderCount", folderCount + 1)
-            val root = preferences.getString("root", "")
-            editor.putString("root", "$root${if (root == "") "" else ";;"}folder$folderCount")
-        } else {
-            val taskCount = preferences.getInt("taskCount", 0)
-            editor.putString("task$taskCount", "$title;;0")
-            editor.putInt("taskCount", taskCount + 1)
-            val root = preferences.getString("root", "")
-            editor.putString("root", "$root${if (root == "") "" else ";;"}task$taskCount")
+        preferences.restoreFolder("root")?.let {
+            val newTask =
+                if (isFolder) Folder(preferences.findFolderIndex(), title)
+                else Task(preferences.findTaskIndex(), title)
+            it.tasks.add(newTask)
+            preferences.storeTasks(listOf(newTask, it))
         }
-        editor.apply()
         updateTasks()
         return getChildAt(childCount - 1) as TaskLayout
-    }
-
-    init {
-        setBackgroundColor(Color.parseColor(resources.getString(color.colorBackground)))
-        layoutParams =
-            LayoutParams(Int.MAX_VALUE, LayoutParams.MATCH_PARENT)
-        val textView = TextView(context)
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-        textSize = textView.textSize.toInt()
     }
 }
